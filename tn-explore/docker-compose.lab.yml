@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  # 1. Nginx Web Server serving built frontend & reverse proxy
+  web:
+    image: nginx:alpine
+    container_name: tnexplore_web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/ssl:/etc/nginx/ssl
+    depends_on:
+      - php-fpm
+      - ai-service
+      - mailpit
+    networks:
+      - tnexplore_net
+
+  # 2. PHP 8.2-FPM Laravel Application
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: tnexplore_php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    environment:
+      APP_ENV: production
+      OFFLINE_MODE: "true"
+    depends_on:
+      - mysql
+    networks:
+      - tnexplore_net
+
+  # 3. MySQL 8.0 Database (Self-Contained)
+  mysql:
+    image: mysql:8.0
+    container_name: tnexplore_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tn_explore
+      MYSQL_USER: tn_user
+      MYSQL_PASSWORD: tn_secure_password_123
+      MYSQL_ROOT_PASSWORD: root_secure_password_123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tnexplore_net
+
+  # 4. FastAPI AI Service (Isolation Forest & Local Features)
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: tnexplore_ai
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+      OFFLINE_MODE: "true"
+    depends_on:
+      - ollama
+    networks:
+      - tnexplore_net
+
+  # 5. Ollama Local LLM Engine (Self-Hosted Mistral/Llama3)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: tnexplore_ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - tnexplore_net
+
+  # 6. Mailpit Local Mail Inbox for 6-digit OTP & Alerts
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: tnexplore_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP Port
+      - "8025:8025"   # Web UI Port (View verification codes)
+    networks:
+      - tnexplore_net
+
+  # 7. Laravel Queue Worker for Background Tasks
+  queue-worker:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: tnexplore_queue
+    restart: unless-stopped
+    command: php /var/www/html/artisan queue:work --sleep=3 --tries=3 --timeout=90
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+      - php-fpm
+    networks:
+      - tnexplore_net
+
+networks:
+  tnexplore_net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  ollama_models:

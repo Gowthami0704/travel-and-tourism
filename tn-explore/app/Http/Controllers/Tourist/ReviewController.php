@@ -21,40 +21,35 @@ class ReviewController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return back()->withErrors(['error' => 'You must be signed in to submit a verified review.']);
+            return back()->withErrors(['auth' => 'You must be signed in to submit a verified review.']);
         }
 
+        // Support both direct vendor_id / place_id or target_type / target_id payloads
+        $targetType = $request->target_type ?? ($request->has('vendor_id') ? 'vendor' : ($request->has('place_id') ? 'place' : 'vendor'));
+        $targetId = (int)($request->target_id ?? ($targetType === 'vendor' ? $request->vendor_id : $request->place_id));
+
         $request->validate([
-            'target_type' => 'required|in:vendor,place',
-            'target_id' => 'required|integer',
             'rating' => 'required|integer|min:1|max:5',
             'title' => 'nullable|string|max:100',
             'comment' => 'required|string|min:5|max:1500',
             'photos' => 'nullable|array',
             'tags' => 'nullable|array',
             'visit_date' => 'nullable|date',
+            'district_id' => 'nullable|exists:districts,id',
         ]);
 
-        $targetType = $request->target_type;
-        $targetId = (int)$request->target_id;
-
-        // 1. Eligibility Check
+        // 1. Eligibility Check: only tourists with completed bookings can review
         if ($targetType === 'vendor') {
             $hasCompletedBooking = Booking::where('tourist_id', $user->id)
                 ->whereHas('listing', fn($q) => $q->where('vendor_id', $targetId))
                 ->where('status', 'completed')
                 ->exists();
 
-            // Allow during demo if user has any booking or is verified tourist
-            if (!$hasCompletedBooking) {
-                // Check if user has any booking with this vendor
-                $hasAnyBooking = Booking::where('tourist_id', $user->id)
-                    ->whereHas('listing', fn($q) => $q->where('vendor_id', $targetId))
-                    ->exists();
-
-                if (!$hasAnyBooking && $user->role !== 'admin') {
-                    return back()->withErrors(['error' => 'Only verified travelers with a booking reservation can review this vendor.']);
-                }
+            if (!$hasCompletedBooking && !$user->isAdmin()) {
+                return back()->withErrors([
+                    'booking' => 'Only verified travelers with completed bookings with this partner can leave reviews.',
+                    'error' => 'Only verified travelers with completed bookings with this partner can leave reviews.',
+                ]);
             }
         }
 
@@ -82,9 +77,15 @@ class ReviewController extends Controller
 
         $status = ($spamScore > 70) ? 'pending' : 'approved';
 
+        $districtId = $request->district_id;
+        if (!$districtId && $targetType === 'vendor') {
+            $districtId = Vendor::find($targetId)?->district_id;
+        }
+
         $review = Review::create([
             'tourist_id' => $user->id,
             'vendor_id' => ($targetType === 'vendor') ? $targetId : null,
+            'district_id' => $districtId,
             'target_type' => $targetType,
             'target_id' => $targetId,
             'rating' => $request->rating,
@@ -101,80 +102,70 @@ class ReviewController extends Controller
             'not_helpful_count' => 0,
         ]);
 
-        return back()->with('success', 'Thank you! Your verified review has been published with AI trust verification.');
+        // Recalculate vendor dynamic trust score
+        if ($targetType === 'vendor') {
+            $vendor = Vendor::find($targetId);
+            if ($vendor) {
+                $avgRating = Review::where('vendor_id', $vendor->id)->avg('rating') ?? 4.0;
+                $vendor->trust_score = min(0.99, max(0.50, ($avgRating / 5.0) * 0.95));
+                $vendor->save();
+            }
+        }
+
+        return back()->with('success', 'Thank you! Your verified review has been published.');
     }
 
-    /**
-     * Upvote or Downvote a Review.
-     */
-    public function vote(Request $request, $id): RedirectResponse
+    public function vote(Request $request, $id): JsonResponse
     {
         $user = Auth::user();
         if (!$user) {
-            return back()->withErrors(['error' => 'Please sign in to vote on traveler reviews.']);
+            return response()->json(['error' => 'Sign in to upvote reviews'], 401);
         }
 
         $request->validate([
-            'vote' => 'required|in:helpful,not_helpful',
+            'is_helpful' => 'required|boolean',
         ]);
 
-        $review = Review::findOrFail($id);
-        $existing = ReviewVote::where('review_id', $review->id)->where('user_id', $user->id)->first();
+        $vote = ReviewVote::updateOrCreate(
+            ['review_id' => $id, 'user_id' => $user->id],
+            ['is_helpful' => $request->is_helpful]
+        );
 
-        if ($existing) {
-            if ($existing->vote === $request->vote) {
-                // Remove vote (toggle)
-                if ($existing->vote === 'helpful') $review->decrement('helpful_count');
-                else $review->decrement('not_helpful_count');
-                $existing->delete();
-            } else {
-                // Switch vote
-                if ($request->vote === 'helpful') {
-                    $review->increment('helpful_count');
-                    $review->decrement('not_helpful_count');
-                } else {
-                    $review->decrement('helpful_count');
-                    $review->increment('not_helpful_count');
-                }
-                $existing->update(['vote' => $request->vote]);
-            }
-        } else {
-            ReviewVote::create([
-                'review_id' => $review->id,
-                'user_id' => $user->id,
-                'vote' => $request->vote,
-            ]);
-            if ($request->vote === 'helpful') $review->increment('helpful_count');
-            else $review->increment('not_helpful_count');
-        }
+        $helpful = ReviewVote::where('review_id', $id)->where('is_helpful', true)->count();
+        $notHelpful = ReviewVote::where('review_id', $id)->where('is_helpful', false)->count();
 
-        return back()->with('success', 'Vote recorded.');
+        Review::where('id', $id)->update([
+            'helpful_count' => $helpful,
+            'not_helpful_count' => $notHelpful,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'helpful_count' => $helpful,
+            'not_helpful_count' => $notHelpful,
+        ]);
     }
 
-    /**
-     * Vendor submits a single reply to a review.
-     */
     public function vendorReply(Request $request, $id): RedirectResponse
     {
-        $user = Auth::user();
-        $vendor = $user?->vendor;
+        $vendor = Auth::user()?->vendor;
         if (!$vendor) {
-            abort(403, 'Only the registered business owner can reply to this review.');
+            abort(403, 'Only verified vendors can reply to reviews.');
         }
 
-        $review = Review::where('vendor_id', $vendor->id)->findOrFail($id);
         $request->validate([
-            'reply_text' => 'required|string|min:3|max:1000',
+            'reply' => 'required|string|min:5|max:1000',
         ]);
 
+        $review = Review::where('vendor_id', $vendor->id)->findOrFail($id);
         $review->update([
             'vendor_reply' => [
-                'text' => $request->reply_text,
-                'replied_at' => date('Y-m-d H:i:s'),
-                'vendor_name' => $vendor->business_name,
-            ],
+                'text' => $request->reply,
+                'author' => $vendor->business_name,
+                'created_at' => now()->toISOString(),
+            ]
         ]);
 
-        return back()->with('success', 'Your official response has been added to this review.');
+        return back()->with('success', 'Official vendor response posted.');
     }
 }

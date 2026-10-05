@@ -1,0 +1,5 @@
+Step / Pipeline Component,Sample Size (N),Mean (ms),Std Dev (SD ms),P95 (ms),Min (ms),Max (ms),Offline Ready
+"Plan Generation (Deterministic Routing)",100,45.93,29.62,88.17,13.1,114.4,Yes
+"Text Generation (Local Narrative / Fallback)",100,1.13,0.41,1.7,0.5,1.8,Yes
+"Vendor Anomaly Scan (Isolation Forest)",100,1.48,0.43,2.15,0.84,2.25,Yes
+"End-to-End Latency",100,45.98,29.62,88.21,13.13,114.49,Yes

@@ -7,6 +7,7 @@ const TRIP_POSTS_STORAGE_KEY = 'tn_explore_trip_posts_v1';
 const JOIN_REQUESTS_STORAGE_KEY = 'tn_explore_join_requests_v1';
 
 // Initial seed data with authentic upcoming Tamil Nadu travel ads
+// Initial seed data with authentic upcoming travel ads (Tamil Nadu and Outside TN)
 const INITIAL_SEED_POSTS = [
     {
         id: 'tp-101',
@@ -14,6 +15,7 @@ const INITIAL_SEED_POSTS = [
         creatorName: 'Kavitha Ramachandran',
         creatorPhone: '+91 98401 56789',
         creatorVerified: true,
+        isOutsideTN: false,
         district: 'Nilgiris',
         districtRegion: 'Kongu',
         startDate: '2026-10-15',
@@ -27,11 +29,32 @@ const INITIAL_SEED_POSTS = [
         createdAt: '2026-09-15T10:00:00.000Z'
     },
     {
+        id: 'tp-105',
+        creatorId: 7,
+        creatorName: 'Aravind Swaminathan',
+        creatorPhone: '+91 98840 99881',
+        creatorVerified: true,
+        isOutsideTN: true,
+        district: 'Munnar & Wayanad',
+        stateOrCountry: 'Kerala',
+        districtRegion: 'Outside TN',
+        startDate: '2026-10-25',
+        endDate: '2026-10-29',
+        slotsNeeded: 4,
+        slotsFilled: 2,
+        estimatedBudget: 4500,
+        description: 'Outstation road trip from Chennai/Coimbatore to Munnar tea mist hills and Wayanad treehouse retreat. Looking for 2 driving enthusiasts to share fuel and cottage stay.',
+        tags: ['Outstation Road Trip', 'Munnar Mist', 'Kerala', 'Backpacking'],
+        status: 'open',
+        createdAt: '2026-09-16T11:00:00.000Z'
+    },
+    {
         id: 'tp-102',
         creatorId: 2,
         creatorName: 'Sundaram Pandian',
         creatorPhone: '+91 98421 11223',
         creatorVerified: true,
+        isOutsideTN: false,
         district: 'Madurai',
         districtRegion: 'South',
         startDate: '2026-10-22',
@@ -45,11 +68,32 @@ const INITIAL_SEED_POSTS = [
         createdAt: '2026-09-14T14:30:00.000Z'
     },
     {
+        id: 'tp-106',
+        creatorId: 8,
+        creatorName: 'Sneha Reddy',
+        creatorPhone: '+91 97909 33445',
+        creatorVerified: true,
+        isOutsideTN: true,
+        district: 'Coorg & Chikmagalur',
+        stateOrCountry: 'Karnataka',
+        districtRegion: 'Outside TN',
+        startDate: '2026-11-12',
+        endDate: '2026-11-15',
+        slotsNeeded: 3,
+        slotsFilled: 1,
+        estimatedBudget: 3800,
+        description: 'Coffee estate homestay experience and Mullayanagiri peak trek. Self-drive SUV from Bengaluru/Salem border. 2 seats open for adventure lovers!',
+        tags: ['Coffee Trails', 'Peak Trek', 'Homestay', 'Outstation'],
+        status: 'open',
+        createdAt: '2026-09-17T09:15:00.000Z'
+    },
+    {
         id: 'tp-103',
         creatorId: 3,
         creatorName: 'Dinesh Karthik',
         creatorPhone: '+91 97890 12345',
         creatorVerified: true,
+        isOutsideTN: false,
         district: 'Kanyakumari',
         districtRegion: 'South',
         startDate: '2026-11-05',
@@ -68,6 +112,7 @@ const INITIAL_SEED_POSTS = [
         creatorName: 'Ananya Swaminathan',
         creatorPhone: '+91 94440 67890',
         creatorVerified: true,
+        isOutsideTN: false,
         district: 'Thanjavur',
         districtRegion: 'Central',
         startDate: '2026-10-30',
@@ -179,14 +224,17 @@ export function filterActiveTrips(posts) {
  */
 export function createTripPost(postData, currentUser) {
     const posts = getTripPosts();
+    const isOutsideTN = Boolean(postData.isOutsideTN);
     const newPost = {
         id: `tp-${Date.now()}`,
         creatorId: currentUser?.id || 999,
         creatorName: currentUser?.name || 'Explorer',
         creatorPhone: currentUser?.phone || '+91 98400 00000',
         creatorVerified: true,
-        district: postData.district,
-        districtRegion: postData.districtRegion || 'Tamil Nadu',
+        isOutsideTN,
+        district: isOutsideTN ? (postData.customLocation || postData.district) : postData.district,
+        stateOrCountry: isOutsideTN ? (postData.stateOrCountry || 'Outstation') : 'Tamil Nadu',
+        districtRegion: isOutsideTN ? 'Outside TN' : (postData.districtRegion || 'Tamil Nadu'),
         startDate: postData.startDate,
         endDate: postData.endDate,
         slotsNeeded: Number(postData.slotsNeeded) || 2,

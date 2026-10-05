@@ -1,0 +1,331 @@
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
+
+use App\Models\User;
+use App\Models\Vendor;
+use App\Models\District;
+use App\Models\Listing;
+use App\Models\Booking;
+use App\Models\Review;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+echo "=== SEEDING 10 DIVERSE VENDOR TEST PERSONAS ===\n\n";
+
+$districtsByName = District::all()->keyBy('name');
+
+$vendorsData = [
+    [
+        'email' => 'vendor@tnexplore.com',
+        'name' => 'Sundaram Pandian',
+        'business_name' => 'Meenakshi Heritage Travels',
+        'owner_name' => 'Sundaram Pandian',
+        'district' => 'Madurai',
+        'service_type' => 'tour_package',
+        'specialties' => ['package', 'car', 'guide'],
+        'operating_years' => 12,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.910,
+        'description' => 'Specialized in Meenakshi Amman Temple historic trails, Chettinad culinary expeditions, and Southern Tamil Nadu heritage circuits with certified guides and clean AC fleet.',
+        'qualification_tag' => 'Certified Elite Tour Operator',
+        'badge' => 'Grade A+ Verified',
+        'min_price' => 2500,
+        'max_price' => 8500,
+        'phone' => '+91 94431 87210',
+        'area' => 'Town Hall Road',
+        'address' => '42, West Veli Street, Madurai - 625001',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.08,
+    ],
+    [
+        'email' => 'nilgiris.safari@tnexplore.com',
+        'name' => 'Rajesh Kumar Nilgiri',
+        'business_name' => 'Nilgiris Eco Hill Safari & Cabs',
+        'owner_name' => 'Rajesh Kumar',
+        'district' => 'Nilgiris',
+        'service_type' => 'rental_vehicle',
+        'specialties' => ['car', 'package', 'guide'],
+        'operating_years' => 8,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.880,
+        'description' => 'Licensed 4x4 mountain safari operators for Ooty, Coonoor tea estates, Avalanche Lake, and Mudumalai Wildlife Sanctuary wildlife observation.',
+        'qualification_tag' => 'Eco Hill & 4x4 Mountain Safari Fleet',
+        'badge' => 'Eco Certified',
+        'min_price' => 3200,
+        'max_price' => 11000,
+        'phone' => '+91 98422 10984',
+        'area' => 'Charring Cross',
+        'address' => '18/A Commercial Road, Ooty - 643001',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.12,
+    ],
+    [
+        'email' => 'chola.guide@tnexplore.com',
+        'name' => 'Dr. K. Swaminathan',
+        'business_name' => 'Great Chola Heritage Guild',
+        'owner_name' => 'Dr. K. Swaminathan',
+        'district' => 'Thanjavur',
+        'service_type' => 'tour_package',
+        'specialties' => ['guide', 'package'],
+        'operating_years' => 15,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.940,
+        'description' => 'Archaeological Survey & Department of Tourism certified historian guiding Great Living Chola Temples (Brihadisvara, Gangaikonda Cholapuram, and Darasuram).',
+        'qualification_tag' => 'Licensed Archaeological Temple Historian',
+        'badge' => 'Historian Grade A',
+        'min_price' => 1800,
+        'max_price' => 5000,
+        'phone' => '+91 94432 55431',
+        'area' => 'Big Temple Enclave',
+        'address' => '7, South Rampart Road, Thanjavur - 613001',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.05,
+    ],
+    [
+        'email' => 'chennai.fleet@tnexplore.com',
+        'name' => 'Balaji Transport Head',
+        'business_name' => 'Chennai Coastal AC Fleet & Coaches',
+        'owner_name' => 'Balaji Venkatraman',
+        'district' => 'Chennai',
+        'service_type' => 'rental_vehicle',
+        'specialties' => ['bus', 'car'],
+        'operating_years' => 10,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.860,
+        'description' => 'Modern fleet of 35-seater luxury AC coaches, 14-seater tempo travellers and sedans for Chennai, Mamallapuram, and Tirupati circuits.',
+        'qualification_tag' => 'Commercial Bus Fleet & Group Transport',
+        'badge' => 'Fleet Operator',
+        'min_price' => 4500,
+        'max_price' => 18000,
+        'phone' => '+91 98400 33491',
+        'area' => 'Koyambedu',
+        'address' => '104, Jawaharlal Nehru Road, Chennai - 600107',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.15,
+    ],
+    [
+        'email' => 'chettinad.stays@tnexplore.com',
+        'name' => 'Meenakshi Achi',
+        'business_name' => 'Chettinad Heritage Mansion & Homestays',
+        'owner_name' => 'Meenakshi Achi',
+        'district' => 'Sivaganga',
+        'service_type' => 'hotel',
+        'specialties' => ['hotel', 'restaurant', 'package'],
+        'operating_years' => 6,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.920,
+        'description' => '120-year-old preserved Chettinad timber mansion offering authentic banana leaf feasts, Athangudi tile craft workshops, and village heritage walks.',
+        'qualification_tag' => 'Heritage Homestay & Master Chef Culinary Host',
+        'badge' => 'Heritage Living',
+        'min_price' => 4200,
+        'max_price' => 9500,
+        'phone' => '+91 94421 99823',
+        'area' => 'Kanadukathan',
+        'address' => '3, Raja Muthiah Chettiar Street, Karaikudi - 630103',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.09,
+    ],
+    [
+        'email' => 'rameswaram.yatra@tnexplore.com',
+        'name' => 'Murugavel Thevar',
+        'business_name' => 'Dhanushkodi & Rameswaram Island Tours',
+        'owner_name' => 'Murugavel Thevar',
+        'district' => 'Ramanathapuram',
+        'service_type' => 'tour_package',
+        'specialties' => ['package', 'car'],
+        'operating_years' => 5,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.890,
+        'description' => 'Holy 22 Theerthams pilgrimage assistance, Pamban bridge views, and 4x4 coastline transfers to Dhanushkodi ghost town and Ram Setu point.',
+        'qualification_tag' => 'Coastal Pilgrimage & Island Tour Specialist',
+        'badge' => 'Pilgrimage Certified',
+        'min_price' => 2000,
+        'max_price' => 6500,
+        'phone' => '+91 94861 22340',
+        'area' => 'Agni Theertham',
+        'address' => '15, Sannathi Street, Rameswaram - 623526',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.11,
+    ],
+    [
+        'email' => 'kodaikanal.mist@tnexplore.com',
+        'name' => 'Daphne & Antony',
+        'business_name' => 'Kodai Pine Woods Retreat & Organic Stays',
+        'owner_name' => 'Antony Dhas',
+        'district' => 'Dindigul',
+        'service_type' => 'hotel',
+        'specialties' => ['hotel', 'restaurant'],
+        'operating_years' => 4,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.900,
+        'description' => 'Misty cliff-side wooden cottages in Vattakanal with farm-to-table organic dining, hiking guide services to Dolphin’s Nose, and homemade chocolate trails.',
+        'qualification_tag' => 'Hill Station Organic Retreat & Trek Host',
+        'badge' => 'Eco Stay',
+        'min_price' => 3500,
+        'max_price' => 7800,
+        'phone' => '+91 98944 67812',
+        'area' => 'Vattakanal',
+        'address' => 'Upper Shola Road, Kodaikanal - 624101',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.10,
+    ],
+    [
+        'email' => 'new.operator@tnexplore.com',
+        'name' => 'Karthik Ramasamy',
+        'business_name' => 'Kongu Valley Holiday Cabs',
+        'owner_name' => 'Karthik Ramasamy',
+        'district' => 'Coimbatore',
+        'service_type' => 'rental_vehicle',
+        'specialties' => ['car'],
+        'operating_years' => 1,
+        'status' => 'pending',
+        'kyc_status' => 'pending',
+        'trust_score' => 0.700,
+        'description' => 'Newly registered taxi operator for Isha Yoga Centre, Valparai tea estates, and Pollachi agricultural tours. Application currently under administrative review.',
+        'qualification_tag' => 'New Applicant (Under Review)',
+        'badge' => 'Pending Verification',
+        'min_price' => 2000,
+        'max_price' => 5000,
+        'phone' => '+91 98433 11234',
+        'area' => 'Gandhipuram',
+        'address' => '54, Cross Cut Road, Coimbatore - 641012',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&q=80',
+        'risk_level' => 'low',
+        'anomaly_score' => 0.18,
+    ],
+    [
+        'email' => 'kanya.cabs@tnexplore.com',
+        'name' => 'Selvam Nadar',
+        'business_name' => 'Cape Comorin Sunset Cabs',
+        'owner_name' => 'Selvam Nadar',
+        'district' => 'Kanyakumari',
+        'service_type' => 'rental_vehicle',
+        'specialties' => ['car', 'guide'],
+        'operating_years' => 3,
+        'status' => 'active',
+        'kyc_status' => 'incomplete',
+        'trust_score' => 0.740,
+        'description' => 'Coastal transfers covering Thiruvalluvar Statue ferry dock, Vivekananda Rock Memorial, and Padmanabhapuram Palace. Tourism permit renewal pending.',
+        'qualification_tag' => 'Permit Action Required (Incomplete KYC)',
+        'badge' => 'Action Needed',
+        'min_price' => 1800,
+        'max_price' => 4500,
+        'phone' => '+91 94435 88901',
+        'area' => 'Beach Road',
+        'address' => '22, Main Road, Kanyakumari - 629702',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=300&q=80',
+        'risk_level' => 'medium',
+        'anomaly_score' => 0.45,
+    ],
+    [
+        'email' => 'trichy.tours@tnexplore.com',
+        'name' => 'Prakash Chander',
+        'business_name' => 'Rockfort Rapid Excursions',
+        'owner_name' => 'Prakash Chander',
+        'district' => 'Tiruchirappalli',
+        'service_type' => 'tour_package',
+        'specialties' => ['package', 'car'],
+        'operating_years' => 2,
+        'status' => 'active',
+        'kyc_status' => 'verified',
+        'trust_score' => 0.650,
+        'description' => 'Express day tours to Srirangam Temple and Rockfort with luxury markups. Flagged by AI Isolation Forest for steep price deviation.',
+        'qualification_tag' => 'AI High-Anomaly Flagged Operator',
+        'badge' => 'High Anomaly',
+        'min_price' => 9500,
+        'max_price' => 38000,
+        'phone' => '+91 94431 87210', // duplicate phone intentional for anomaly trigger
+        'area' => 'Thillai Nagar',
+        'address' => '88, Salai Road, Tiruchirappalli - 620018',
+        'profile_photo_url' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80',
+        'risk_level' => 'high',
+        'anomaly_score' => 0.82,
+    ]
+];
+
+foreach ($vendorsData as $vData) {
+    // 1. Create or update User
+    $user = User::updateOrCreate(
+        ['email' => $vData['email']],
+        [
+            'name' => $vData['name'],
+            'password' => Hash::make('password'),
+            'role' => 'vendor',
+            'phone' => $vData['phone'],
+        ]
+    );
+
+    // 2. Find District
+    $district = $districtsByName->get($vData['district']) ?? District::first();
+    $slug = Str::slug($vData['business_name']);
+
+    // 3. Create or update Vendor
+    $vendor = Vendor::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'business_name' => $vData['business_name'],
+            'owner_name' => $vData['owner_name'],
+            'slug' => $slug,
+            'service_type' => $vData['service_type'],
+            'business_type' => 'individual',
+            'operating_years' => $vData['operating_years'],
+            'specialties' => $vData['specialties'],
+            'district_id' => $district->id,
+            'description' => $vData['description'],
+            'phone' => $vData['phone'],
+            'area' => $vData['area'],
+            'address' => $vData['address'],
+            'profile_photo_url' => $vData['profile_photo_url'],
+            'status' => $vData['status'],
+            'kyc_status' => $vData['kyc_status'],
+            'trust_score' => $vData['trust_score'],
+            'pricing_declaration' => [
+                'min_price' => $vData['min_price'],
+                'max_price' => $vData['max_price'],
+                'peak_markup_pct' => 15,
+            ],
+            'precheck_flags' => [
+                'risk_level' => $vData['risk_level'],
+                'anomaly_score' => $vData['anomaly_score'],
+                'qualification_tag' => $vData['qualification_tag'],
+                'badge' => $vData['badge'],
+            ]
+        ]
+    );
+
+    // 4. Ensure at least 1-2 demo listings for each vendor
+    Listing::updateOrCreate(
+        ['vendor_id' => $vendor->id, 'title' => "{$vData['business_name']} Standard Service"],
+        [
+            'district_id' => $district->id,
+            'description' => $vData['description'],
+            'price' => $vData['min_price'],
+            'unit' => 'per_trip',
+            'capacity' => 4,
+            'type' => $vData['service_type'],
+            'is_active' => true,
+        ]
+    );
+
+    echo "✓ Seeded [{$vData['badge']}] {$vData['business_name']} ({$vData['email']})\n";
+}
+
+echo "\nAll 10 diverse test vendor personas seeded successfully!\n";

@@ -21,11 +21,14 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
         'role',
         'admin_role',
+        'assigned_district_ids',
         'is_banned',
         'phone',
+        'theme_preference',
     ];
 
     /**
@@ -49,12 +52,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_banned' => 'boolean',
+            'assigned_district_ids' => 'array',
         ];
     }
 
     public function isTourist(): bool
     {
-        return in_array($this->role, ['tourist', 'user']);
+        return in_array($this->role, ['tourist', 'user', 'guest']);
     }
 
     public function isVendor(): bool
@@ -64,12 +68,32 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin' || !empty($this->admin_role);
+        return in_array($this->role, ['admin', 'super_admin', 'district_admin']) || !empty($this->admin_role);
     }
 
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'admin' && ($this->admin_role === 'super_admin' || empty($this->admin_role));
+        return $this->role === 'super_admin' || 
+               ($this->role === 'admin' && ($this->admin_role === 'super_admin' || empty($this->admin_role)));
+    }
+
+    public function isDistrictAdmin(): bool
+    {
+        return $this->role === 'district_admin' || $this->admin_role === 'district_admin';
+    }
+
+    public function canManageDistrict(int $districtId): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($this->isDistrictAdmin()) {
+            $assigned = $this->assigned_district_ids ?: [];
+            return in_array($districtId, $assigned);
+        }
+
+        return false;
     }
 
     public function isModerator(): bool
@@ -91,5 +115,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class, 'tourist_id');
     }
-}
 
+    public function customTrips()
+    {
+        return $this->hasMany(CustomTrip::class);
+    }
+
+    public function auditLogs()
+    {
+        return $this->hasMany(AdminAuditLog::class, 'admin_id');
+    }
+}

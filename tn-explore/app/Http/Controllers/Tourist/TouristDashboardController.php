@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tourist;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\CustomTrip;
 use App\Models\District;
 use App\Models\Place;
 use App\Models\Review;
@@ -25,6 +26,13 @@ class TouristDashboardController extends Controller
         } elseif ($user->isVendor()) {
             return redirect()->route('vendor.dashboard');
         }
+
+        // Get user's custom trip requests with proposal counts
+        $customTrips = CustomTrip::where('user_id', $user->id)
+            ->withCount('proposals')
+            ->with(['user', 'proposals.vendor.district', 'chats'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // Get user's bookings with listing and vendor info
         $bookings = Booking::where('tourist_id', $user->id)
@@ -59,12 +67,14 @@ class TouristDashboardController extends Controller
         $regions = ['All', 'North', 'South', 'Kongu', 'Central', 'Coastal'];
 
         return Inertia::render('Tourist/Dashboard', [
+            'customTrips' => $customTrips,
             'bookings' => $bookings,
             'reviews' => $reviews,
             'districts' => $districts,
             'regions' => $regions,
             'recommendedHiddenGems' => $recommendedHiddenGems,
             'stats' => [
+                'totalCustomTrips' => $customTrips->count(),
                 'totalBookings' => $bookings->count(),
                 'activeBookings' => $bookings->whereIn('status', ['pending', 'accepted'])->count(),
                 'completedBookings' => $bookings->where('status', 'completed')->count(),

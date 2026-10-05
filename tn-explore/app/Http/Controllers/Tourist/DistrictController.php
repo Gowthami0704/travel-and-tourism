@@ -70,7 +70,7 @@ class DistrictController extends Controller
      */
     public function show($id): Response
     {
-        $district = District::with([
+        $query = District::with([
             'places' => function ($q) {
                 $q->orderBy('is_hidden_gem', 'desc')->orderBy('name');
             },
@@ -82,19 +82,65 @@ class DistrictController extends Controller
             },
             'routesFrom.toDistrict',
             'routesTo.fromDistrict',
-        ])->findOrFail($id);
+        ]);
+
+        if (is_numeric($id)) {
+            $district = $query->findOrFail($id);
+        } else {
+            $formattedName = str_replace(['-', '_'], ' ', $id);
+            $district = $query->where('name', 'like', "%{$formattedName}%")->firstOrFail();
+        }
+
+        // Fetch all verified active vendors operating in this district (primary or extended)
+        $districtId = $district->id;
+        $allActiveVendors = Vendor::where('status', 'active')
+            ->where('kyc_status', 'verified')
+            ->with(['listings' => function ($l) {
+                $l->where('is_active', true);
+            }, 'reviews', 'user:id,name,phone', 'vendorDistricts', 'state'])
+            ->get();
+
+        $districtVendors = $allActiveVendors->filter(function ($vendor) use ($districtId) {
+            return $vendor->operatesInDistrict($districtId);
+        })->map(function ($vendor) use ($districtId) {
+            $tier = $vendor->getDistrictTier($districtId);
+            $distRating = $vendor->getDistrictRating($districtId);
+            $vendor->tier = $tier;
+            $vendor->is_primary = $tier === 'primary';
+            $vendor->district_specific_rating = $distRating['rating'];
+            $vendor->district_review_count = $distRating['review_count'];
+            $vendor->is_local_tn = ($vendor->state_name ?? 'Tamil Nadu') === 'Tamil Nadu';
+            return $vendor;
+        })->sort(function ($a, $b) {
+            // 1. Primary district vendors ("Local expert") rank first
+            if ($a->is_primary !== $b->is_primary) {
+                return $a->is_primary ? -1 : 1;
+            }
+            // 2. Local TN vendors rank before out-of-state vendors
+            if ($a->is_local_tn !== $b->is_local_tn) {
+                return $a->is_local_tn ? -1 : 1;
+            }
+            // 3. Trust score descending
+            $trustDiff = ($b->trust_score ?? 0.85) <=> ($a->trust_score ?? 0.85);
+            if ($trustDiff !== 0) {
+                return $trustDiff;
+            }
+            // 4. Rating descending
+            return ($b->district_specific_rating ?? 0) <=> ($a->district_specific_rating ?? 0);
+        })->values();
 
         // Calculate other districts for transit comparison dropdown
-        $allDistricts = District::where('id', '!=', $id)->orderBy('name')->get(['id', 'name']);
+        $allDistricts = District::where('id', '!=', $district->id)->orderBy('name')->get(['id', 'name']);
 
         // Collect all active routes connected to this district
-        $routes = Route::where('from_district_id', $id)
-            ->orWhere('to_district_id', $id)
+        $routes = Route::where('from_district_id', $district->id)
+            ->orWhere('to_district_id', $district->id)
             ->with(['fromDistrict:id,name', 'toDistrict:id,name'])
             ->get();
 
         return Inertia::render('Tourist/DistrictDetail', [
             'district' => $district,
+            'districtVendors' => $districtVendors,
             'allDistricts' => $allDistricts,
             'routes' => $routes,
         ]);

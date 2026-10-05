@@ -67,7 +67,7 @@ export default function TnMitraChatBubble() {
             {
                 id: 'welcome-1',
                 role: 'assistant',
-                content: `🙏 **Vanakkam! I am TN Mitra**, your AI Smart Travel Companion for Tamil Nadu.\n\n${welcomeDistrictText}`,
+                content: `✨ **Welcome! I am TN Mitra**, your AI Smart Travel Companion for Tamil Nadu.\n\n${welcomeDistrictText}`,
                 source: 'cloud',
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             }
@@ -132,6 +132,13 @@ export default function TnMitraChatBubble() {
         }
     };
 
+    const toggleVoiceOutput = () => {
+        if (voiceOutputEnabled && 'speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+        setVoiceOutputEnabled((prev) => !prev);
+    };
+
     // Text to Speech
     const speakText = (text) => {
         if (!voiceOutputEnabled || !('speechSynthesis' in window)) return;
@@ -185,7 +192,7 @@ export default function TnMitraChatBubble() {
             });
 
             const data = await res.json();
-            const replyContent = data.reply || 'Vanakkam! I am having trouble fetching suggestions. Please try again.';
+            const replyContent = data.reply || 'Welcome! I am having trouble fetching suggestions. Please try again.';
             const source = data.source || 'offline';
             setAiSource(source);
 
@@ -225,7 +232,7 @@ export default function TnMitraChatBubble() {
                 {
                     id: Date.now().toString(),
                     role: 'assistant',
-                    content: '🙏 **Vanakkam!** Chat history reset. How can I guide your journey across Tamil Nadu today?',
+                    content: '✨ **Welcome!** Chat history reset. How can I guide your journey across Tamil Nadu today?',
                     source: 'cloud',
                     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 }
@@ -257,85 +264,66 @@ export default function TnMitraChatBubble() {
 
     return (
         <>
-            {/* FLOATING ACTION BUTTON */}
-            <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-                {/* Floating Tooltip if Closed */}
-                {!isOpen && (
-                    <div className="mb-2.5 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-gold/40 text-[11px] font-bold text-cream shadow-2xl backdrop-blur-md animate-bounce">
-                        <Sparkles className="w-3 h-3 text-gold animate-spin" />
-                        <span>{currentDistrictName ? `Ask about ${currentDistrictName}` : 'Ask TN Mitra AI'}</span>
-                    </div>
-                )}
-
+            {/* FLOATING ACTION BUTTON - Safe margins, clean round button */}
+            <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex items-center justify-center">
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="relative group w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-600 via-amber-500 to-gold text-slate-950 p-0.5 shadow-2xl shadow-gold/30 hover:shadow-gold/50 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
-                    aria-label="Open TN Mitra AI Travel Companion"
+                    className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[var(--primary)] text-white dark:text-[#14110F] shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-180 flex items-center justify-center cursor-pointer border border-[var(--border)]"
+                    aria-label="Open TN Mitra AI Assistant"
+                    title="TN Mitra AI Assistant"
                 >
-                    <div className="w-full h-full bg-[#0A0E1A] rounded-full flex items-center justify-center group-hover:bg-opacity-80 transition-colors">
-                        {isOpen ? (
-                            <X className="w-6 h-6 text-gold transition-transform group-hover:rotate-90" />
-                        ) : (
-                            <div className="relative">
-                                <Sparkles className="w-6 h-6 text-gold animate-pulse" />
-                                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                                        aiSource === 'cloud' ? 'bg-emerald-400' : aiSource === 'local' ? 'bg-amber-400' : 'bg-red-400'
-                                    }`} />
-                                    <span className={`relative inline-flex rounded-full h-3 w-3 ${
-                                        aiSource === 'cloud' ? 'bg-emerald-500' : aiSource === 'local' ? 'bg-amber-500' : 'bg-red-500'
-                                    }`} />
-                                </span>
-                            </div>
-                        )}
-                    </div>
+                    {isOpen ? (
+                        <X className="w-6 h-6" strokeWidth={1.5} />
+                    ) : (
+                        <Sparkles className="w-6 h-6" strokeWidth={1.5} />
+                    )}
                 </button>
             </div>
 
-            {/* EXPANDABLE CHAT PANEL MODAL */}
+            {/* EXPANDABLE CHAT PANEL MODAL (Full Screen on Mobile < md, 410px on Desktop) */}
             {isOpen && (
-                <div className="fixed bottom-24 right-4 sm:right-6 z-50 w-[92vw] sm:w-[410px] h-[580px] max-h-[85vh] rounded-3xl bg-[#090D18]/95 border border-gold/30 shadow-2xl shadow-black/90 backdrop-blur-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-300">
+                <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-50 w-full md:w-[410px] h-[100dvh] md:h-[580px] md:max-h-[85vh] rounded-none md:rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-2xl shadow-stone-900/15 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-300">
                     {/* Header */}
-                    <div className="px-4 py-3.5 bg-gradient-to-r from-navy-card via-[#111A30] to-navy-card border-b border-white/10 flex items-center justify-between">
+                    <div className="px-4 py-3.5 bg-gradient-to-r from-[#FAF7F0] via-amber-50/40 to-[#FAF7F0] dark:from-stone-800 dark:via-stone-850 dark:to-stone-800 border-b border-stone-200 dark:border-stone-700 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-gold to-emerald-500 p-0.5 shadow-md shadow-gold/20 flex-shrink-0">
-                                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                                    <Sparkles className="w-4 h-4 text-gold" />
+                            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-teal-600 p-0.5 shadow-sm flex-shrink-0">
+                                <div className="w-full h-full bg-white dark:bg-stone-900 rounded-[10px] flex items-center justify-center">
+                                    <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                 </div>
                                 {/* Live AI Status Indicator */}
                                 <span
                                     title={aiSource === 'cloud' ? 'Connected to Cloud Gemini' : aiSource === 'local' ? 'Connected to Local Ollama Mistral' : 'Running on Offline Knowledge'}
-                                    className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-950 ${
-                                        aiSource === 'cloud' ? 'bg-emerald-400' : aiSource === 'local' ? 'bg-amber-400' : 'bg-red-500'
+                                    className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white dark:border-stone-900 ${
+                                        aiSource === 'cloud' ? 'bg-emerald-500' : aiSource === 'local' ? 'bg-amber-500' : 'bg-red-500'
                                     }`}
                                 />
                             </div>
 
                             <div>
                                 <div className="flex items-center gap-1.5">
-                                    <h3 className="font-display font-bold text-sm text-white leading-tight">
+                                    <h3 className="font-display font-bold text-sm text-stone-900 dark:text-white leading-tight">
                                         TN Mitra AI
                                     </h3>
-                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-md bg-gold/15 text-gold border border-gold/30">
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700">
                                         RAG
                                     </span>
                                 </div>
-                                <p className="text-[10px] text-gray-400 flex items-center gap-1">
+                                <p className="text-[10px] text-stone-500 dark:text-stone-400 flex items-center gap-1 font-medium">
                                     <span className={`w-1.5 h-1.5 rounded-full ${
-                                        aiSource === 'cloud' ? 'bg-emerald-400' : aiSource === 'local' ? 'bg-amber-400' : 'bg-red-400'
+                                        aiSource === 'cloud' ? 'bg-emerald-500' : aiSource === 'local' ? 'bg-amber-500' : 'bg-red-500'
                                     }`} />
                                     {aiSource === 'cloud' ? 'Cloud Gemini' : aiSource === 'local' ? 'Local Ollama' : 'Offline Mode'}
                                 </p>
                             </div>
                         </div>
 
-                        {/* Top Action Controls */}
-                        <div className="flex items-center gap-1.5 text-gray-400">
+                        {/* Controls */}
+                        <div className="flex items-center gap-1.5">
                             {/* Fullscreen Tab Link */}
                             <Link
                                 href="/ai-guide"
-                                className="p-1.5 rounded-lg hover:text-gold hover:bg-white/5 transition-colors"
+                                className="p-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-700 transition-all cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center shadow-xs"
                                 title="Open Full-Page AI Guide"
                             >
                                 <ExternalLink className="w-4 h-4" />
@@ -344,30 +332,33 @@ export default function TnMitraChatBubble() {
                             {/* Voice Output Toggle */}
                             <button
                                 type="button"
-                                onClick={() => setVoiceOutputEnabled(!voiceOutputEnabled)}
-                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                                    voiceOutputEnabled ? 'text-emerald-400 bg-emerald-500/10' : 'hover:text-white hover:bg-white/5'
+                                onClick={toggleVoiceOutput}
+                                className={`p-2 rounded-xl border transition-all cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center shadow-xs ${
+                                    voiceOutputEnabled
+                                        ? 'bg-amber-100 dark:bg-amber-900/50 border-amber-400 text-amber-800 dark:text-amber-300'
+                                        : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-700'
                                 }`}
-                                title={voiceOutputEnabled ? 'Mute AI Voice' : 'Enable AI Voice Reply'}
+                                title={voiceOutputEnabled ? 'Voice Output ON' : 'Voice Output OFF'}
                             >
                                 {voiceOutputEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
                             </button>
 
-                            {/* Reset History */}
+                            {/* Clear Conversation */}
                             <button
                                 type="button"
                                 onClick={resetChat}
-                                className="p-1.5 rounded-lg hover:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
-                                title="Clear Chat"
+                                className="p-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:border-rose-300 transition-all cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center shadow-xs"
+                                title="Reset Conversation"
                             >
                                 <RotateCcw className="w-4 h-4" />
                             </button>
 
-                            {/* Close */}
+                            {/* Close Modal */}
                             <button
                                 type="button"
                                 onClick={() => setIsOpen(false)}
-                                className="p-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                                className="p-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:border-rose-300 transition-all cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center shadow-xs"
+                                title="Close Window"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -375,9 +366,9 @@ export default function TnMitraChatBubble() {
                     </div>
 
                     {/* Language Bar */}
-                    <div className="px-4 py-1.5 bg-[#0e1526]/80 border-b border-white/5 flex items-center justify-between text-[11px] text-gray-400">
-                        <span className="flex items-center gap-1">
-                            <Globe className="w-3 h-3 text-gold" />
+                    <div className="px-4 py-1.5 bg-stone-50 dark:bg-stone-800/80 border-b border-stone-200 dark:border-stone-700 flex items-center justify-between text-[11px] text-stone-600 dark:text-stone-400">
+                        <span className="flex items-center gap-1 font-medium">
+                            <Globe className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                             <span>Voice Language:</span>
                         </span>
                         <div className="flex items-center gap-1">
@@ -390,10 +381,10 @@ export default function TnMitraChatBubble() {
                                     key={lang.id}
                                     type="button"
                                     onClick={() => setVoiceLang(lang.id)}
-                                    className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                                    className={`px-2.5 py-0.5 rounded-md font-semibold text-xs transition-all cursor-pointer ${
                                         voiceLang === lang.id
-                                            ? 'bg-gold/20 text-gold border border-gold/40'
-                                            : 'hover:text-white'
+                                            ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 shadow-xs'
+                                            : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
                                     }`}
                                 >
                                     {lang.label}
@@ -403,7 +394,7 @@ export default function TnMitraChatBubble() {
                     </div>
 
                     {/* Chat Messages Body */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs scrollbar-thin scrollbar-thumb-white/10">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs bg-[#FAF7F0] dark:bg-stone-950 scrollbar-thin scrollbar-thumb-stone-300 dark:scrollbar-thumb-stone-700">
                         {messages.map((msg, index) => {
                             const isBot = msg.role === 'assistant';
                             return (
@@ -412,16 +403,16 @@ export default function TnMitraChatBubble() {
                                     className={`flex gap-2.5 ${isBot ? 'items-start' : 'items-end justify-end'}`}
                                 >
                                     {isBot && (
-                                        <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-gold to-amber-600 flex items-center justify-center text-slate-950 font-bold flex-shrink-0 mt-0.5">
+                                        <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-amber-500 to-teal-600 flex items-center justify-center text-white font-bold flex-shrink-0 mt-0.5 shadow-xs">
                                             <Bot className="w-3.5 h-3.5" />
                                         </div>
                                     )}
 
                                     <div
-                                        className={`group relative max-w-[85%] rounded-2xl p-3 leading-relaxed shadow-lg ${
+                                        className={`group relative max-w-[85%] rounded-2xl p-3 leading-relaxed shadow-xs ${
                                             isBot
-                                                ? 'bg-slate-900/90 border border-white/10 text-slate-100 rounded-tl-sm'
-                                                : 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-br-sm'
+                                                ? 'bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-stone-100 rounded-tl-xs'
+                                                : 'bg-gradient-to-r from-teal-600 to-emerald-700 text-white rounded-br-xs shadow-sm'
                                         }`}
                                     >
                                         {/* Message Content formatted */}
@@ -431,20 +422,20 @@ export default function TnMitraChatBubble() {
 
                                         {/* RAG Context Sources if any */}
                                         {isBot && msg.rag_sources && msg.rag_sources.length > 0 && (
-                                            <div className="mt-3 pt-2.5 border-t border-white/10 space-y-1">
-                                                <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
+                                            <div className="mt-3 pt-2.5 border-t border-stone-100 dark:border-stone-800 space-y-1.5">
+                                                <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
                                                     📚 Verified Knowledge Sources:
                                                 </span>
-                                                <div className="flex flex-wrap gap-1">
+                                                <div className="flex flex-wrap gap-1.5">
                                                     {msg.rag_sources.slice(0, 3).map((r, i) => (
                                                         <a
                                                             key={i}
                                                             href={r.maps_url || '#'}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 hover:bg-gold/20 text-[10px] text-gray-300 hover:text-gold border border-white/10 transition-colors"
+                                                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 hover:bg-amber-50 dark:hover:bg-amber-900/30 text-[10px] text-stone-700 dark:text-stone-300 hover:text-amber-900 dark:hover:text-amber-300 border border-stone-200 dark:border-stone-700 hover:border-amber-300 transition-colors"
                                                         >
-                                                            <MapPin className="w-2.5 h-2.5 text-gold" />
+                                                            <MapPin className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
                                                             <span>{r.name} ({r.district})</span>
                                                         </a>
                                                     ))}
@@ -453,17 +444,17 @@ export default function TnMitraChatBubble() {
                                         )}
 
                                         {/* Footer timestamp & copy action */}
-                                        <div className="mt-1.5 flex items-center justify-between text-[9px] text-gray-400">
+                                        <div className="mt-2 flex items-center justify-between text-[9px] text-stone-400 dark:text-stone-500">
                                             <span>{msg.timestamp}</span>
                                             {isBot && (
                                                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <button
                                                         type="button"
                                                         onClick={() => copyMessage(msg.content, index)}
-                                                        className="hover:text-gold cursor-pointer"
+                                                        className="hover:text-stone-700 dark:hover:text-stone-200 cursor-pointer p-0.5"
                                                         title="Copy text"
                                                     >
-                                                        {copiedIndex === index ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                                        {copiedIndex === index ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                                                     </button>
                                                 </div>
                                             )}
@@ -471,7 +462,7 @@ export default function TnMitraChatBubble() {
                                     </div>
 
                                     {!isBot && (
-                                        <div className="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 flex-shrink-0 mb-0.5">
+                                        <div className="w-6 h-6 rounded-lg bg-teal-100 dark:bg-teal-900/40 border border-teal-300 dark:border-teal-700 flex items-center justify-center text-teal-800 dark:text-teal-300 flex-shrink-0 mb-0.5 shadow-xs">
                                             <User className="w-3.5 h-3.5" />
                                         </div>
                                     )}
@@ -482,14 +473,14 @@ export default function TnMitraChatBubble() {
                         {/* Loading Indicator */}
                         {isLoading && (
                             <div className="flex gap-2.5 items-start">
-                                <div className="w-6 h-6 rounded-lg bg-gold flex items-center justify-center text-slate-950 flex-shrink-0">
+                                <div className="w-6 h-6 rounded-lg bg-amber-500 flex items-center justify-center text-white flex-shrink-0 shadow-xs">
                                     <Sparkles className="w-3.5 h-3.5 animate-spin" />
                                 </div>
-                                <div className="bg-slate-900/90 border border-white/10 rounded-2xl rounded-tl-sm p-3 text-gray-300 text-xs flex items-center gap-2">
+                                <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl rounded-tl-xs p-3 text-stone-600 dark:text-stone-300 text-xs flex items-center gap-2 shadow-xs">
                                     <span className="flex gap-1">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-gold animate-ping" />
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-bounce" />
                                     </span>
                                     <span>TN Mitra is searching tourism dataset...</span>
                                 </div>
@@ -501,9 +492,9 @@ export default function TnMitraChatBubble() {
 
                     {/* Suggested Prompt Chips */}
                     {messages.length <= 2 && (
-                        <div className="px-4 py-2 bg-[#0A0F1D] border-t border-white/5">
-                            <p className="text-[10px] font-bold text-gray-400 mb-1.5 flex items-center gap-1">
-                                <Sparkles className="w-3 h-3 text-gold" />
+                        <div className="px-4 py-2.5 bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800">
+                            <p className="text-[10px] font-bold text-stone-500 dark:text-stone-400 mb-1.5 flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-amber-500" />
                                 <span>Suggested Inquiries:</span>
                             </p>
                             <div className="flex flex-wrap gap-1.5">
@@ -512,7 +503,7 @@ export default function TnMitraChatBubble() {
                                         key={idx}
                                         type="button"
                                         onClick={() => handleSendMessage(chip)}
-                                        className="px-2.5 py-1 rounded-xl bg-white/5 hover:bg-gold/15 border border-white/10 hover:border-gold/30 text-[10px] font-medium text-gray-300 hover:text-gold transition-all text-left cursor-pointer"
+                                        className="px-2.5 py-1 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-amber-50 dark:hover:bg-amber-900/30 border border-stone-200 dark:border-stone-700 hover:border-amber-300 text-[10px] font-medium text-stone-700 dark:text-stone-300 hover:text-amber-900 dark:hover:text-amber-300 transition-all text-left cursor-pointer"
                                     >
                                         {chip}
                                     </button>
@@ -522,7 +513,7 @@ export default function TnMitraChatBubble() {
                     )}
 
                     {/* Input Bar */}
-                    <div className="p-3 bg-[#080C16] border-t border-white/10">
+                    <div className="p-3 bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800">
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -534,14 +525,14 @@ export default function TnMitraChatBubble() {
                             <button
                                 type="button"
                                 onClick={toggleListening}
-                                className={`p-2.5 rounded-xl border transition-all cursor-pointer flex-shrink-0 ${
+                                className={`p-2.5 rounded-xl border transition-all cursor-pointer flex-shrink-0 shadow-xs ${
                                     isListening
-                                        ? 'bg-red-500/20 border-red-500 text-red-400 animate-pulse'
-                                        : 'bg-white/5 border-white/10 text-gray-400 hover:text-gold hover:border-gold/40'
+                                        ? 'bg-rose-100 dark:bg-rose-950/40 border-rose-400 text-rose-600 animate-pulse'
+                                        : 'bg-stone-100 dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-amber-800 hover:border-amber-400'
                                 }`}
                                 title={isListening ? 'Listening... click to stop' : 'Speak to TN Mitra'}
                             >
-                                {isListening ? <Mic className="w-4 h-4 text-red-400 animate-spin" /> : <Mic className="w-4 h-4" />}
+                                {isListening ? <Mic className="w-4 h-4 text-rose-500 animate-spin" /> : <Mic className="w-4 h-4" />}
                             </button>
 
                             <input
@@ -549,13 +540,13 @@ export default function TnMitraChatBubble() {
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 placeholder={isListening ? 'Listening to your voice...' : 'Ask about places, food, itineraries...'}
-                                className="flex-1 bg-slate-900/90 border border-white/10 focus:border-gold/60 rounded-xl px-3.5 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gold/40"
+                                className="flex-1 bg-stone-50 dark:bg-stone-800/80 border border-stone-300 dark:border-stone-700 focus:border-teal-500 rounded-xl px-3.5 py-2 text-xs text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:bg-white transition-all"
                             />
 
                             <button
                                 type="submit"
                                 disabled={!inputValue.trim() || isLoading}
-                                className="p-2.5 rounded-xl bg-gradient-to-r from-gold to-amber-500 text-slate-950 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-md shadow-gold/20 cursor-pointer flex-shrink-0"
+                                className="p-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-md shadow-teal-700/20 cursor-pointer flex-shrink-0"
                             >
                                 <Send className="w-4 h-4" />
                             </button>

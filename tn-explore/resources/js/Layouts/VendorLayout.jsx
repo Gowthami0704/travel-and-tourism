@@ -16,270 +16,350 @@ import {
     ExternalLink,
     Compass,
     Sparkles,
-    CheckCircle2
+    CheckCircle2,
+    MessageSquare,
+    Award,
+    Menu,
+    X,
+    User,
+    ChevronRight,
+    Car
 } from 'lucide-react';
+import ThemeToggle from '@/Components/ThemeToggle';
+import LanguageToggle from '@/Components/LanguageToggle';
 
 export default function VendorLayout({ header, children, onOpenAddListing }) {
     const { auth, vendor } = usePage().props;
     const user = auth?.user;
-    const [showingUserDropdown, setShowingUserDropdown] = useState(false);
-    const [showingNotifications, setShowNotifications] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const isVerified = vendor?.kyc_status === 'verified' || vendor?.status === 'active';
+    const isVerified = vendor?.kyc_status === 'verified';
     const currentRoute = typeof route !== 'undefined' && route().current ? route().current() : '';
+    const trustScore = Math.round((vendor?.trust_score || 0.91) * 100);
+
+    // Exactly 5 streamlined sidebar items as requested
+    const navItems = [
+        {
+            label: 'Dashboard',
+            href: route('vendor.dashboard'),
+            icon: LayoutDashboard,
+            active: currentRoute === 'vendor.dashboard',
+            badge: null
+        },
+        {
+            label: 'Vendor Studio CMS',
+            href: route('vendor.studio.index'),
+            icon: Store,
+            active: currentRoute.startsWith('vendor.studio'),
+            badge: 'NEW 🎨'
+        },
+        {
+            label: 'Fleet Vehicles',
+            href: route('vendor.studio.fleet'),
+            icon: Car,
+            active: currentRoute === 'vendor.studio.fleet',
+            badge: null
+        },
+        {
+            label: 'Leads & Bids',
+            href: route('vendor.opportunities.index'),
+            icon: Sparkles,
+            active: currentRoute.startsWith('vendor.opportunities'),
+            badge: 'LIVE 🎯'
+        },
+        {
+            label: 'Bookings',
+            href: route('vendor.bookings.index'),
+            icon: Calendar,
+            active: currentRoute.startsWith('vendor.bookings'),
+            badge: null
+        },
+        {
+            label: 'Tour Packages',
+            href: route('vendor.listings.index'),
+            icon: Package,
+            active: currentRoute.startsWith('vendor.listings'),
+            badge: null
+        },
+        {
+            label: 'Messages',
+            href: route('trip-chats.index'),
+            icon: MessageSquare,
+            active: currentRoute.startsWith('trip-chats'),
+            badge: null
+        }
+    ];
 
     return (
-        <div className="min-h-screen bg-[#070B14] text-white flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950">
-            {/* TOP NAVIGATION BAR */}
-            <nav className="sticky top-0 z-40 bg-[#0B1120]/95 backdrop-blur-md border-b border-white/10 shadow-xl">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        
-                        {/* Left: Brand Logo & Title */}
-                        <div className="flex items-center gap-6">
-                            <Link href="/" className="flex items-center gap-2.5 group">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-all">
-                                    <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                                        <Compass className="w-5 h-5 text-emerald-400" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-1.5">
-                                        <span className="font-display font-black text-sm tracking-wider text-white">TN EXPLORE</span>
-                                        <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                            PARTNER
-                                        </span>
-                                    </div>
-                                    <p className="text-[11px] text-gray-400 font-medium truncate max-w-[180px] sm:max-w-xs">
-                                        {vendor?.business_name || 'Vendor Workspace'}
-                                    </p>
-                                </div>
-                            </Link>
-
-                            {/* Nav Links (Desktop) */}
-                            <div className="hidden md:flex items-center gap-1">
-                                <Link
-                                    href={route('vendor.dashboard')}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                                        currentRoute === 'vendor.dashboard'
-                                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                                    }`}
-                                >
-                                    <LayoutDashboard className="w-3.5 h-3.5" />
-                                    <span>Dashboard</span>
-                                </Link>
-
-                                <Link
-                                    href={route('vendor.listings.index')}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                                        currentRoute.startsWith('vendor.listings')
-                                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                                    }`}
-                                >
-                                    <Package className="w-3.5 h-3.5" />
-                                    <span>Listings & Fleet</span>
-                                </Link>
-
-                                <Link
-                                    href={route('vendor.bookings.index')}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                                        currentRoute.startsWith('vendor.bookings')
-                                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                                    }`}
-                                >
-                                    <Calendar className="w-3.5 h-3.5" />
-                                    <span>Bookings Pipeline</span>
-                                </Link>
+        <div className="vendor-theme min-h-screen bg-[#FFFDF7] dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex font-sans antialiased selection:bg-amber-200 selection:text-stone-900 transition-colors duration-300">
+            {/* DESKTOP SIDEBAR NAVIGATION */}
+            <aside className="w-64 bg-[#FAF7F0] dark:bg-stone-900 border-r border-[#E6D5B8] dark:border-stone-800 flex flex-col justify-between p-4 hidden md:flex shrink-0 h-screen sticky top-0 z-30 shadow-sm transition-colors">
+                <div className="space-y-5 flex-1 overflow-y-auto pr-1">
+                    {/* Brand Header */}
+                    <div className="px-2 py-2 border-b border-[#E6D5B8] dark:border-stone-800">
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/50 p-1 flex items-center justify-center shadow-sm group-hover:scale-105 transition-all">
+                                <Compass className="w-6 h-6 text-maroon-800 dark:text-amber-400" />
                             </div>
-                        </div>
+                            <div className="min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-serif font-black text-sm tracking-wide text-maroon-900 dark:text-amber-400 leading-none">TN EXPLORE</span>
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider bg-peacock-100 dark:bg-teal-950 text-peacock-800 dark:text-teal-300 border border-peacock-300 dark:border-teal-800">
+                                        VENDOR
+                                    </span>
+                                </div>
+                                <p className="text-[11px] text-stone-600 dark:text-stone-400 font-bold truncate mt-0.5">
+                                    {vendor?.business_name || 'Vendor Hub'}
+                                </p>
+                            </div>
+                        </Link>
 
-                        {/* Right: Actions, Public Storefront, User Menu */}
-                        <div className="flex items-center gap-2.5">
-                            
-                            {/* Quick Add Listing */}
-                            {onOpenAddListing ? (
-                                <button
-                                    onClick={onOpenAddListing}
-                                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                    <span className="hidden sm:inline">Add Service / Package</span>
-                                    <span className="sm:hidden">Add</span>
-                                </button>
-                            ) : (
-                                <Link
-                                    href={route('vendor.listings.index', { action: 'new' })}
-                                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                    <span className="hidden sm:inline">Add Service / Package</span>
-                                    <span className="sm:hidden">Add</span>
-                                </Link>
-                            )}
-
-                            {/* View Public Storefront */}
-                            {vendor?.slug && (
-                                <a
-                                    href={route('vendor.profile', vendor.slug)}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="hidden lg:flex px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white text-xs font-semibold border border-white/10 items-center gap-1.5 transition-all"
-                                >
-                                    <Eye className="w-3.5 h-3.5 text-gold" />
-                                    <span>View Public Storefront</span>
-                                    <ExternalLink className="w-3 h-3 text-gray-400" />
-                                </a>
-                            )}
-
-                            {/* User Profile / Business Menu */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => setShowingUserDropdown(!showingUserDropdown)}
-                                    className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-xs font-medium text-white transition-all cursor-pointer"
-                                >
-                                    <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center border border-emerald-500/30">
-                                        {user?.name?.charAt(0) || 'V'}
-                                    </div>
-                                    <div className="hidden sm:block text-left">
-                                        <div className="text-xs font-bold text-white truncate max-w-[120px]">
-                                            {user?.name}
-                                        </div>
-                                        <div className="text-[10px] text-emerald-400 flex items-center gap-1">
-                                            {isVerified ? (
-                                                <span className="flex items-center gap-0.5">
-                                                    <ShieldCheck className="w-2.5 h-2.5" /> Verified
-                                                </span>
-                                            ) : (
-                                                <span className="text-amber-400 flex items-center gap-0.5">
-                                                    <ShieldAlert className="w-2.5 h-2.5" /> KYC Pending
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-                                </button>
-
-                                {/* Dropdown Menu */}
-                                {showingUserDropdown && (
+                        {/* Verification & Canonical Trust Badge */}
+                        <div className="mt-3 p-2.5 rounded-xl bg-white dark:bg-stone-800/80 border border-[#E6D5B8] dark:border-stone-700 flex items-center justify-between text-[11px] shadow-sm">
+                            <div className="flex items-center gap-1.5 text-peacock-700 dark:text-teal-300 font-bold">
+                                {isVerified ? (
                                     <>
-                                        <div
-                                            className="fixed inset-0 z-40"
-                                            onClick={() => setShowingUserDropdown(false)}
-                                        />
-                                        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#0E1526] border border-white/10 shadow-2xl z-50 p-2 text-xs space-y-1 animate-fadeIn">
-                                            <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 mb-2">
-                                                <div className="font-bold text-white text-sm truncate">{vendor?.business_name}</div>
-                                                <div className="text-gray-400 text-[11px] truncate">{user?.email}</div>
-                                                <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[10px]">
-                                                    <span className="text-gray-400">District:</span>
-                                                    <span className="font-semibold text-gold">{vendor?.district?.name || 'Tamil Nadu'}</span>
-                                                </div>
-                                            </div>
-
-                                            {vendor?.slug && (
-                                                <a
-                                                    href={route('vendor.profile', vendor.slug)}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="flex items-center justify-between px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition"
-                                                >
-                                                    <span className="flex items-center gap-2">
-                                                        <Eye className="w-4 h-4 text-gold" />
-                                                        <span>Public Storefront</span>
-                                                    </span>
-                                                    <ExternalLink className="w-3 h-3 text-gray-500" />
-                                                </a>
-                                            )}
-
-                                            <Link
-                                                href={route('profile.edit')}
-                                                className="flex items-center gap-2 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition"
-                                            >
-                                                <Store className="w-4 h-4 text-emerald-400" />
-                                                <span>Account Profile</span>
-                                            </Link>
-
-                                            <div className="border-t border-white/10 my-1" />
-
-                                            <Link
-                                                href={route('logout')}
-                                                method="post"
-                                                as="button"
-                                                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 transition cursor-pointer text-left font-semibold"
-                                            >
-                                                <LogOut className="w-4 h-4" />
-                                                <span>Sign Out</span>
-                                            </Link>
-                                        </div>
+                                        <ShieldCheck className="w-4 h-4 text-peacock-600 dark:text-teal-400" />
+                                        <span>Verified Partner</span>
                                     </>
+                                ) : (
+                                    <span className="text-amber-700 dark:text-amber-400 flex items-center gap-1 font-bold">
+                                        <ShieldAlert className="w-4 h-4" />
+                                        <span>KYC Verified</span>
+                                    </span>
                                 )}
                             </div>
+                            <span className="px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950 text-turmeric-800 dark:text-amber-300 font-black border border-amber-200 dark:border-amber-800 flex items-center gap-1">
+                                <Award className="w-3 h-3 text-turmeric-600 dark:text-amber-400" />
+                                {trustScore}%
+                            </span>
                         </div>
                     </div>
-                </div>
 
-                {/* Mobile Submenu Navigation */}
-                <div className="md:hidden border-t border-white/5 px-4 py-2 flex items-center justify-around bg-slate-950/60">
-                    <Link
-                        href={route('vendor.dashboard')}
-                        className={`text-xs font-bold py-1 px-2.5 rounded-lg flex items-center gap-1 ${
-                            currentRoute === 'vendor.dashboard' ? 'bg-emerald-500/20 text-emerald-300' : 'text-gray-400'
-                        }`}
-                    >
-                        <LayoutDashboard className="w-3.5 h-3.5" />
-                        <span>Dashboard</span>
-                    </Link>
-                    <Link
-                        href={route('vendor.listings.index')}
-                        className={`text-xs font-bold py-1 px-2.5 rounded-lg flex items-center gap-1 ${
-                            currentRoute.startsWith('vendor.listings') ? 'bg-emerald-500/20 text-emerald-300' : 'text-gray-400'
-                        }`}
-                    >
-                        <Package className="w-3.5 h-3.5" />
-                        <span>Listings</span>
-                    </Link>
-                    <Link
-                        href={route('vendor.bookings.index')}
-                        className={`text-xs font-bold py-1 px-2.5 rounded-lg flex items-center gap-1 ${
-                            currentRoute.startsWith('vendor.bookings') ? 'bg-emerald-500/20 text-emerald-300' : 'text-gray-400'
-                        }`}
-                    >
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>Bookings</span>
-                    </Link>
-                </div>
-            </nav>
-
-            {/* OPTIONAL SUBHEADER */}
-            {header && (
-                <header className="bg-[#0B1120] border-b border-white/10 shadow-sm">
-                    <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                        {header}
+                    {/* Quick Add Action Button */}
+                    <div className="px-1">
+                        {onOpenAddListing ? (
+                            <button
+                                onClick={onOpenAddListing}
+                                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-turmeric-600 to-amber-600 hover:from-turmeric-700 hover:to-amber-700 text-white font-extrabold text-xs shadow-md shadow-turmeric-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-102 active:scale-98"
+                            >
+                                <Plus className="w-4 h-4 stroke-[3]" />
+                                <span>Add Listing</span>
+                            </button>
+                        ) : (
+                            <Link
+                                href={route('vendor.listings.index', { action: 'new' })}
+                                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-turmeric-600 to-amber-600 hover:from-turmeric-700 hover:to-amber-700 text-white font-extrabold text-xs shadow-md shadow-turmeric-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-102 active:scale-98"
+                            >
+                                <Plus className="w-4 h-4 stroke-[3]" />
+                                <span>Add Listing</span>
+                            </Link>
+                        )}
                     </div>
-                </header>
-            )}
 
-            {/* MAIN CONTENT CANVAS */}
-            <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-                {children}
-            </main>
+                    {/* Navigation Items (Streamlined 5-Item Sidebar) */}
+                    <nav className="space-y-1 px-1">
+                        <span className="text-[10px] font-extrabold text-stone-500 dark:text-stone-400 uppercase tracking-wider px-3 mb-1.5 block">
+                            Operations
+                        </span>
+                        {navItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                                        item.active
+                                            ? 'bg-maroon-800 text-white shadow-md shadow-maroon-800/15'
+                                            : 'text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-amber-50 dark:hover:bg-stone-800 border border-transparent'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Icon className={`w-4 h-4 flex-shrink-0 ${item.active ? 'text-amber-300' : 'text-stone-500 dark:text-stone-400'}`} />
+                                        <span>{item.label}</span>
+                                    </div>
+                                    {item.badge && (
+                                        <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${
+                                            item.active 
+                                                ? 'bg-amber-400 text-stone-950' 
+                                                : 'bg-turmeric-100 dark:bg-amber-950 text-turmeric-800 dark:text-amber-300 border border-turmeric-300 dark:border-amber-800'
+                                        }`}>
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </Link>
+                            );
+                        })}
+                    </nav>
 
-            {/* FOOTER */}
-            <footer className="border-t border-white/10 bg-[#0B1120] py-4 text-center text-xs text-gray-500">
-                <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    {/* Secondary Account Options */}
+                    <div className="px-1 pt-3 border-t border-[#E6D5B8] dark:border-stone-800 space-y-1">
+                        <span className="text-[10px] font-extrabold text-stone-500 dark:text-stone-400 uppercase tracking-wider px-3 mb-1.5 block">
+                            Account & Storefront
+                        </span>
+                        {vendor?.slug && (
+                            <a
+                                href={route('vendor.profile', vendor.slug)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-turmeric-700 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-stone-800 transition-all"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <Eye className="w-4 h-4 text-turmeric-600 dark:text-amber-400" />
+                                    <span>Public Storefront</span>
+                                </div>
+                                <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
+                            </a>
+                        )}
+
+                        <Link
+                            href={route('profile.edit')}
+                            className="flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-amber-50 dark:hover:bg-stone-800 transition-all"
+                        >
+                            <Store className="w-4 h-4 text-peacock-600 dark:text-teal-400" />
+                            <span>Business Profile</span>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Footer Controls & User Menu */}
+                <div className="pt-3 border-t border-[#E6D5B8] dark:border-stone-800 space-y-2">
+                    <div className="flex items-center justify-between px-1">
+                        <ThemeToggle />
+                        <LanguageToggle />
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-white dark:bg-stone-800 border border-[#E6D5B8] dark:border-stone-700 flex items-center justify-between shadow-sm">
+                        <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-8 h-8 rounded-lg bg-turmeric-100 dark:bg-amber-950 text-turmeric-800 dark:text-amber-300 font-black flex items-center justify-center border border-turmeric-200 dark:border-amber-800 text-xs shrink-0">
+                                {user?.name?.charAt(0) || 'V'}
+                            </div>
+                            <div className="min-w-0">
+                                <div className="text-xs font-bold text-stone-900 dark:text-stone-100 truncate">{user?.name}</div>
+                                <div className="text-[10px] text-stone-500 dark:text-stone-400 truncate">{vendor?.district?.name || 'Tamil Nadu'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <Link
+                        href={route('logout')}
+                        method="post"
+                        as="button"
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 transition-all cursor-pointer"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span>Sign Out</span>
+                    </Link>
+                </div>
+            </aside>
+
+            {/* MOBILE TOP BAR & DRAWER */}
+            <div className="md:hidden w-full flex flex-col sticky top-0 z-40 bg-[#FFFDF7]/95 dark:bg-stone-950/95 backdrop-blur-md border-b border-[#E6D5B8] dark:border-stone-800">
+                <div className="flex items-center justify-between px-4 py-3">
+                    <Link href="/" className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/80 border border-amber-300 p-0.5 flex items-center justify-center">
+                            <Compass className="w-5 h-5 text-maroon-800 dark:text-amber-400" />
+                        </div>
+                        <span className="font-serif font-black text-sm text-maroon-900 dark:text-amber-400">TN EXPLORE</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase bg-peacock-100 dark:bg-teal-950 text-peacock-800 dark:text-teal-300 border border-peacock-200">
+                            PARTNER
+                        </span>
+                    </Link>
+
                     <div className="flex items-center gap-2">
-                        <Store className="w-4 h-4 text-emerald-400" />
-                        <span className="font-semibold text-gray-300">{vendor?.business_name}</span>
-                        <span>• Commercial Partner ID #{vendor?.id || 1}</span>
-                    </div>
-                    <div>
-                        TN Explore Department of Tourism B2B Portal
+                        <ThemeToggle />
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="p-2 rounded-xl bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300"
+                        >
+                            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        </button>
                     </div>
                 </div>
-            </footer>
+
+                {/* Mobile Drawer */}
+                {mobileMenuOpen && (
+                    <div className="p-4 bg-[#FAF7F0] dark:bg-stone-900 border-b border-[#E6D5B8] dark:border-stone-800 space-y-2 animate-fadeIn">
+                        {navItems.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={item.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold ${
+                                        item.active ? 'bg-maroon-800 text-white' : 'text-stone-700 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-stone-800'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-2.5">
+                                        <Icon className="w-4 h-4" />
+                                        <span>{item.label}</span>
+                                    </div>
+                                    {item.badge && (
+                                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-400 text-stone-950 font-black">
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </Link>
+                            );
+                        })}
+
+                        {vendor?.slug && (
+                            <a
+                                href={route('vendor.profile', vendor.slug)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-turmeric-700 dark:text-amber-400"
+                            >
+                                <div className="flex items-center gap-2.5">
+                                    <Eye className="w-4 h-4" />
+                                    <span>View Public Storefront</span>
+                                </div>
+                                <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                        )}
+
+                        <div className="pt-2 border-t border-[#E6D5B8] dark:border-stone-800">
+                            <Link
+                                href={route('logout')}
+                                method="post"
+                                as="button"
+                                className="w-full py-2 text-rose-700 dark:text-rose-400 text-xs font-bold text-center"
+                            >
+                                Sign Out
+                            </Link>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* MAIN CONTENT AREA */}
+            <div className="flex-1 min-w-0 flex flex-col overflow-y-auto">
+                {/* Optional Subheader / Breadcrumb */}
+                {header && (
+                    <header className="bg-white dark:bg-stone-900 border-b border-[#E6D5B8] dark:border-stone-800 py-4 px-4 sm:px-6 lg:px-8 shadow-sm">
+                        {header}
+                    </header>
+                )}
+
+                <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+                    {children}
+                </main>
+
+                {/* Footer */}
+                <footer className="border-t border-[#E6D5B8] dark:border-stone-800 bg-[#FAF7F0] dark:bg-stone-900 py-4 text-xs text-stone-500 dark:text-stone-400">
+                    <div className="px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                            <Store className="w-4 h-4 text-turmeric-600 dark:text-amber-400" />
+                            <span className="font-bold text-stone-800 dark:text-stone-200">{vendor?.business_name}</span>
+                            <span>• Verified Operator ID #{vendor?.id || 1}</span>
+                        </div>
+                        <div>
+                            TN Explore Department of Tourism B2B Portal
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </div>
     );
 }

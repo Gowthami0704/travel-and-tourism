@@ -12,6 +12,7 @@ class Review extends Model
     protected $fillable = [
         'tourist_id',
         'vendor_id',
+        'district_id',
         'target_type',
         'target_id',
         'rating',
@@ -51,6 +52,11 @@ class Review extends Model
         return $this->belongsTo(Vendor::class);
     }
 
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
     public function place()
     {
         return $this->belongsTo(Place::class, 'target_id');
@@ -66,4 +72,3 @@ class Review extends Model
         return $query->where('status', 'approved');
     }
 }
-

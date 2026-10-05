@@ -2,6 +2,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import MainLayout from '@/Layouts/MainLayout';
 import TripMateToast from '@/Components/TripMates/TripMateToast';
+import GroupExpenseSplitter from '@/Components/TripMates/GroupExpenseSplitter';
+import GroupItineraryPlanner from '@/Components/TripMates/GroupItineraryPlanner';
+import DistrictBadges from '@/Components/TripMates/DistrictBadges';
 import {
     getTripPosts,
     getJoinRequests,
@@ -30,7 +33,12 @@ import {
     Send,
     UserCheck,
     Tag,
-    ArrowRight
+    ArrowRight,
+    Calculator,
+    Vote,
+    Trophy,
+    Share2,
+    Globe
 } from 'lucide-react';
 
 export default function TripMates({ districts = [] }) {
@@ -39,14 +47,17 @@ export default function TripMates({ districts = [] }) {
 
     const [posts, setPosts] = useState([]);
     const [requests, setRequests] = useState([]);
-    const [activeTab, setActiveTab] = useState('feed'); // 'feed' | 'my-ads' | 'my-applications'
+    const [activeTab, setActiveTab] = useState('feed'); // 'feed' | 'expenses' | 'planning' | 'badges' | 'my-ads' | 'my-applications'
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedRegion, setSelectedRegion] = useState('All');
 
     // Post Trip Modal State
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
     const [postForm, setPostForm] = useState({
+        isOutsideTN: false,
         district: districts[0]?.name || 'Nilgiris',
+        customLocation: '',
+        stateOrCountry: 'Kerala',
         startDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
         endDate: new Date(Date.now() + 10 * 86400000).toISOString().split('T')[0],
         slotsNeeded: 2,
@@ -123,7 +134,8 @@ export default function TripMates({ districts = [] }) {
         const distObj = districts.find((d) => d.name === postForm.district);
         const newPost = createTripPost({
             ...postForm,
-            districtRegion: distObj?.region || 'Tamil Nadu'
+            district: postForm.isOutsideTN ? (postForm.customLocation || 'Outstation') : postForm.district,
+            districtRegion: postForm.isOutsideTN ? 'Outside TN' : (distObj?.region || 'Tamil Nadu')
         }, currentUser);
 
         const updated = getTripPosts();
@@ -177,24 +189,25 @@ export default function TripMates({ districts = [] }) {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
                 {/* HERO SOCIAL BANNER */}
-                <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0E1528] via-[#161F3C] to-[#0B1120] border-2 border-purple-500/40 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
                     <div className="relative z-10 max-w-2xl">
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-300 mb-2">
-                            <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 flex items-center gap-1.5">
-                                <Users className="w-3.5 h-3.5 text-gold" />
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300 mb-2">
+                            <span className="px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 flex items-center gap-1.5">
+                                <Users className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
                                 Community Travel Hub
                             </span>
-                            <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                            <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
                                 <ShieldCheck className="w-3.5 h-3.5" />
                                 Verified Travelers Only
                             </span>
                         </div>
 
-                        <h1 className="font-display font-black text-2xl sm:text-4xl text-white leading-tight">
+                        <h1 className="font-display font-black text-2xl sm:text-4xl text-stone-900 dark:text-white leading-tight">
                             Trip Mates Hub
                         </h1>
-                        <p className="text-xs sm:text-sm text-gray-300 mt-2 leading-relaxed">
-                            Never cancel a trip due to last-minute dropouts! Post a trip ad for any of the <strong className="text-gold">38 Districts</strong>, connect with verified travel companions, and split cab, stay, and food expenses.
+                        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
+                            Never cancel a trip due to last-minute dropouts! Post a trip ad for any of the <strong className="text-amber-700 dark:text-gold">38 Districts</strong>, connect with verified travel companions, and split cab, stay, and food expenses.
                         </p>
                     </div>
 
@@ -202,7 +215,7 @@ export default function TripMates({ districts = [] }) {
                         <button
                             type="button"
                             onClick={() => setIsPostModalOpen(true)}
-                            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-gold via-amber-300 to-gold text-[#0A0E1A] font-extrabold text-xs shadow-xl shadow-gold/25 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-extrabold text-xs shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
                         >
                             <Plus className="w-4 h-4 stroke-[3]" />
                             <span>Post a Trip Ad</span>
@@ -210,8 +223,8 @@ export default function TripMates({ districts = [] }) {
                     </div>
                 </div>
 
-                {/* NAVIGATION TABS (Active Feed / My Ads / My Applications) */}
-                <div className="flex items-center justify-between border-b border-white/10 pb-4 gap-4 flex-wrap">
+                {/* NAVIGATION TABS (Active Feed / Expenses / Squad Planning / Badges / My Ads / My Applications) */}
+                <div className="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-4 gap-4 flex-wrap">
                     <div className="flex items-center gap-2 overflow-x-auto">
                         <button
                             type="button"
@@ -219,11 +232,50 @@ export default function TripMates({ districts = [] }) {
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                                 activeTab === 'feed'
                                     ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
-                                    : 'bg-[#0E1526] text-gray-400 hover:text-white border border-white/5'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
                             }`}
                         >
-                            <Sparkles className="w-4 h-4 text-gold" />
-                            <span>Active Open Trips ({activeTrips.length})</span>
+                            <Sparkles className="w-4 h-4 text-amber-500" />
+                            <span>Active Trips ({activeTrips.length})</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('expenses')}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                                activeTab === 'expenses'
+                                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/25'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
+                            }`}
+                        >
+                            <Calculator className="w-4 h-4 text-emerald-500" />
+                            <span>Group Expense Splitter 💰</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('planning')}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                                activeTab === 'planning'
+                                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/25'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
+                            }`}
+                        >
+                            <Vote className="w-4 h-4 text-cyan-500" />
+                            <span>Squad Polls & Checklist 📋</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('badges')}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                                activeTab === 'badges'
+                                    ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/25'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
+                            }`}
+                        >
+                            <Trophy className="w-4 h-4 text-amber-500" />
+                            <span>38-District Badges 🏆</span>
                         </button>
 
                         <button
@@ -232,11 +284,11 @@ export default function TripMates({ districts = [] }) {
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                                 activeTab === 'my-ads'
                                     ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
-                                    : 'bg-[#0E1526] text-gray-400 hover:text-white border border-white/5'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
                             }`}
                         >
-                            <UserCheck className="w-4 h-4 text-emerald-400" />
-                            <span>My Trip Ads ({myTripAds.length})</span>
+                            <UserCheck className="w-4 h-4 text-emerald-500" />
+                            <span>My Ads ({myTripAds.length})</span>
                         </button>
 
                         <button
@@ -245,16 +297,16 @@ export default function TripMates({ districts = [] }) {
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                                 activeTab === 'my-applications'
                                     ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
-                                    : 'bg-[#0E1526] text-gray-400 hover:text-white border border-white/5'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-200 dark:hover:bg-stone-700 border border-stone-200 dark:border-stone-700'
                             }`}
                         >
-                            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                            <CheckCircle2 className="w-4 h-4 text-cyan-500" />
                             <span>My Applications ({myApplications.length})</span>
                         </button>
                     </div>
 
-                    <span className="text-[11px] text-gray-400 font-medium">
-                        Auto-expires on Trip Start Date ⏳
+                    <span className="text-[11px] text-stone-500 dark:text-stone-400 font-medium">
+                        Smart Multi-User Sync ⚡
                     </span>
                 </div>
 
@@ -264,31 +316,31 @@ export default function TripMates({ districts = [] }) {
                 {activeTab === 'feed' && (
                     <div className="space-y-6">
                         {/* SEARCH & FILTERS */}
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#0D1424] border border-white/10">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm">
                             <div className="relative flex-1">
-                                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search trip ads by district (e.g. Nilgiris, Madurai, Kanyakumari), vibe, or creator..."
-                                    className="w-full pl-10 pr-4 py-2 bg-[#070B14] border border-white/10 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400"
+                                    className="w-full pl-10 pr-4 py-2 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:border-purple-500 focus:bg-white"
                                 />
                             </div>
 
                             <div className="flex items-center gap-1.5 overflow-x-auto">
-                                {['All', 'North', 'South', 'Kongu', 'Central', 'Coastal'].map((reg) => (
+                                {['All', 'Outside TN', 'Kongu', 'South', 'Central', 'Coastal', 'North'].map((reg) => (
                                     <button
                                         key={reg}
                                         type="button"
                                         onClick={() => setSelectedRegion(reg)}
                                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                                             selectedRegion === reg
-                                                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
-                                                : 'bg-white/5 text-gray-400 hover:text-white'
+                                                ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-700 shadow-sm'
+                                                : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
                                         }`}
                                     >
-                                        {reg}
+                                        {reg === 'Outside TN' ? '🌐 Outside TN / Outstation' : reg}
                                     </button>
                                 ))}
                             </div>
@@ -304,38 +356,45 @@ export default function TripMates({ districts = [] }) {
                                 return (
                                     <div
                                         key={trip.id}
-                                        className="rounded-3xl bg-[#0D1424]/90 border border-white/10 hover:border-purple-500/50 shadow-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/10 group"
+                                        className="rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 hover:border-purple-400/80 shadow-md hover:shadow-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 group"
                                     >
                                         {/* Card Header & District Photo */}
-                                        <div className="relative h-44 w-full overflow-hidden bg-navy-lighter">
+                                        <div className="relative h-44 w-full overflow-hidden bg-stone-100 dark:bg-stone-800">
                                             <img
                                                 src={getImage({ name: trip.district }, 'district')}
                                                 alt={trip.district}
                                                 onError={(e) => handleImageError(e, 'hills')}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0D1424] via-transparent to-black/40" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30" />
 
-                                            {/* District Badge */}
-                                            <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-xs font-bold text-white flex items-center gap-1.5">
-                                                <MapPin className="w-3.5 h-3.5 text-gold" />
-                                                <span>{trip.district} District</span>
-                                            </div>
+                                            {/* District / Outstation Badge */}
+                                            {trip.isOutsideTN || trip.districtRegion === 'Outside TN' ? (
+                                                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r from-blue-900/90 to-indigo-900/90 backdrop-blur-md border border-cyan-400/50 text-xs font-bold text-cyan-200 flex items-center gap-1.5 shadow-lg">
+                                                    <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                                                    <span>{trip.district} ({trip.stateOrCountry || 'Outstation'})</span>
+                                                </div>
+                                            ) : (
+                                                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-xs font-bold text-white flex items-center gap-1.5 shadow-md">
+                                                    <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                                                    <span>{trip.district} District</span>
+                                                </div>
+                                            )}
 
                                             {/* Slots Left Pill */}
-                                            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-purple-950/80 backdrop-blur-md border border-purple-400/40 text-[11px] font-extrabold text-purple-300">
+                                            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-purple-950/80 backdrop-blur-md border border-purple-400/40 text-[11px] font-extrabold text-purple-200">
                                                 {slotsLeft > 0 ? `🔥 ${slotsLeft} Slots Left` : '🎉 Slots Full'}
                                             </div>
 
                                             {/* Dates Banner at bottom of image */}
-                                            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-gray-200">
-                                                <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                                                    <Calendar className="w-3 h-3 text-gold" />
+                                            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-white">
+                                                <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15">
+                                                    <Calendar className="w-3 h-3 text-amber-400" />
                                                     {new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} – {new Date(trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                                                 </span>
 
                                                 {trip.estimatedBudget && (
-                                                    <span className="bg-emerald-950/80 backdrop-blur-md text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30 font-bold font-mono">
+                                                    <span className="bg-emerald-950/85 backdrop-blur-md text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30 font-bold font-mono">
                                                         ~₹{trip.estimatedBudget}/pax
                                                     </span>
                                                 )}
@@ -346,24 +405,24 @@ export default function TripMates({ districts = [] }) {
                                         <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                                             <div>
                                                 {/* Creator Meta Row */}
-                                                <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+                                                <div className="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-800 mb-3">
                                                     <div className="flex items-center gap-2.5">
-                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 text-white font-bold text-xs flex items-center justify-center shadow-md">
+                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 text-white font-bold text-xs flex items-center justify-center shadow-sm">
                                                             {trip.creatorName.charAt(0)}
                                                         </div>
                                                         <div>
                                                             <div className="flex items-center gap-1.5">
-                                                                <span className="text-xs font-bold text-white">
+                                                                <span className="text-xs font-bold text-stone-900 dark:text-white">
                                                                     {trip.creatorName}
                                                                 </span>
                                                                 {trip.creatorVerified && (
-                                                                    <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/30 flex items-center gap-0.5">
+                                                                    <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[9px] font-bold border border-emerald-200 dark:border-emerald-800 flex items-center gap-0.5">
                                                                         <ShieldCheck className="w-2.5 h-2.5" />
                                                                         Verified
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <span className="text-[10px] text-gray-400">
+                                                            <span className="text-[10px] text-stone-500 dark:text-stone-400">
                                                                 Posted {new Date(trip.createdAt).toLocaleDateString()}
                                                             </span>
                                                         </div>
@@ -371,7 +430,7 @@ export default function TripMates({ districts = [] }) {
                                                 </div>
 
                                                 {/* Description */}
-                                                <p className="text-xs text-gray-300 leading-relaxed line-clamp-3">
+                                                <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-3">
                                                     "{trip.description}"
                                                 </p>
 
@@ -380,7 +439,7 @@ export default function TripMates({ districts = [] }) {
                                                     {trip.tags?.map((tag, idx) => (
                                                         <span
                                                             key={idx}
-                                                            className="text-[10px] bg-white/5 text-gray-300 px-2 py-0.5 rounded-md border border-white/10 font-medium"
+                                                            className="text-[10px] bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 px-2 py-0.5 rounded-md border border-stone-200 dark:border-stone-700 font-medium"
                                                         >
                                                             #{tag}
                                                         </span>
@@ -394,13 +453,13 @@ export default function TripMates({ districts = [] }) {
                                                     <button
                                                         type="button"
                                                         onClick={() => setActiveTab('my-ads')}
-                                                        className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-gold text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                                        className="w-full py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/50 dark:hover:bg-amber-900/50 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                                                     >
                                                         <UserCheck className="w-4 h-4" />
                                                         <span>Manage Applicants (Your Ad)</span>
                                                     </button>
                                                 ) : hasApplied ? (
-                                                    <div className="w-full py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-1.5">
+                                                    <div className="w-full py-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-1.5">
                                                         <CheckCircle2 className="w-4 h-4" />
                                                         <span>Application Submitted</span>
                                                     </div>
@@ -408,13 +467,13 @@ export default function TripMates({ districts = [] }) {
                                                     <button
                                                         type="button"
                                                         onClick={() => setApplyingTrip(trip)}
-                                                        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-purple-500/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                                        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-purple-500/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                                                     >
-                                                        <Sparkles className="w-4 h-4 text-gold" />
+                                                        <Sparkles className="w-4 h-4 text-amber-300" />
                                                         <span>Join Trip Mate</span>
                                                     </button>
                                                 ) : (
-                                                    <div className="w-full py-2.5 rounded-xl bg-gray-800 text-gray-400 text-xs font-bold text-center">
+                                                    <div className="w-full py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-500 text-xs font-bold text-center border border-stone-200 dark:border-stone-700">
                                                         Trip Slots Full
                                                     </div>
                                                 )}
@@ -426,16 +485,16 @@ export default function TripMates({ districts = [] }) {
                         </div>
 
                         {activeTrips.length === 0 && (
-                            <div className="p-12 text-center rounded-3xl bg-[#0D1424] border border-white/10 text-gray-400 space-y-3">
-                                <Users className="w-12 h-12 text-gray-500 mx-auto" />
-                                <h3 className="font-bold text-white text-base">No active trip ads found</h3>
-                                <p className="text-xs max-w-sm mx-auto text-gray-400">
+                            <div className="p-12 text-center rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-stone-500 space-y-3 shadow-sm">
+                                <Users className="w-12 h-12 text-stone-400 mx-auto" />
+                                <h3 className="font-bold text-stone-900 dark:text-white text-base">No active trip ads found</h3>
+                                <p className="text-xs max-w-sm mx-auto text-stone-500 dark:text-stone-400">
                                     Be the first traveler to post a trip ad and invite companions for your upcoming journey!
                                 </p>
                                 <button
                                     type="button"
                                     onClick={() => setIsPostModalOpen(true)}
-                                    className="mt-2 px-5 py-2.5 rounded-xl bg-gold text-black text-xs font-bold"
+                                    className="mt-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold shadow-md"
                                 >
                                     Post a Trip Ad
                                 </button>
@@ -449,13 +508,13 @@ export default function TripMates({ districts = [] }) {
                 {/* ========================================================= */}
                 {activeTab === 'my-ads' && (
                     <div className="space-y-6">
-                        <div className="p-5 rounded-2xl bg-[#0C1222] border border-white/10 flex items-center justify-between">
+                        <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm flex items-center justify-between">
                             <div>
-                                <h2 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                                    <UserCheck className="w-5 h-5 text-emerald-400" />
+                                <h2 className="font-display font-bold text-lg text-stone-900 dark:text-white flex items-center gap-2">
+                                    <UserCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                                     Organizer Management — My Posted Trip Ads
                                 </h2>
-                                <p className="text-xs text-gray-400 mt-0.5">
+                                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                                     Review traveler applications, accept companions, and track filled seats
                                 </p>
                             </div>
@@ -463,7 +522,7 @@ export default function TripMates({ districts = [] }) {
                             <button
                                 type="button"
                                 onClick={() => setIsPostModalOpen(true)}
-                                className="px-4 py-2 rounded-xl bg-gold text-black font-bold text-xs shadow-md hover:scale-105 transition-all cursor-pointer"
+                                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs shadow-md hover:scale-105 transition-all cursor-pointer"
                             >
                                 + Post Another Ad
                             </button>
@@ -476,34 +535,34 @@ export default function TripMates({ districts = [] }) {
                                     const slotsLeft = ad.slotsNeeded - ad.slotsFilled;
 
                                     return (
-                                        <div key={ad.id} className="p-6 rounded-3xl bg-[#0D1424] border border-purple-500/30 shadow-xl space-y-5">
+                                        <div key={ad.id} className="p-6 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-md space-y-5">
                                             {/* Ad Summary Row */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100 dark:border-stone-800">
                                                 <div>
                                                     <div className="flex items-center gap-2 flex-wrap">
-                                                        <h3 className="font-display font-bold text-lg text-white">
+                                                        <h3 className="font-display font-bold text-lg text-stone-900 dark:text-white">
                                                             {ad.district} Exploration Trip
                                                         </h3>
-                                                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                                                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
                                                             {ad.slotsFilled} of {ad.slotsNeeded} Slots Filled
                                                         </span>
-                                                        <span className="text-xs text-gray-400">
+                                                        <span className="text-xs text-stone-500 dark:text-stone-400">
                                                             • 🗓️ {ad.startDate} to {ad.endDate}
                                                         </span>
                                                     </div>
-                                                    <p className="text-xs text-gray-300 mt-1">"{ad.description}"</p>
+                                                    <p className="text-xs text-stone-600 dark:text-stone-300 mt-1">"{ad.description}"</p>
                                                 </div>
 
                                                 <div className="text-left sm:text-right font-mono">
-                                                    <span className="text-[11px] text-gray-400 uppercase block">Est. Budget</span>
-                                                    <span className="text-sm font-bold text-gold">~₹{ad.estimatedBudget}/pax</span>
+                                                    <span className="text-[11px] text-stone-500 uppercase block">Est. Budget</span>
+                                                    <span className="text-sm font-bold text-amber-700 dark:text-amber-400">~₹{ad.estimatedBudget}/pax</span>
                                                 </div>
                                             </div>
 
                                             {/* Applicants List */}
                                             <div>
-                                                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-3 flex items-center gap-1.5">
-                                                    <MessageSquare className="w-3.5 h-3.5 text-gold" />
+                                                <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-3 flex items-center gap-1.5">
+                                                    <MessageSquare className="w-3.5 h-3.5 text-amber-500" />
                                                     Applicants ({adApplicants.length})
                                                 </h4>
 
@@ -512,33 +571,33 @@ export default function TripMates({ districts = [] }) {
                                                         {adApplicants.map((app) => (
                                                             <div
                                                                 key={app.id}
-                                                                className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                                                                className="p-3.5 rounded-2xl bg-[#FAF7F0] dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                                                             >
                                                                 <div className="space-y-1">
                                                                     <div className="flex items-center gap-2">
-                                                                        <span className="font-bold text-xs text-white">
+                                                                        <span className="font-bold text-xs text-stone-900 dark:text-white">
                                                                             {app.userName}
                                                                         </span>
                                                                         {app.userVerified && (
-                                                                            <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/30 flex items-center gap-0.5">
+                                                                            <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[9px] font-bold border border-emerald-200 dark:border-emerald-800 flex items-center gap-0.5">
                                                                                 <ShieldCheck className="w-2.5 h-2.5" />
                                                                                 Verified
                                                                             </span>
                                                                         )}
                                                                         <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
                                                                             app.status === 'accepted'
-                                                                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                                                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                                                                                 : app.status === 'rejected'
-                                                                                ? 'bg-red-500/20 text-red-300 border border-red-500/40'
-                                                                                : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                                                                                ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+                                                                                : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
                                                                         }`}>
                                                                             {app.status}
                                                                         </span>
                                                                     </div>
-                                                                    <p className="text-xs text-gray-300 italic">
+                                                                    <p className="text-xs text-stone-600 dark:text-stone-300 italic">
                                                                         "{app.message}"
                                                                     </p>
-                                                                    <span className="text-[10px] text-gray-400 block">
+                                                                    <span className="text-[10px] text-stone-400 block">
                                                                         Applied on {new Date(app.createdAt).toLocaleDateString()}
                                                                     </span>
                                                                 </div>
@@ -550,31 +609,41 @@ export default function TripMates({ districts = [] }) {
                                                                             <button
                                                                                 type="button"
                                                                                 onClick={() => handleUpdateApplicant(app.id, 'accepted')}
-                                                                                className="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold shadow-md transition-all cursor-pointer"
+                                                                                className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer"
                                                                             >
                                                                                 Accept Mate
                                                                             </button>
                                                                             <button
                                                                                 type="button"
                                                                                 onClick={() => handleUpdateApplicant(app.id, 'rejected')}
-                                                                                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-red-500/20 text-red-300 text-xs font-semibold transition-all cursor-pointer"
+                                                                                className="px-3 py-1.5 rounded-xl bg-stone-200 hover:bg-rose-100 text-stone-700 hover:text-rose-700 dark:bg-stone-700 dark:text-stone-300 text-xs font-semibold transition-all cursor-pointer"
                                                                             >
                                                                                 Decline
                                                                             </button>
                                                                         </>
                                                                     )}
                                                                     {app.status === 'accepted' && (
-                                                                        <span className="text-xs text-emerald-400 font-bold flex items-center gap-1">
-                                                                            <CheckCircle2 className="w-4 h-4" />
-                                                                            Confirmed in Group
-                                                                        </span>
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
+                                                                                <CheckCircle2 className="w-4 h-4" />
+                                                                                Confirmed
+                                                                            </span>
+                                                                            <a
+                                                                                href={`https://wa.me/91${(app.userPhone || '9840156789').replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(app.userName || 'Traveler')},%20we%20are%20traveling%20together%20on%20the%20${encodeURIComponent(ad.district)}%20trip!`}
+                                                                                target="_blank"
+                                                                                rel="noreferrer"
+                                                                                className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-900/20 transition-all cursor-pointer"
+                                                                            >
+                                                                                <span>💬 WhatsApp</span>
+                                                                            </a>
+                                                                        </div>
                                                                     )}
                                                                 </div>
                                                             </div>
                                                         ))}
                                                     </div>
                                                 ) : (
-                                                    <p className="text-xs text-gray-400 italic bg-white/[0.02] p-3 rounded-xl border border-white/5">
+                                                    <p className="text-xs text-stone-500 italic bg-[#FAF7F0] dark:bg-stone-800/40 p-3 rounded-xl border border-stone-200 dark:border-stone-700">
                                                         No applicants yet. When travelers click "Join Trip", their requests will appear here for you to accept or decline.
                                                     </p>
                                                 )}
@@ -584,13 +653,13 @@ export default function TripMates({ districts = [] }) {
                                 })}
                             </div>
                         ) : (
-                            <div className="p-10 text-center rounded-3xl bg-[#0D1424] border border-white/10 text-gray-400 space-y-2">
-                                <p className="text-sm font-bold text-white">You haven't posted any trip ads yet</p>
+                            <div className="p-10 text-center rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-stone-500 space-y-2 shadow-sm">
+                                <p className="text-sm font-bold text-stone-900 dark:text-white">You haven't posted any trip ads yet</p>
                                 <p className="text-xs">Post an upcoming trip to find verified companions to travel with!</p>
                                 <button
                                     type="button"
                                     onClick={() => setIsPostModalOpen(true)}
-                                    className="mt-3 px-4 py-2 rounded-xl bg-gold text-black text-xs font-bold"
+                                    className="mt-3 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold shadow-md"
                                 >
                                     Post Your First Trip Ad
                                 </button>
@@ -604,12 +673,12 @@ export default function TripMates({ districts = [] }) {
                 {/* ========================================================= */}
                 {activeTab === 'my-applications' && (
                     <div className="space-y-4">
-                        <div className="p-5 rounded-2xl bg-[#0C1222] border border-white/10">
-                            <h2 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                                <CheckCircle2 className="w-5 h-5 text-cyan-400" />
+                        <div className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm">
+                            <h2 className="font-display font-bold text-lg text-stone-900 dark:text-white flex items-center gap-2">
+                                <CheckCircle2 className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                                 Trips I've Applied To ({myApplications.length})
                             </h2>
-                            <p className="text-xs text-gray-400 mt-0.5">
+                            <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                                 Track confirmation status from trip organizers across Tamil Nadu
                             </p>
                         </div>
@@ -621,45 +690,78 @@ export default function TripMates({ districts = [] }) {
                                     return (
                                         <div
                                             key={app.id}
-                                            className="p-4 rounded-2xl bg-[#0D1424] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                                            className="p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                                         >
                                             <div className="space-y-1">
                                                 <div className="flex items-center gap-2">
-                                                    <h3 className="font-bold text-sm text-white">
+                                                    <h3 className="font-bold text-sm text-stone-900 dark:text-white">
                                                         {relatedPost ? `${relatedPost.district} Trip` : 'Travel Companion Ad'}
                                                     </h3>
                                                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
                                                         app.status === 'accepted'
-                                                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                                                             : app.status === 'rejected'
-                                                            ? 'bg-red-500/20 text-red-300 border border-red-500/40'
-                                                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                                                            ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+                                                            : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
                                                     }`}>
                                                         {app.status}
                                                     </span>
                                                 </div>
-                                                <p className="text-xs text-gray-400">
-                                                    Organizer: <strong className="text-gray-200">{relatedPost?.creatorName || 'Fellow Traveler'}</strong> • Start Date: {relatedPost?.startDate}
+                                                <p className="text-xs text-stone-500 dark:text-stone-400">
+                                                    Organizer: <strong className="text-stone-800 dark:text-stone-200">{relatedPost?.creatorName || 'Fellow Traveler'}</strong> • Start Date: {relatedPost?.startDate}
                                                 </p>
-                                                <p className="text-xs text-gray-300 italic">
+                                                <p className="text-xs text-stone-600 dark:text-stone-300 italic">
                                                     Your Message: "{app.message}"
                                                 </p>
                                             </div>
 
-                                            <div className="text-xs font-bold text-purple-300">
-                                                {app.status === 'accepted' ? '🎉 You are in the trip squad!' : 'Awaiting Organizer Confirmation'}
+                                            <div className="flex flex-col sm:items-end gap-2">
+                                                <div className="text-xs font-bold text-purple-700 dark:text-purple-300">
+                                                    {app.status === 'accepted' ? '🎉 You are in the trip squad!' : 'Awaiting Organizer Confirmation'}
+                                                </div>
+                                                {app.status === 'accepted' && (
+                                                    <a
+                                                        href={`https://wa.me/91${(relatedPost?.creatorPhone || '9840156789').replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(relatedPost?.creatorName || 'Organizer')},%20my%20request%20to%20join%20the%20${encodeURIComponent(relatedPost?.district || 'Tamil Nadu')}%20trip%20was%20accepted!`}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-900/20 transition-all cursor-pointer"
+                                                    >
+                                                        <span>💬 Message Organizer</span>
+                                                    </a>
+                                                )}
                                             </div>
                                         </div>
                                     );
                                 })}
                             </div>
                         ) : (
-                            <div className="p-10 text-center rounded-3xl bg-[#0D1424] border border-white/10 text-gray-400 space-y-2">
-                                <p className="text-sm font-bold text-white">No applications yet</p>
+                            <div className="p-10 text-center rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-stone-500 space-y-2 shadow-sm">
+                                <p className="text-sm font-bold text-stone-900 dark:text-white">No applications yet</p>
                                 <p className="text-xs">Browse the active trip feed and apply to join journeys that match your vibe!</p>
                             </div>
                         )}
                     </div>
+                )}
+
+                {/* ========================================================= */}
+                {/* TAB 4: GROUP EXPENSE SPLITTER & UPI SETTLEMENT            */}
+                {/* ========================================================= */}
+                {activeTab === 'expenses' && (
+                    <GroupExpenseSplitter />
+                )}
+
+                {/* ========================================================= */}
+                {/* TAB 5: SQUAD POLLS & SHARED EXPEDITION CHECKLIST          */}
+                {/* ========================================================= */}
+                {activeTab === 'planning' && (
+                    <GroupItineraryPlanner tripTitle="Nilgiris & Mudumalai Explorer Squad" />
+                )}
+
+                {/* ========================================================= */}
+                {/* TAB 6: 38-DISTRICT TAMIL NADU BADGES & ACHIEVEMENTS      */}
+                {/* ========================================================= */}
+                {activeTab === 'badges' && (
+                    <DistrictBadges districts={districts} />
                 )}
             </div>
 
@@ -667,55 +769,136 @@ export default function TripMates({ districts = [] }) {
             {/* MODAL 1: POST A TRIP AD                                   */}
             {/* ========================================================= */}
             {isPostModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-                    <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#0D1424] border-2 border-purple-500/40 p-6 sm:p-8 shadow-2xl text-white space-y-5">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+                    <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-6 sm:p-8 shadow-2xl text-stone-900 dark:text-white space-y-5">
                         <button
                             type="button"
                             onClick={() => setIsPostModalOpen(false)}
-                            className="absolute top-5 right-5 text-gray-400 hover:text-white cursor-pointer"
+                            className="absolute top-5 right-5 text-stone-400 hover:text-stone-700 dark:hover:text-white cursor-pointer"
                         >
                             <X className="w-5 h-5" />
                         </button>
 
                         <div>
-                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">
-                                <Sparkles className="w-3.5 h-3.5 text-gold" />
+                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 mb-1">
+                                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                                 <span>Create Travel Companion Ad</span>
                             </div>
-                            <h3 className="font-display font-bold text-2xl text-white">
+                            <h3 className="font-display font-bold text-2xl text-stone-900 dark:text-white">
                                 Post a Trip & Find Mates
                             </h3>
-                            <p className="text-xs text-gray-300 mt-1">
+                            <p className="text-xs text-stone-500 dark:text-stone-300 mt-1">
                                 Broadcast your travel plans across Tamil Nadu to connect with verified companions.
                             </p>
                         </div>
 
                         <form onSubmit={handleCreateTripSubmit} className="space-y-4">
-                            {/* Destination District */}
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5 flex items-center gap-1.5">
-                                    <MapPin className="w-3.5 h-3.5 text-gold" />
-                                    Destination District (38 Options)
+                            {/* Destination Scope Selector */}
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 flex items-center gap-1.5">
+                                    <MapPin className="w-3.5 h-3.5 text-amber-500" />
+                                    Destination Scope *
                                 </label>
-                                <select
-                                    value={postForm.district}
-                                    onChange={(e) => setPostForm({ ...postForm, district: e.target.value })}
-                                    className="w-full py-2.5 px-3.5 bg-[#070B14] border border-white/15 rounded-xl text-xs font-bold text-white focus:outline-none focus:border-purple-400 cursor-pointer"
-                                    required
-                                >
-                                    {districts.map((d) => (
-                                        <option key={d.id} value={d.name} className="bg-[#0A0E1A]">
-                                            {d.name} ({d.region} TN)
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setPostForm({ ...postForm, isOutsideTN: false })}
+                                        className={`p-2.5 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all cursor-pointer ${
+                                            !postForm.isOutsideTN
+                                                ? 'bg-purple-100 dark:bg-purple-950/60 border-purple-400 text-purple-900 dark:text-purple-200 shadow-sm'
+                                                : 'bg-[#FAF7F0] dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-100'
+                                        }`}
+                                    >
+                                        <MapPin className="w-4 h-4 text-amber-500" />
+                                        <span>Within Tamil Nadu (38)</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setPostForm({ ...postForm, isOutsideTN: true })}
+                                        className={`p-2.5 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all cursor-pointer ${
+                                            postForm.isOutsideTN
+                                                ? 'bg-cyan-100 dark:bg-cyan-950/60 border-cyan-400 text-cyan-900 dark:text-cyan-200 shadow-sm'
+                                                : 'bg-[#FAF7F0] dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-100'
+                                        }`}
+                                    >
+                                        <Globe className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                                        <span>Outside TN / Other States</span>
+                                    </button>
+                                </div>
                             </div>
+
+                            {/* Destination Selection / Manual Entry */}
+                            {!postForm.isOutsideTN ? (
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1.5">
+                                        <MapPin className="w-3.5 h-3.5 text-amber-500" />
+                                        Select Tamil Nadu District (38 Options)
+                                    </label>
+                                    <select
+                                        value={postForm.district}
+                                        onChange={(e) => setPostForm({ ...postForm, district: e.target.value })}
+                                        className="w-full py-2.5 px-3.5 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-bold text-stone-900 dark:text-white focus:outline-none focus:border-purple-500 cursor-pointer"
+                                        required
+                                    >
+                                        {districts.map((d) => (
+                                            <option key={d.id} value={d.name} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-white">
+                                                {d.name} ({d.region} TN)
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            ) : (
+                                <div className="p-3.5 rounded-2xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-800 space-y-3">
+                                    <div>
+                                        <label className="block text-[11px] font-bold uppercase tracking-wider text-cyan-800 dark:text-cyan-300 mb-1 flex items-center gap-1">
+                                            <Globe className="w-3 h-3" />
+                                            Manual Destination Name / City / Trail *
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={postForm.customLocation}
+                                            onChange={(e) => setPostForm({ ...postForm, customLocation: e.target.value })}
+                                            placeholder="e.g. Munnar Tea Hills, Coorg Estate Trek, Goa Beaches, Ladakh Road Trip"
+                                            className="w-full py-2 px-3 bg-white dark:bg-stone-800 border border-cyan-300 dark:border-cyan-700 rounded-xl text-xs text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:border-cyan-500"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-600 dark:text-stone-400 mb-1">
+                                                State / Country *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={postForm.stateOrCountry}
+                                                onChange={(e) => setPostForm({ ...postForm, stateOrCountry: e.target.value })}
+                                                placeholder="e.g. Kerala, Karnataka, Goa, Himachal"
+                                                className="w-full py-1.5 px-2.5 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-cyan-500"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-600 dark:text-stone-400 mb-1">
+                                                Route / Starting From
+                                            </label>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. Chennai / Coimbatore / Outstation"
+                                                className="w-full py-1.5 px-2.5 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-cyan-500"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Dates Row */}
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1 flex items-center gap-1">
-                                        <Calendar className="w-3 h-3 text-gold" />
+                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1 flex items-center gap-1">
+                                        <Calendar className="w-3 h-3 text-amber-500" />
                                         Start Date
                                     </label>
                                     <input
@@ -723,14 +906,14 @@ export default function TripMates({ districts = [] }) {
                                         value={postForm.startDate}
                                         min={new Date().toISOString().split('T')[0]}
                                         onChange={(e) => setPostForm({ ...postForm, startDate: e.target.value })}
-                                        className="w-full py-2 px-3 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                        className="w-full py-2 px-3 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1 flex items-center gap-1">
-                                        <Calendar className="w-3 h-3 text-gold" />
+                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1 flex items-center gap-1">
+                                        <Calendar className="w-3 h-3 text-amber-500" />
                                         End Date
                                     </label>
                                     <input
@@ -738,7 +921,7 @@ export default function TripMates({ districts = [] }) {
                                         value={postForm.endDate}
                                         min={postForm.startDate}
                                         onChange={(e) => setPostForm({ ...postForm, endDate: e.target.value })}
-                                        className="w-full py-2 px-3 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                        className="w-full py-2 px-3 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                         required
                                     />
                                 </div>
@@ -747,8 +930,8 @@ export default function TripMates({ districts = [] }) {
                             {/* Slots Needed & Estimated Budget */}
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1 flex items-center gap-1">
-                                        <Users className="w-3 h-3 text-purple-400" />
+                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1 flex items-center gap-1">
+                                        <Users className="w-3 h-3 text-purple-500" />
                                         Slots Needed (Mates)
                                     </label>
                                     <input
@@ -757,14 +940,14 @@ export default function TripMates({ districts = [] }) {
                                         max="8"
                                         value={postForm.slotsNeeded}
                                         onChange={(e) => setPostForm({ ...postForm, slotsNeeded: e.target.value })}
-                                        className="w-full py-2 px-3 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                        className="w-full py-2 px-3 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1 flex items-center gap-1">
-                                        <DollarSign className="w-3 h-3 text-gold" />
+                                    <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1 flex items-center gap-1">
+                                        <DollarSign className="w-3 h-3 text-amber-500" />
                                         Est. Budget/Person (₹)
                                     </label>
                                     <input
@@ -772,7 +955,7 @@ export default function TripMates({ districts = [] }) {
                                         step="100"
                                         value={postForm.estimatedBudget}
                                         onChange={(e) => setPostForm({ ...postForm, estimatedBudget: e.target.value })}
-                                        className="w-full py-2 px-3 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                        className="w-full py-2 px-3 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                         required
                                     />
                                 </div>
@@ -780,8 +963,8 @@ export default function TripMates({ districts = [] }) {
 
                             {/* Trip Vibe Tags */}
                             <div>
-                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1.5 flex items-center gap-1">
-                                    <Tag className="w-3 h-3 text-gold" />
+                                <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5 flex items-center gap-1">
+                                    <Tag className="w-3 h-3 text-amber-500" />
                                     Select Trip Vibe & Tags
                                 </label>
                                 <div className="flex flex-wrap gap-1.5">
@@ -794,8 +977,8 @@ export default function TripMates({ districts = [] }) {
                                                 onClick={() => handleTagToggle(tag)}
                                                 className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                                                     isSelected
-                                                        ? 'bg-purple-600 text-white shadow-md'
-                                                        : 'bg-[#070B14] text-gray-400 hover:text-white border border-white/10'
+                                                        ? 'bg-purple-600 text-white shadow-sm'
+                                                        : 'bg-[#FAF7F0] dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white border border-stone-200 dark:border-stone-700'
                                                 }`}
                                             >
                                                 #{tag}
@@ -807,7 +990,7 @@ export default function TripMates({ districts = [] }) {
 
                             {/* Trip Description */}
                             <div>
-                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1">
+                                <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1">
                                     Trip Plan Details & Expectations
                                 </label>
                                 <textarea
@@ -815,22 +998,22 @@ export default function TripMates({ districts = [] }) {
                                     value={postForm.description}
                                     placeholder="e.g. Planning a weekend photography & tea estate trek in Ooty. Splitting cab from Coimbatore and homestay. Looking for fun travel mates!"
                                     onChange={(e) => setPostForm({ ...postForm, description: e.target.value })}
-                                    className="w-full px-3 py-2 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                    className="w-full px-3 py-2 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                     required
                                 />
                             </div>
 
                             {/* Trust & Safety Confirmation Gate */}
-                            <label className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-2.5 cursor-pointer">
+                            <label className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 flex items-start gap-2.5 cursor-pointer">
                                 <input
                                     type="checkbox"
                                     checked={postForm.confirmedVerified}
                                     onChange={(e) => setPostForm({ ...postForm, confirmedVerified: e.target.checked })}
-                                    className="mt-0.5 rounded bg-[#0A0E1A] border-emerald-500/40 text-emerald-400 focus:ring-emerald-400"
+                                    className="mt-0.5 rounded border-emerald-300 text-emerald-600 focus:ring-emerald-500"
                                     required
                                 />
-                                <div className="text-[11px] text-gray-300">
-                                    <strong className="text-emerald-300 block font-semibold flex items-center gap-1">
+                                <div className="text-[11px] text-stone-600 dark:text-stone-300">
+                                    <strong className="text-emerald-800 dark:text-emerald-300 block font-semibold flex items-center gap-1">
                                         <ShieldCheck className="w-3.5 h-3.5" />
                                         Verified Traveler Community Safety
                                     </strong>
@@ -842,7 +1025,7 @@ export default function TripMates({ districts = [] }) {
                             <button
                                 type="submit"
                                 disabled={!postForm.confirmedVerified}
-                                className="w-full py-3 rounded-xl bg-gradient-to-r from-gold via-amber-300 to-gold text-[#0A0E1A] font-extrabold text-xs shadow-xl shadow-gold/25 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-extrabold text-xs shadow-md shadow-amber-500/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             >
                                 <Sparkles className="w-4 h-4 fill-current" />
                                 <span>Publish Trip Ad & Broadcast to Community</span>
@@ -856,51 +1039,51 @@ export default function TripMates({ districts = [] }) {
             {/* MODAL 2: APPLY TO JOIN TRIP                               */}
             {/* ========================================================= */}
             {applyingTrip && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-                    <div className="relative w-full max-w-md rounded-3xl bg-[#0D1424] border-2 border-purple-500/40 p-6 shadow-2xl text-white space-y-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+                    <div className="relative w-full max-w-md rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-6 shadow-2xl text-stone-900 dark:text-white space-y-4">
                         <button
                             type="button"
                             onClick={() => setApplyingTrip(null)}
-                            className="absolute top-5 right-5 text-gray-400 hover:text-white cursor-pointer"
+                            className="absolute top-5 right-5 text-stone-400 hover:text-stone-700 dark:hover:text-white cursor-pointer"
                         >
                             <X className="w-5 h-5" />
                         </button>
 
                         <div>
-                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block">
+                            <span className="text-[10px] font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wider block">
                                 Join Request
                             </span>
-                            <h3 className="font-display font-bold text-xl text-white">
+                            <h3 className="font-display font-bold text-xl text-stone-900 dark:text-white">
                                 Apply to Join {applyingTrip.district} Trip
                             </h3>
-                            <p className="text-xs text-gray-300 mt-0.5">
-                                Organizer: <strong className="text-gold">{applyingTrip.creatorName}</strong>
+                            <p className="text-xs text-stone-500 dark:text-stone-300 mt-0.5">
+                                Organizer: <strong className="text-amber-700 dark:text-amber-400">{applyingTrip.creatorName}</strong>
                             </p>
                         </div>
 
                         {applySuccess ? (
-                            <div className="p-6 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-center text-emerald-300 space-y-2 animate-fadeIn">
-                                <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-400" />
-                                <h4 className="font-bold text-sm text-white">Application Sent!</h4>
-                                <p className="text-xs text-gray-300">
+                            <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 text-center text-emerald-800 dark:text-emerald-300 space-y-2 animate-fadeIn">
+                                <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-600 dark:text-emerald-400" />
+                                <h4 className="font-bold text-sm text-stone-900 dark:text-white">Application Sent!</h4>
+                                <p className="text-xs text-stone-600 dark:text-stone-300">
                                     {applyingTrip.creatorName} has received your request and will review your verified profile.
                                 </p>
                             </div>
                         ) : (
                             <form onSubmit={handleApplySubmit} className="space-y-4">
-                                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-gray-300 space-y-1">
-                                    <div className="flex justify-between text-gray-400 text-[11px]">
+                                <div className="p-3 rounded-xl bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300 space-y-1">
+                                    <div className="flex justify-between text-stone-500 dark:text-stone-400 text-[11px]">
                                         <span>🗓️ Dates:</span>
-                                        <span className="text-white font-medium">{applyingTrip.startDate} to {applyingTrip.endDate}</span>
+                                        <span className="text-stone-900 dark:text-white font-medium">{applyingTrip.startDate} to {applyingTrip.endDate}</span>
                                     </div>
-                                    <div className="flex justify-between text-gray-400 text-[11px]">
+                                    <div className="flex justify-between text-stone-500 dark:text-stone-400 text-[11px]">
                                         <span>💰 Est. Split:</span>
-                                        <span className="text-gold font-bold font-mono">~₹{applyingTrip.estimatedBudget}/pax</span>
+                                        <span className="text-amber-700 dark:text-amber-400 font-bold font-mono">~₹{applyingTrip.estimatedBudget}/pax</span>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-gray-300 uppercase mb-1">
+                                    <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase mb-1">
                                         Introduce Yourself to {applyingTrip.creatorName}
                                     </label>
                                     <textarea
@@ -908,14 +1091,14 @@ export default function TripMates({ districts = [] }) {
                                         value={applyMessage}
                                         onChange={(e) => setApplyMessage(e.target.value)}
                                         placeholder="Hey! I love photography and hiking. Would love to join your trip."
-                                        className="w-full px-3 py-2 bg-[#070B14] border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
+                                        className="w-full px-3 py-2 bg-[#FAF7F0] dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-white focus:outline-none focus:border-purple-500"
                                         required
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xs shadow-lg shadow-purple-500/25 hover:scale-[1.01] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md shadow-purple-500/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                                 >
                                     <Send className="w-3.5 h-3.5" />
                                     <span>Send Join Request</span>

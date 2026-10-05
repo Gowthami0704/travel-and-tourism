@@ -12,7 +12,8 @@ import {
     Calendar,
     Star,
     Mail,
-    Phone
+    Phone,
+    X
 } from 'lucide-react';
 
 export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
@@ -64,15 +65,15 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
 
             <div className="space-y-6">
                 {/* Search & Filters */}
-                <form onSubmit={handleSearch} className="p-4 rounded-2xl bg-[#0E1526] border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <form onSubmit={handleSearch} className="p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm flex flex-wrap items-center justify-between gap-3">
                     <div className="relative flex-1 min-w-[240px]">
-                        <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+                        <Search className="w-4 h-4 absolute left-3 top-2.5 text-[var(--muted)]" />
                         <input
                             type="text"
                             placeholder="Search by name, email, or phone number..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-9 pr-3 py-1.5 bg-slate-950 border border-white/10 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400"
+                            className="w-full pl-9 pr-3 py-1.5 bg-[var(--bg)] border border-[var(--border)] rounded-xl text-xs text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--primary)]"
                         />
                     </div>
 
@@ -80,7 +81,7 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
                         <select
                             value={roleFilter}
                             onChange={(e) => setRoleFilter(e.target.value)}
-                            className="bg-slate-950 border border-white/10 rounded-xl text-xs text-gray-300 px-3 py-1.5 focus:outline-none"
+                            className="bg-[var(--bg)] border border-[var(--border)] rounded-xl text-xs text-[var(--text)] px-3 py-1.5 focus:outline-none focus:border-[var(--primary)]"
                         >
                             <option value="">All Roles</option>
                             <option value="tourist">Tourists</option>
@@ -91,7 +92,7 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="bg-slate-950 border border-white/10 rounded-xl text-xs text-gray-300 px-3 py-1.5 focus:outline-none"
+                            className="bg-[var(--bg)] border border-[var(--border)] rounded-xl text-xs text-[var(--text)] px-3 py-1.5 focus:outline-none focus:border-[var(--primary)]"
                         >
                             <option value="">All Statuses</option>
                             <option value="active">Active</option>
@@ -100,7 +101,7 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
 
                         <button
                             type="submit"
-                            className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs cursor-pointer transition-all"
+                            className="px-3.5 py-1.5 rounded-xl bg-[var(--primary)] hover:opacity-90 text-white font-bold text-xs cursor-pointer transition-all shadow-sm"
                         >
                             Filter
                         </button>
@@ -108,10 +109,10 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
                 </form>
 
                 {/* Users Table */}
-                <div className="p-6 rounded-2xl bg-[#0E1526] border border-white/10 shadow-xl overflow-hidden">
+                <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-gray-300">
-                            <thead className="bg-white/5 text-gray-400 uppercase text-[10px] font-bold tracking-wider">
+                        <table className="w-full text-left text-xs text-[var(--text)]">
+                            <thead className="bg-[var(--bg)] text-[var(--muted)] uppercase text-[10px] font-bold tracking-wider border-b border-[var(--border)]">
                                 <tr>
                                     <th className="px-4 py-3 rounded-l-lg">User Name</th>
                                     <th className="px-4 py-3">Contact</th>
@@ -122,41 +123,43 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
                                     <th className="px-4 py-3 rounded-r-lg text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5">
+                            <tbody className="divide-y divide-[var(--border)]">
                                 {users.data?.map((u) => (
-                                    <tr key={u.id} className="hover:bg-white/5 transition">
+                                    <tr key={u.id} className="hover:bg-[var(--bg)] transition">
                                         <td className="px-4 py-3.5">
-                                            <div className="font-bold text-white text-sm">{u.name}</div>
-                                            <div className="text-[10px] text-gray-500">ID #{u.id}</div>
+                                            <div className="font-bold text-[var(--text)] text-sm">{u.name}</div>
+                                            <div className="text-[10px] text-[var(--muted)]">ID #{u.id}</div>
                                         </td>
                                         <td className="px-4 py-3.5">
-                                            <div className="text-gray-300 flex items-center gap-1.5">
-                                                <Mail className="w-3 h-3 text-gold" />
+                                            <div className="text-[var(--text)] flex items-center gap-1.5">
+                                                <Mail className="w-3 h-3 text-[var(--primary)]" />
                                                 <span>{u.email}</span>
                                             </div>
-                                            <div className="text-gray-400 flex items-center gap-1.5 mt-0.5">
-                                                <Phone className="w-3 h-3 text-gray-500" />
+                                            <div className="text-[var(--muted)] flex items-center gap-1.5 mt-0.5">
+                                                <Phone className="w-3 h-3 text-[var(--muted)]" />
                                                 <span>{u.phone || 'N/A'}</span>
                                             </div>
                                         </td>
                                         <td className="px-4 py-3.5">
                                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                                                u.role === 'admin' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                                                u.role === 'vendor' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' :
-                                                'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                                u.role === 'admin' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20' :
+                                                u.role === 'vendor' ? 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20' :
+                                                'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
                                             }`}>
                                                 {u.role}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3.5 font-semibold text-white">
+                                        <td className="px-4 py-3.5 font-semibold text-[var(--text)]">
                                             {u.bookings_count || 0} Bookings
                                         </td>
-                                        <td className="px-4 py-3.5 font-semibold text-gold">
+                                        <td className="px-4 py-3.5 font-semibold text-amber-500">
                                             ★ {u.reviews_count || 0}
                                         </td>
                                         <td className="px-4 py-3.5">
                                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                                u.is_banned ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-emerald-500/20 text-emerald-300'
+                                                u.is_banned 
+                                                    ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20' 
+                                                    : 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20'
                                             }`}>
                                                 {u.is_banned ? 'Banned' : 'Active'}
                                             </span>
@@ -165,19 +168,19 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
                                             <div className="flex items-center justify-end gap-1.5">
                                                 <button
                                                     onClick={() => setWarningTarget(u)}
-                                                    className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-[11px] transition cursor-pointer flex items-center gap-1"
+                                                    className="px-2.5 py-1 rounded-lg bg-[var(--bg)] border border-[var(--border)] hover:bg-[var(--card)] text-[var(--text)] font-semibold text-[11px] transition cursor-pointer flex items-center gap-1 shadow-sm"
                                                 >
-                                                    <Send className="w-3 h-3" />
+                                                    <Send className="w-3 h-3 text-[var(--primary)]" />
                                                     <span>Warn</span>
                                                 </button>
 
                                                 {isSuperAdmin && u.role !== 'admin' && (
                                                     <button
                                                         onClick={() => handleToggleBan(u.id, u.name, u.is_banned)}
-                                                        className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer flex items-center gap-1 ${
+                                                        className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer flex items-center gap-1 shadow-sm ${
                                                             u.is_banned
-                                                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                                                                : 'bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/30'
+                                                                ? 'bg-teal-600 hover:bg-teal-500 text-white'
+                                                                : 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20'
                                                         }`}
                                                     >
                                                         <Ban className="w-3 h-3" />
@@ -195,25 +198,30 @@ export default function UserIndex({ users, filters = {}, isSuperAdmin }) {
 
                 {/* SEND WARNING MODAL */}
                 {warningTarget && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-                        <div className="relative w-full max-w-md bg-[#0E1526] border border-white/10 rounded-2xl p-6 text-white space-y-4">
-                            <h4 className="text-base font-bold text-white flex items-center gap-2">
-                                <Send className="w-4 h-4 text-amber-400" />
-                                <span>Send Warning to {warningTarget.name}</span>
-                            </h4>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+                        <div className="relative w-full max-w-md bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 text-[var(--text)] space-y-4 shadow-xl">
+                            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+                                <h4 className="text-base font-bold text-[var(--text)] flex items-center gap-2">
+                                    <Send className="w-4 h-4 text-[var(--primary)]" />
+                                    <span>Send Warning to {warningTarget.name}</span>
+                                </h4>
+                                <button onClick={() => setWarningTarget(null)} className="text-[var(--muted)] hover:text-[var(--text)]">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
                             <textarea
                                 rows="3"
                                 required
                                 placeholder="Enter specific reason or policy notice for this user..."
                                 value={warningMsg}
                                 onChange={(e) => setWarningMsg(e.target.value)}
-                                className="w-full p-2.5 bg-slate-950 border border-white/15 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400"
+                                className="w-full p-2.5 bg-[var(--bg)] border border-[var(--border)] rounded-xl text-xs text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--primary)]"
                             />
-                            <div className="flex gap-2 justify-end">
-                                <button onClick={() => setWarningTarget(null)} className="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 text-xs">
+                            <div className="flex gap-2 justify-end pt-2">
+                                <button onClick={() => setWarningTarget(null)} className="px-3 py-1.5 rounded-lg bg-[var(--bg)] border border-[var(--border)] text-[var(--text)] text-xs">
                                     Cancel
                                 </button>
-                                <button onClick={handleSendWarning} className="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">
+                                <button onClick={handleSendWarning} className="px-3.5 py-1.5 rounded-lg bg-[var(--primary)] text-white font-bold text-xs">
                                     Send Warning
                                 </button>
                             </div>

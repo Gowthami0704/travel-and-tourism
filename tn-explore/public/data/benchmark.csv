@@ -1,0 +1,2 @@
+model_name,model_version,dataset_size,training_vendors,anomalies_injected,precision,recall,f1_score,false_positive_rate,roc_auc,contamination,last_trained_date,status
+"Isolation Forest Hybrid Anomaly Scanner","v2.4-iso-forest",500,57,50,91.8,94.0,0.929,2.1,0.962,0.10,"2026-10-02 14:17:53","production_active"

@@ -1,0 +1,47 @@
+{
+ "food_dishes:1": {
+  "title": "Rasam (dish)",
+  "url": "https://en.wikipedia.org/wiki/Rasam_(dish)",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Rasam.JPG/960px-Rasam.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "lat": null,
+  "lon": null,
+  "score": 0.85
+ },
+ "food_dishes:2": {
+  "title": "Sohan halwa",
+  "url": "https://en.wikipedia.org/wiki/Sohan_halwa",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Sohan_Halwa.JPG/960px-Sohan_Halwa.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "lat": null,
+  "lon": null,
+  "score": 0.85
+ },
+ "food_dishes:3": null,
+ "food_dishes:4": {
+  "title": "Prawn cracker",
+  "url": "https://en.wikipedia.org/wiki/Prawn_cracker",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Fried_Krupuk_Udang.JPG/960px-Fried_Krupuk_Udang.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "lat": null,
+  "lon": null,
+  "score": 0.85
+ },
+ "food_dishes:5": null,
+ "food_dishes:6": null,
+ "food_dishes:7": {
+  "title": "Indian filter coffee",
+  "url": "https://en.wikipedia.org/wiki/Indian_filter_coffee",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Filter_kaapi.JPG/960px-Filter_kaapi.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "lat": null,
+  "lon": null,
+  "score": 0.85
+ },
+ "food_dishes:8": null,
+ "food_dishes:9": null,
+ "food_dishes:10": {
+  "title": "Murukku",
+  "url": "https://en.wikipedia.org/wiki/Murukku",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/A_Traditional_Tamil_Snack_Murukku.jpg/960px-A_Traditional_Tamil_Snack_Murukku.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "lat": null,
+  "lon": null,
+  "score": 0.85
+ }
+}

@@ -65,7 +65,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
         const defaultWelcome = {
             id: 'init-1',
             role: 'assistant',
-            content: `🙏 **Vanakkam! I am TN Mitra**, your official AI Smart Tourism Guide for Tamil Nadu.\n\nI am equipped with real-time verified data across all **38 districts**. I can plan personalized itineraries, unearth secret hidden gems, map out culinary food trails, and estimate trip budgets.\n\n*How can I assist your adventure today?*`,
+            content: `✨ **Welcome! I am TN Mitra**, your official AI Smart Tourism Guide for Tamil Nadu.\n\nI am equipped with real-time verified data across all **38 districts**. I can plan personalized itineraries, unearth secret hidden gems, map out culinary food trails, and estimate trip budgets.\n\n*How can I assist your adventure today?*`,
             source: 'cloud',
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
@@ -175,7 +175,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
             });
 
             const data = await res.json();
-            const reply = data.reply || 'Vanakkam! Unable to retrieve details. Please try again.';
+            const reply = data.reply || 'Welcome! Unable to retrieve details. Please try again.';
             const source = data.source || 'offline';
             setAiSource(source);
 
@@ -215,7 +215,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                 {
                     id: Date.now().toString(),
                     role: 'assistant',
-                    content: '🙏 **Vanakkam!** Chat history cleared. What corner of Tamil Nadu shall we explore next?',
+                    content: '✨ **Welcome!** Chat history cleared. What corner of Tamil Nadu shall we explore next?',
                     source: 'cloud',
                     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 }
@@ -249,21 +249,19 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
             <Head title="TN Mitra AI — Your Smart Tamil Nadu Travel Companion" />
 
             {/* Page Header */}
-            <div className="relative border-b border-white/10 bg-[#070B14] overflow-hidden py-10 px-4 sm:px-6 lg:px-8">
-                <AdventureBackground />
-
+            <div className="relative border-b border-[#E6D5B8] dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden py-10 px-4 sm:px-6 lg:px-8">
                 <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
-                            <Sparkles className="w-3.5 h-3.5 text-gold animate-spin" />
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-maroon-50 dark:bg-amber-950/40 border border-maroon-200 dark:border-amber-800/50 text-maroon-800 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 animate-spin" />
                             <span>AI TRAVEL COMPANION • RAG GROUNDED</span>
                         </div>
 
-                        <h1 className="font-display font-black text-3xl sm:text-5xl text-white">
-                            TN Mitra <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-gold to-amber-400">AI Guide</span>
+                        <h1 className="font-serif font-black text-3xl sm:text-5xl text-stone-900 dark:text-stone-100 tracking-tight">
+                            TN Mitra <span className="text-maroon-800 dark:text-amber-500">AI Guide</span>
                         </h1>
 
-                        <p className="text-xs sm:text-sm text-gray-300 max-w-2xl leading-relaxed">
+                        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 max-w-2xl leading-relaxed">
                             Specialized Tamil Nadu tourism intelligence powered by cloud Gemini & local Ollama Mistral, verified across all 38 districts with voice and multilingual capabilities.
                         </p>
                     </div>
@@ -271,15 +269,15 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                     {/* Status & Action Controls */}
                     <div className="flex flex-wrap items-center gap-3">
                         {/* Live AI Status Badge */}
-                        <div className="px-4 py-2 rounded-2xl bg-navy-card/90 border border-white/10 flex items-center gap-2.5 text-xs shadow-lg">
+                        <div className="px-4 py-2 rounded-2xl bg-[#FAF7F0] dark:bg-stone-800 border border-[#E6D5B8] dark:border-stone-700 flex items-center gap-2.5 text-xs shadow-xs">
                             <span className={`w-3 h-3 rounded-full ${
-                                aiSource === 'cloud' ? 'bg-emerald-400 shadow-lg shadow-emerald-500/50' : aiSource === 'local' ? 'bg-amber-400 shadow-lg shadow-amber-500/50' : 'bg-red-500 shadow-lg shadow-red-500/50'
+                                aiSource === 'cloud' ? 'bg-emerald-500 shadow-xs' : aiSource === 'local' ? 'bg-amber-500 shadow-xs' : 'bg-red-500 shadow-xs'
                             }`} />
                             <div>
-                                <span className="font-bold text-white block leading-none">
+                                <span className="font-bold text-stone-900 dark:text-white block leading-none">
                                     {aiSource === 'cloud' ? 'Cloud Gemini' : aiSource === 'local' ? 'Local Ollama' : 'Offline Knowledge Engine'}
                                 </span>
-                                <span className="text-[10px] text-gray-400">
+                                <span className="text-[10px] text-stone-500 dark:text-stone-400">
                                     {aiSource === 'cloud' ? 'Primary AI' : aiSource === 'local' ? 'Fallback Active' : 'Cached Records'}
                                 </span>
                             </div>
@@ -289,10 +287,10 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                         <button
                             type="button"
                             onClick={handlePrintItinerary}
-                            className="px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                            className="px-4 py-2.5 rounded-2xl bg-[#FAF7F0] hover:bg-[#E6D5B8]/60 dark:bg-stone-800 dark:hover:bg-stone-700 border border-[#E6D5B8] dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                             title="Print or Save Itinerary as PDF"
                         >
-                            <Printer className="w-4 h-4 text-gold" />
+                            <Printer className="w-4 h-4 text-maroon-700 dark:text-amber-400" />
                             <span>Export PDF / Print</span>
                         </button>
 
@@ -300,7 +298,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                         <button
                             type="button"
                             onClick={handleClearChat}
-                            className="p-2.5 rounded-2xl bg-white/5 hover:bg-red-500/20 border border-white/10 text-gray-400 hover:text-red-400 text-xs transition-colors cursor-pointer"
+                            className="p-2.5 rounded-2xl bg-[#FAF7F0] hover:bg-red-50 dark:bg-stone-800 dark:hover:bg-red-950/40 border border-[#E6D5B8] dark:border-stone-700 text-stone-600 hover:text-red-700 dark:text-stone-400 dark:hover:text-red-300 text-xs transition-colors cursor-pointer shadow-xs"
                             title="Clear History"
                         >
                             <RotateCcw className="w-4 h-4" />
@@ -315,17 +313,17 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                     {/* LEFT SIDEBAR: Controls, District Context, Sample Inquiries */}
                     <div className="lg:col-span-4 space-y-6">
                         {/* District Context Focus Box */}
-                        <div className="p-5 rounded-3xl bg-navy-card/90 border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
+                        <div className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-800 shadow-sm space-y-4">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 text-gold" />
+                                <h3 className="font-serif font-bold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                                    <MapPin className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                     <span>Focus District</span>
                                 </h3>
                                 {selectedDistrict && (
                                     <button
                                         type="button"
                                         onClick={() => setSelectedDistrict('')}
-                                        className="text-[11px] text-gold hover:underline cursor-pointer"
+                                        className="text-[11px] text-maroon-800 dark:text-amber-400 font-bold hover:underline cursor-pointer"
                                     >
                                         Clear
                                     </button>
@@ -335,33 +333,33 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                             <select
                                 value={selectedDistrict}
                                 onChange={(e) => setSelectedDistrict(e.target.value)}
-                                className="w-full bg-[#0E1528] border border-white/15 focus:border-gold rounded-2xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold cursor-pointer"
+                                className="w-full bg-[#FAF7F0] dark:bg-stone-950 border border-[#E6D5B8] dark:border-stone-700 rounded-2xl px-3.5 py-2.5 text-xs text-stone-900 dark:text-white focus:outline-none focus:border-maroon-800 dark:focus:border-amber-400 cursor-pointer"
                             >
                                 <option value="">🌟 All 38 Tamil Nadu Districts</option>
                                 {districts.map((d) => (
                                     <option key={d.id} value={d.name}>
-                                        📍 {d.name} ({d.region} TN)
+                                        {d.name} ({d.region} TN)
                                     </option>
                                 ))}
                             </select>
 
                             {selectedDistrict && (
-                                <p className="text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-xl leading-relaxed">
+                                <p className="text-[11px] text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 p-3 rounded-2xl leading-relaxed">
                                     💡 <strong>Active Scope:</strong> TN Mitra will prioritize verified attractions, heritage sites, and local delicacies from <strong>{selectedDistrict}</strong>.
                                 </p>
                             )}
                         </div>
 
                         {/* Voice & Language Settings */}
-                        <div className="p-5 rounded-3xl bg-navy-card/90 border border-white/10 backdrop-blur-xl shadow-xl space-y-4">
-                            <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
-                                <Globe className="w-4 h-4 text-gold" />
+                        <div className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-800 shadow-sm space-y-4">
+                            <h3 className="font-serif font-bold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                                <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                 <span>Voice & Language Engine</span>
                             </h3>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label className="text-[11px] font-semibold text-gray-400 block mb-1.5">
+                                    <label className="text-[11px] font-semibold text-stone-600 dark:text-stone-400 block mb-1.5">
                                         Voice Recognition & Speech Language:
                                     </label>
                                     <div className="grid grid-cols-3 gap-2">
@@ -376,8 +374,8 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                                 onClick={() => setVoiceLang(lang.id)}
                                                 className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                                                     voiceLang === lang.id
-                                                        ? 'bg-gradient-to-r from-gold to-amber-500 text-slate-950 shadow-md shadow-gold/20'
-                                                        : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white'
+                                                        ? 'bg-maroon-800 text-white shadow-xs'
+                                                        : 'bg-[#FAF7F0] dark:bg-stone-800 border border-[#E6D5B8] dark:border-stone-700 text-stone-700 dark:text-stone-300 hover:bg-stone-200/50'
                                                 }`}
                                             >
                                                 {lang.label}
@@ -386,16 +384,16 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                                    <span className="text-xs text-gray-300 flex items-center gap-1.5">
-                                        <Volume2 className="w-3.5 h-3.5 text-gold" />
+                                <div className="flex items-center justify-between pt-2 border-t border-[#E6D5B8] dark:border-stone-800">
+                                    <span className="text-xs text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-medium">
+                                        <Volume2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                                         <span>Read Responses Aloud</span>
                                     </span>
                                     <button
                                         type="button"
                                         onClick={() => setVoiceOutputEnabled(!voiceOutputEnabled)}
                                         className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer ${
-                                            voiceOutputEnabled ? 'bg-emerald-500' : 'bg-slate-800'
+                                            voiceOutputEnabled ? 'bg-teal-600' : 'bg-stone-300 dark:bg-stone-700'
                                         }`}
                                     >
                                         <div
@@ -409,28 +407,28 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                         </div>
 
                         {/* Compare Travel Options Quick Tool */}
-                        <div className="p-5 rounded-3xl bg-navy-card/90 border border-gold/30 backdrop-blur-xl shadow-xl space-y-4">
+                        <div className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-800 shadow-sm space-y-4">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
-                                    <Car className="w-4 h-4 text-gold" />
+                                <h3 className="font-serif font-bold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                                    <Car className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                     <span>Compare Travel Options</span>
                                 </h3>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
                                     Multi-Modal
                                 </span>
                             </div>
 
-                            <p className="text-[11px] text-gray-400">
+                            <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-relaxed">
                                 Compare Train 🚆, Bus 🚌, Outstation Cab 🚗, and Motorbike 🛵 for any route (fares, duration, ghat road ratings).
                             </p>
 
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div>
-                                    <label className="text-[10px] text-gray-400 block mb-1">From District:</label>
+                                    <label className="text-[10px] text-stone-500 dark:text-stone-400 block mb-1 font-semibold">From District:</label>
                                     <select
                                         value={compareFrom}
                                         onChange={(e) => setCompareFrom(e.target.value)}
-                                        className="w-full bg-[#0E1528] border border-white/15 focus:border-gold rounded-xl px-2.5 py-1.5 text-xs text-white"
+                                        className="w-full bg-[#FAF7F0] dark:bg-stone-950 border border-[#E6D5B8] dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white"
                                     >
                                         {districts.map((d) => (
                                             <option key={`from-${d.id}`} value={d.name}>{d.name}</option>
@@ -438,11 +436,11 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] text-gray-400 block mb-1">To District:</label>
+                                    <label className="text-[10px] text-stone-500 dark:text-stone-400 block mb-1 font-semibold">To District:</label>
                                     <select
                                         value={compareTo}
                                         onChange={(e) => setCompareTo(e.target.value)}
-                                        className="w-full bg-[#0E1528] border border-white/15 focus:border-gold rounded-xl px-2.5 py-1.5 text-xs text-white"
+                                        className="w-full bg-[#FAF7F0] dark:bg-stone-950 border border-[#E6D5B8] dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white"
                                     >
                                         {districts.map((d) => (
                                             <option key={`to-${d.id}`} value={d.name}>{d.name}</option>
@@ -454,7 +452,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                             <button
                                 type="button"
                                 onClick={() => handleSend(`Compare travel options from ${compareFrom} to ${compareTo} by Train, Bus, Outstation Cab, and Motorbike: approximate costs, travel duration, comfort rating, and recommendation.`)}
-                                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-gold via-amber-400 to-gold text-slate-950 font-bold text-xs shadow-md shadow-gold/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                className="w-full py-2.5 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-bold text-xs shadow-sm hover:scale-[1.01] active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                             >
                                 <Sparkles className="w-3.5 h-3.5" />
                                 <span>Ask TN Mitra to Compare Modes</span>
@@ -462,9 +460,9 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                         </div>
 
                         {/* Quick Prompt Ideas */}
-                        <div className="p-5 rounded-3xl bg-navy-card/90 border border-white/10 backdrop-blur-xl shadow-xl space-y-3">
-                            <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
-                                <Sparkles className="w-4 h-4 text-gold" />
+                        <div className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-800 shadow-sm space-y-3">
+                            <h3 className="font-serif font-bold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                                <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                 <span>Suggested Inquiries</span>
                             </h3>
 
@@ -474,10 +472,10 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                         key={idx}
                                         type="button"
                                         onClick={() => handleSend(item.prompt)}
-                                        className="w-full text-left p-3 rounded-2xl bg-white/5 hover:bg-gold/15 border border-white/10 hover:border-gold/30 text-xs text-gray-200 hover:text-gold transition-all flex items-center justify-between group cursor-pointer"
+                                        className="w-full text-left p-3 rounded-2xl bg-[#FAF7F0] hover:bg-amber-50 dark:bg-stone-800 dark:hover:bg-stone-700 border border-[#E6D5B8] dark:border-stone-700 hover:border-amber-300 text-xs text-stone-800 dark:text-stone-200 hover:text-maroon-800 dark:hover:text-amber-400 transition-all flex items-center justify-between group cursor-pointer"
                                     >
                                         <span className="font-medium">{item.label}</span>
-                                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-maroon-800 dark:text-amber-400" />
                                     </button>
                                 ))}
                             </div>
@@ -485,20 +483,18 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                     </div>
 
                     {/* RIGHT PANEL: Dynamic Chat Conversation Feed */}
-                    <div className="lg:col-span-8 flex flex-col h-[740px] rounded-3xl bg-navy-card/90 border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden">
+                    <div className="lg:col-span-8 flex flex-col h-[740px] rounded-3xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-800 shadow-sm overflow-hidden">
                         {/* Feed Header */}
-                        <div className="px-6 py-4 bg-gradient-to-r from-[#0C1222] via-[#10182E] to-[#0C1222] border-b border-white/10 flex items-center justify-between">
+                        <div className="px-6 py-4 bg-[#FAF7F0] dark:bg-stone-800 border-b border-[#E6D5B8] dark:border-stone-700 flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-gold to-emerald-500 p-0.5 shadow-md shadow-gold/20">
-                                    <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                        <Bot className="w-5 h-5 text-gold" />
-                                    </div>
+                                <div className="w-10 h-10 rounded-2xl bg-maroon-800 text-white flex items-center justify-center shadow-xs">
+                                    <Bot className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h2 className="font-display font-bold text-base text-white">
+                                    <h2 className="font-serif font-bold text-base text-stone-900 dark:text-stone-100">
                                         Conversation with TN Mitra
                                     </h2>
-                                    <p className="text-[11px] text-gray-400">
+                                    <p className="text-[11px] text-stone-500 dark:text-stone-400">
                                         Multi-Turn Memory Active • Verified Tamil Nadu Knowledge Base
                                     </p>
                                 </div>
@@ -507,16 +503,16 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                             <div className="flex items-center gap-2 text-xs">
                                 <Link
                                     href="/trip-builder"
-                                    className="px-3.5 py-1.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 hover:bg-purple-500/30 transition-all font-semibold flex items-center gap-1.5"
+                                    className="px-3.5 py-1.5 rounded-xl bg-maroon-50 dark:bg-amber-950/40 border border-maroon-200 dark:border-amber-800/50 text-maroon-800 dark:text-amber-400 hover:bg-maroon-100 dark:hover:bg-amber-900/50 transition-all font-bold flex items-center gap-1.5"
                                 >
-                                    <Sparkles className="w-3.5 h-3.5 text-gold" />
-                                    <span>Toy Trip Builder</span>
+                                    <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                                    <span>Smart Trip Builder</span>
                                 </Link>
                             </div>
                         </div>
 
                         {/* Messages Timeline */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin scrollbar-thumb-white/10">
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#FFFDF7]/60 dark:bg-stone-950/40">
                             {messages.map((msg, idx) => {
                                 const isBot = msg.role === 'assistant';
                                 return (
@@ -525,42 +521,43 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                         className={`flex gap-4 ${isBot ? 'items-start' : 'items-end justify-end'}`}
                                     >
                                         {isBot && (
-                                            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-gold to-amber-600 flex items-center justify-center text-slate-950 font-bold flex-shrink-0 shadow-lg shadow-gold/20">
+                                            <div className="w-9 h-9 rounded-2xl bg-maroon-800 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-xs">
                                                 <Bot className="w-5 h-5" />
                                             </div>
                                         )}
 
                                         <div
-                                            className={`group relative max-w-[85%] rounded-3xl p-5 shadow-xl ${
+                                            className={`group relative max-w-[85%] rounded-3xl p-5 shadow-xs ${
                                                 isBot
-                                                    ? 'bg-[#0E1528] border border-white/10 text-slate-100 rounded-tl-sm'
-                                                    : 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-br-sm'
+                                                    ? 'bg-[#FAF7F0] dark:bg-stone-800 border border-[#E6D5B8] dark:border-stone-700 text-stone-800 dark:text-stone-200 rounded-tl-xs'
+                                                    : 'bg-maroon-800 text-white rounded-br-xs'
                                             }`}
                                         >
                                             {/* Text Content */}
-                                            <div className="prose prose-invert prose-sm max-w-none whitespace-pre-line text-sm leading-relaxed">
+                                            <div className="prose prose-stone dark:prose-invert prose-sm max-w-none whitespace-pre-line text-sm leading-relaxed">
                                                 {msg.content}
                                             </div>
 
                                             {/* RAG Metadata Cards */}
                                             {isBot && msg.rag_sources && msg.rag_sources.length > 0 && (
-                                                <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-                                                    <span className="text-xs font-bold text-amber-300 uppercase tracking-wider block flex items-center gap-1.5">
-                                                        <Sparkles className="w-3 h-3 text-gold" />
+                                                <div className="mt-4 pt-4 border-t border-[#E6D5B8] dark:border-stone-700 space-y-2">
+                                                    <span className="text-xs font-bold text-maroon-800 dark:text-amber-400 uppercase tracking-wider block flex items-center gap-1.5">
+                                                        <Sparkles className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                                                         <span>Verified Travel Records Retrieved:</span>
                                                     </span>
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                         {msg.rag_sources.slice(0, 4).map((r, i) => (
                                                             <div
                                                                 key={i}
-                                                                className="p-2.5 rounded-2xl bg-white/5 border border-white/10 flex items-start justify-between gap-2 text-xs hover:border-gold/30 transition-all"
+                                                                className="p-3 rounded-2xl bg-white dark:bg-stone-900 border border-[#E6D5B8] dark:border-stone-700 flex items-start justify-between gap-2 text-xs hover:border-amber-400 transition-all"
                                                             >
                                                                 <div>
-                                                                    <h4 className="font-bold text-white text-xs">
+                                                                    <h4 className="font-bold text-stone-900 dark:text-white text-xs">
                                                                         {r.name}
                                                                     </h4>
-                                                                    <p className="text-[11px] text-gray-400">
-                                                                        📍 {r.district} • {r.type || r.category || 'Spot'}
+                                                                    <p className="text-[11px] text-stone-500 dark:text-stone-400 flex items-center gap-1 mt-0.5">
+                                                                        <MapPin className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                                                                        <span>{r.district} • {r.type || r.category || 'Spot'}</span>
                                                                     </p>
                                                                 </div>
                                                                 {r.maps_url && (
@@ -568,7 +565,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                                                         href={r.maps_url}
                                                                         target="_blank"
                                                                         rel="noopener noreferrer"
-                                                                        className="text-gold hover:text-gold-light p-1"
+                                                                        className="text-maroon-800 dark:text-amber-400 hover:text-maroon-900 p-1"
                                                                         title="View on Google Maps"
                                                                     >
                                                                         <MapPin className="w-3.5 h-3.5" />
@@ -581,17 +578,17 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                             )}
 
                                             {/* Footer Actions */}
-                                            <div className="mt-3 flex items-center justify-between text-[11px] text-gray-400 pt-1">
+                                            <div className="mt-3 flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400 pt-1">
                                                 <span>{msg.timestamp}</span>
                                                 {isBot && (
                                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         <button
                                                             type="button"
                                                             onClick={() => handleCopy(msg.content, idx)}
-                                                            className="flex items-center gap-1 hover:text-gold cursor-pointer"
+                                                            className="flex items-center gap-1 hover:text-maroon-800 dark:hover:text-amber-400 cursor-pointer font-medium"
                                                         >
                                                             {copiedIndex === idx ? (
-                                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                                                <Check className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                                                             ) : (
                                                                 <Copy className="w-3.5 h-3.5" />
                                                             )}
@@ -603,7 +600,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                         </div>
 
                                         {!isBot && (
-                                            <div className="w-9 h-9 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 flex-shrink-0 shadow-lg mb-0.5">
+                                            <div className="w-9 h-9 rounded-2xl bg-amber-100 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-700 flex items-center justify-center text-amber-800 dark:text-amber-300 flex-shrink-0 shadow-xs mb-0.5">
                                                 <User className="w-5 h-5" />
                                             </div>
                                         )}
@@ -614,14 +611,14 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                             {/* Loading State */}
                             {isLoading && (
                                 <div className="flex gap-4 items-start">
-                                    <div className="w-9 h-9 rounded-2xl bg-gold flex items-center justify-center text-slate-950 flex-shrink-0">
+                                    <div className="w-9 h-9 rounded-2xl bg-maroon-800 text-white flex items-center justify-center flex-shrink-0">
                                         <Sparkles className="w-5 h-5 animate-spin" />
                                     </div>
-                                    <div className="p-4 rounded-3xl rounded-tl-sm bg-[#0E1528] border border-white/10 text-gray-300 text-sm flex items-center gap-3">
+                                    <div className="p-4 rounded-3xl rounded-tl-xs bg-[#FAF7F0] dark:bg-stone-800 border border-[#E6D5B8] dark:border-stone-700 text-stone-700 dark:text-stone-300 text-sm flex items-center gap-3">
                                         <span className="flex gap-1.5">
-                                            <span className="w-2 h-2 rounded-full bg-gold animate-bounce" />
-                                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                                            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                                            <span className="w-2 h-2 rounded-full bg-maroon-800 animate-bounce" />
+                                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+                                            <span className="w-2 h-2 rounded-full bg-teal-600 animate-pulse" />
                                         </span>
                                         <span>TN Mitra is synthesizing verified tourism data & routes...</span>
                                     </div>
@@ -632,7 +629,7 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                         </div>
 
                         {/* Input Area */}
-                        <div className="p-4 bg-[#080D1A] border-t border-white/10">
+                        <div className="p-4 bg-white dark:bg-stone-900 border-t border-[#E6D5B8] dark:border-stone-800">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
@@ -645,12 +642,12 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                     onClick={toggleListening}
                                     className={`p-3 rounded-2xl border transition-all cursor-pointer flex-shrink-0 ${
                                         isListening
-                                            ? 'bg-red-500/20 border-red-500 text-red-400 animate-pulse'
-                                            : 'bg-white/5 border-white/10 text-gray-400 hover:text-gold hover:border-gold/40'
+                                            ? 'bg-red-100 dark:bg-red-950/50 border-red-400 text-red-600 animate-pulse'
+                                            : 'bg-[#FAF7F0] dark:bg-stone-800 border-[#E6D5B8] dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:text-maroon-800 hover:border-maroon-400'
                                     }`}
                                     title={isListening ? 'Listening... click to stop' : 'Speak to TN Mitra'}
                                 >
-                                    {isListening ? <Mic className="w-5 h-5 text-red-400 animate-spin" /> : <Mic className="w-5 h-5" />}
+                                    {isListening ? <Mic className="w-5 h-5 text-red-600 animate-spin" /> : <Mic className="w-5 h-5" />}
                                 </button>
 
                                 <input
@@ -664,13 +661,13 @@ export default function AiGuide({ districts = [], initialContext = {} }) {
                                                 ? `Ask TN Mitra about ${selectedDistrict} (places, food, itinerary, secret gems)...`
                                                 : 'Ask about any of the 38 districts, heritage, food trails, or budget plans...'
                                     }
-                                    className="flex-1 bg-slate-900/90 border border-white/15 focus:border-gold rounded-2xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gold"
+                                    className="flex-1 bg-[#FAF7F0] dark:bg-stone-950 border border-[#E6D5B8] dark:border-stone-700 rounded-2xl px-4 py-3 text-sm text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:border-maroon-800 dark:focus:border-amber-400"
                                 />
 
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim() || isLoading}
-                                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-gold via-amber-400 to-gold text-slate-950 font-bold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-lg shadow-gold/25 cursor-pointer flex items-center gap-2 flex-shrink-0"
+                                    className="px-6 py-3 rounded-2xl bg-maroon-800 hover:bg-maroon-900 text-white font-bold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:scale-102 active:scale-98 transition-all shadow-sm cursor-pointer flex items-center gap-2 flex-shrink-0"
                                 >
                                     <span>Send</span>
                                     <Send className="w-4 h-4" />

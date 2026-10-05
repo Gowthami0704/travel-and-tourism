@@ -1,0 +1,543 @@
+timestamp,run_id,step,ms,model,hardware_note
+2026-10-03 12:42:17,live_user,plan_generation,113.94,mistral,Local Offline Engine
+2026-10-03 12:42:17,1,plan_generation,114.4,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,1,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,1,anomaly_scan,1.59,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,1,end_to_end,114.49,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,13.51,mistral,Local Offline Engine
+2026-10-03 12:42:17,2,plan_generation,14.05,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,2,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,2,anomaly_scan,1.95,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,2,end_to_end,14.11,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,28.65,mistral,Local Offline Engine
+2026-10-03 12:42:17,3,plan_generation,29.04,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,3,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,3,anomaly_scan,1.53,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,3,end_to_end,29.07,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,12.69,mistral,Local Offline Engine
+2026-10-03 12:42:17,4,plan_generation,13.1,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,4,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,4,anomaly_scan,0.93,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,4,end_to_end,13.13,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,72.03,mistral,Local Offline Engine
+2026-10-03 12:42:17,5,plan_generation,72.48,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,5,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,5,anomaly_scan,0.85,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,5,end_to_end,72.53,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,29.87,mistral,Local Offline Engine
+2026-10-03 12:42:17,6,plan_generation,30.48,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,6,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,6,anomaly_scan,0.85,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,6,end_to_end,30.54,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,98.49,mistral,Local Offline Engine
+2026-10-03 12:42:17,7,plan_generation,99.07,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,7,text_generation,1.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,7,anomaly_scan,1.26,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,7,end_to_end,99.13,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,15.71,mistral,Local Offline Engine
+2026-10-03 12:42:17,8,plan_generation,16.21,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,8,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,8,anomaly_scan,1.65,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,8,end_to_end,16.26,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,85.73,mistral,Local Offline Engine
+2026-10-03 12:42:17,9,plan_generation,86.37,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,9,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,9,anomaly_scan,1.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,9,end_to_end,86.41,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,15.41,mistral,Local Offline Engine
+2026-10-03 12:42:17,10,plan_generation,15.87,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,10,text_generation,1.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,10,anomaly_scan,1.13,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,10,end_to_end,15.91,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,69.07,mistral,Local Offline Engine
+2026-10-03 12:42:17,11,plan_generation,69.53,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,11,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,11,anomaly_scan,1.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,11,end_to_end,69.57,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,28.72,mistral,Local Offline Engine
+2026-10-03 12:42:17,12,plan_generation,29.13,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,12,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,12,anomaly_scan,1.13,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,12,end_to_end,29.17,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,71.49,mistral,Local Offline Engine
+2026-10-03 12:42:17,13,plan_generation,72.1,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,13,text_generation,1.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,13,anomaly_scan,2.06,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,13,end_to_end,72.17,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,live_user,plan_generation,17.33,mistral,Local Offline Engine
+2026-10-03 12:42:17,14,plan_generation,40.14,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,14,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,14,anomaly_scan,1.5,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:17,14,end_to_end,40.25,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,32.1,mistral,Local Offline Engine
+2026-10-03 12:42:18,15,plan_generation,32.49,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,15,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,15,anomaly_scan,1.93,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,15,end_to_end,32.53,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,14.23,mistral,Local Offline Engine
+2026-10-03 12:42:18,16,plan_generation,14.66,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,16,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,16,anomaly_scan,1.43,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,16,end_to_end,14.69,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,86.92,mistral,Local Offline Engine
+2026-10-03 12:42:18,17,plan_generation,87.49,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,17,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,17,anomaly_scan,0.96,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,17,end_to_end,87.56,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,82.35,mistral,Local Offline Engine
+2026-10-03 12:42:18,18,plan_generation,82.91,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,18,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,18,anomaly_scan,2.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,18,end_to_end,82.95,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,65,mistral,Local Offline Engine
+2026-10-03 12:42:18,19,plan_generation,65.51,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,19,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,19,anomaly_scan,2.05,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,19,end_to_end,65.56,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,13.51,mistral,Local Offline Engine
+2026-10-03 12:42:18,20,plan_generation,14.13,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,20,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,20,anomaly_scan,1.36,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,20,end_to_end,14.2,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,28.61,mistral,Local Offline Engine
+2026-10-03 12:42:18,21,plan_generation,29.02,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,21,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,21,anomaly_scan,1.74,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,21,end_to_end,29.06,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,15.29,mistral,Local Offline Engine
+2026-10-03 12:42:18,22,plan_generation,15.68,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,22,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,22,anomaly_scan,1.03,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,22,end_to_end,15.72,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,65.54,mistral,Local Offline Engine
+2026-10-03 12:42:18,23,plan_generation,66.02,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,23,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,23,anomaly_scan,1.25,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,23,end_to_end,66.07,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,30.45,mistral,Local Offline Engine
+2026-10-03 12:42:18,24,plan_generation,31.09,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,24,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,24,anomaly_scan,1.65,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,24,end_to_end,31.14,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,87.73,mistral,Local Offline Engine
+2026-10-03 12:42:18,25,plan_generation,88.17,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,25,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,25,anomaly_scan,1.34,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,25,end_to_end,88.21,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,15.17,mistral,Local Offline Engine
+2026-10-03 12:42:18,26,plan_generation,15.58,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,26,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,26,anomaly_scan,2.04,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,26,end_to_end,15.62,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,74.13,mistral,Local Offline Engine
+2026-10-03 12:42:18,27,plan_generation,74.54,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,27,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,27,anomaly_scan,0.93,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,27,end_to_end,74.58,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,13.16,mistral,Local Offline Engine
+2026-10-03 12:42:18,28,plan_generation,13.57,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,28,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,28,anomaly_scan,1.63,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,28,end_to_end,13.61,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,68.58,mistral,Local Offline Engine
+2026-10-03 12:42:18,29,plan_generation,69.24,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,29,text_generation,1.1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,29,anomaly_scan,1.07,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,29,end_to_end,69.31,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,26.36,mistral,Local Offline Engine
+2026-10-03 12:42:18,30,plan_generation,26.82,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,30,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,30,anomaly_scan,2.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,30,end_to_end,26.86,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,75.23,mistral,Local Offline Engine
+2026-10-03 12:42:18,31,plan_generation,75.69,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,31,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,31,anomaly_scan,1.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,31,end_to_end,75.73,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,13.59,mistral,Local Offline Engine
+2026-10-03 12:42:18,32,plan_generation,14,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,32,text_generation,1.3,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,32,anomaly_scan,2.04,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,32,end_to_end,14.04,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,29.4,mistral,Local Offline Engine
+2026-10-03 12:42:18,33,plan_generation,29.87,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,33,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,33,anomaly_scan,1.04,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,33,end_to_end,29.91,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,14.36,mistral,Local Offline Engine
+2026-10-03 12:42:18,34,plan_generation,14.86,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,34,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,34,anomaly_scan,1.54,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,34,end_to_end,14.9,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,live_user,plan_generation,87.16,mistral,Local Offline Engine
+2026-10-03 12:42:18,35,plan_generation,87.6,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,35,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,35,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:18,35,end_to_end,87.64,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,76.69,mistral,Local Offline Engine
+2026-10-03 12:42:19,36,plan_generation,77.21,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,36,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,36,anomaly_scan,2.25,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,36,end_to_end,77.27,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,70.47,mistral,Local Offline Engine
+2026-10-03 12:42:19,37,plan_generation,70.95,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,37,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,37,anomaly_scan,2.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,37,end_to_end,70.99,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,16.29,mistral,Local Offline Engine
+2026-10-03 12:42:19,38,plan_generation,16.79,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,38,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,38,anomaly_scan,1.46,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,38,end_to_end,16.85,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,31.92,mistral,Local Offline Engine
+2026-10-03 12:42:19,39,plan_generation,32.38,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,39,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,39,anomaly_scan,1.33,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,39,end_to_end,32.42,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,13.65,mistral,Local Offline Engine
+2026-10-03 12:42:19,40,plan_generation,14.13,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,40,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,40,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,40,end_to_end,14.17,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,69.01,mistral,Local Offline Engine
+2026-10-03 12:42:19,41,plan_generation,69.9,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,41,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,41,anomaly_scan,1.16,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,41,end_to_end,69.96,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,28.91,mistral,Local Offline Engine
+2026-10-03 12:42:19,42,plan_generation,29.38,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,42,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,42,anomaly_scan,1.04,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,42,end_to_end,29.42,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,92.41,mistral,Local Offline Engine
+2026-10-03 12:42:19,43,plan_generation,93.16,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,43,text_generation,1.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,43,anomaly_scan,1.65,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,43,end_to_end,93.21,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,14.36,mistral,Local Offline Engine
+2026-10-03 12:42:19,44,plan_generation,14.83,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,44,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,44,anomaly_scan,1.74,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,44,end_to_end,14.87,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,74.38,mistral,Local Offline Engine
+2026-10-03 12:42:19,45,plan_generation,74.89,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,45,text_generation,1.3,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,45,anomaly_scan,0.85,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,45,end_to_end,74.95,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,12.63,mistral,Local Offline Engine
+2026-10-03 12:42:19,46,plan_generation,13.29,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,46,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,46,anomaly_scan,1.26,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,46,end_to_end,13.35,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,73.86,mistral,Local Offline Engine
+2026-10-03 12:42:19,47,plan_generation,74.88,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,47,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,47,anomaly_scan,0.98,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,47,end_to_end,74.96,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,31.54,mistral,Local Offline Engine
+2026-10-03 12:42:19,48,plan_generation,32.08,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,48,text_generation,1.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,48,anomaly_scan,1.77,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,48,end_to_end,32.16,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,74.53,mistral,Local Offline Engine
+2026-10-03 12:42:19,49,plan_generation,75.05,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,49,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,49,anomaly_scan,2.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,49,end_to_end,75.09,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,13.49,mistral,Local Offline Engine
+2026-10-03 12:42:19,50,plan_generation,13.99,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,50,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,50,anomaly_scan,2.25,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,50,end_to_end,14.05,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,28.84,mistral,Local Offline Engine
+2026-10-03 12:42:19,51,plan_generation,29.47,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,51,text_generation,1.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,51,anomaly_scan,1.86,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,51,end_to_end,29.53,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,13.37,mistral,Local Offline Engine
+2026-10-03 12:42:19,52,plan_generation,14.01,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,52,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,52,anomaly_scan,1.62,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,52,end_to_end,14.23,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,90.98,mistral,Local Offline Engine
+2026-10-03 12:42:19,53,plan_generation,91.51,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,53,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,53,anomaly_scan,1.54,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,53,end_to_end,91.55,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,76.17,mistral,Local Offline Engine
+2026-10-03 12:42:19,54,plan_generation,76.65,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,54,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,54,anomaly_scan,1.24,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,54,end_to_end,76.69,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,64.38,mistral,Local Offline Engine
+2026-10-03 12:42:19,55,plan_generation,64.85,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,55,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,55,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,55,end_to_end,64.89,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,live_user,plan_generation,13.88,mistral,Local Offline Engine
+2026-10-03 12:42:19,56,plan_generation,14.32,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,56,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,56,anomaly_scan,1.45,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:19,56,end_to_end,14.37,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,27.99,mistral,Local Offline Engine
+2026-10-03 12:42:20,57,plan_generation,29.2,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,57,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,57,anomaly_scan,1.06,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,57,end_to_end,29.27,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,15.51,mistral,Local Offline Engine
+2026-10-03 12:42:20,58,plan_generation,16.11,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,58,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,58,anomaly_scan,1.45,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,58,end_to_end,16.16,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,68.58,mistral,Local Offline Engine
+2026-10-03 12:42:20,59,plan_generation,69.06,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,59,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,59,anomaly_scan,0.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,59,end_to_end,69.1,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,29.32,mistral,Local Offline Engine
+2026-10-03 12:42:20,60,plan_generation,30.09,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,60,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,60,anomaly_scan,1.46,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,60,end_to_end,30.15,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,85.06,mistral,Local Offline Engine
+2026-10-03 12:42:20,61,plan_generation,85.53,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,61,text_generation,1.1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,61,anomaly_scan,1.44,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,61,end_to_end,85.58,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,13.86,mistral,Local Offline Engine
+2026-10-03 12:42:20,62,plan_generation,14.35,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,62,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,62,anomaly_scan,2.24,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,62,end_to_end,14.4,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,78.36,mistral,Local Offline Engine
+2026-10-03 12:42:20,63,plan_generation,78.82,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,63,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,63,anomaly_scan,1.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,63,end_to_end,78.86,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,14.13,mistral,Local Offline Engine
+2026-10-03 12:42:20,64,plan_generation,14.7,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,64,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,64,anomaly_scan,1,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,64,end_to_end,14.81,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,62.6,mistral,Local Offline Engine
+2026-10-03 12:42:20,65,plan_generation,63.24,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,65,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,65,anomaly_scan,1.55,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,65,end_to_end,63.29,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,27.86,mistral,Local Offline Engine
+2026-10-03 12:42:20,66,plan_generation,28.32,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,66,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,66,anomaly_scan,2.05,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,66,end_to_end,28.38,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,64.04,mistral,Local Offline Engine
+2026-10-03 12:42:20,67,plan_generation,64.5,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,67,text_generation,1.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,67,anomaly_scan,1.64,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,67,end_to_end,64.54,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,14.04,mistral,Local Offline Engine
+2026-10-03 12:42:20,68,plan_generation,14.53,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,68,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,68,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,68,end_to_end,14.56,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,29.64,mistral,Local Offline Engine
+2026-10-03 12:42:20,69,plan_generation,30.06,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,69,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,69,anomaly_scan,1.04,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,69,end_to_end,30.1,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,13.32,mistral,Local Offline Engine
+2026-10-03 12:42:20,70,plan_generation,13.71,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,70,text_generation,1.1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,70,anomaly_scan,1.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,70,end_to_end,13.75,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,85.53,mistral,Local Offline Engine
+2026-10-03 12:42:20,71,plan_generation,86,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,71,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,71,anomaly_scan,1.64,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,71,end_to_end,86.05,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,79.26,mistral,Local Offline Engine
+2026-10-03 12:42:20,72,plan_generation,79.7,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,72,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,72,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,72,end_to_end,79.74,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,66.41,mistral,Local Offline Engine
+2026-10-03 12:42:20,73,plan_generation,66.88,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,73,text_generation,0.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,73,anomaly_scan,1.15,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,73,end_to_end,66.93,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,15.58,mistral,Local Offline Engine
+2026-10-03 12:42:20,74,plan_generation,16.13,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,74,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,74,anomaly_scan,1.27,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,74,end_to_end,16.2,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,29.5,mistral,Local Offline Engine
+2026-10-03 12:42:20,75,plan_generation,30.51,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,75,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,75,anomaly_scan,0.85,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,75,end_to_end,30.57,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,13.97,mistral,Local Offline Engine
+2026-10-03 12:42:20,76,plan_generation,14.38,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,76,text_generation,1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,76,anomaly_scan,1.24,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,76,end_to_end,14.43,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,66.52,mistral,Local Offline Engine
+2026-10-03 12:42:20,77,plan_generation,67.01,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,77,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,77,anomaly_scan,1.34,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,77,end_to_end,67.06,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,live_user,plan_generation,28.51,mistral,Local Offline Engine
+2026-10-03 12:42:20,78,plan_generation,28.93,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,78,text_generation,1.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,78,anomaly_scan,1.43,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:20,78,end_to_end,28.96,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,85.23,mistral,Local Offline Engine
+2026-10-03 12:42:21,79,plan_generation,85.76,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,79,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,79,anomaly_scan,1.85,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,79,end_to_end,85.81,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,16.52,mistral,Local Offline Engine
+2026-10-03 12:42:21,80,plan_generation,17.07,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,80,text_generation,1.2,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,80,anomaly_scan,1.14,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,80,end_to_end,17.11,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,81.91,mistral,Local Offline Engine
+2026-10-03 12:42:21,81,plan_generation,82.38,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,81,text_generation,1.5,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,81,anomaly_scan,1.34,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,81,end_to_end,82.43,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,14.2,mistral,Local Offline Engine
+2026-10-03 12:42:21,82,plan_generation,14.67,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,82,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,82,anomaly_scan,1.74,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,82,end_to_end,14.72,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,64.49,mistral,Local Offline Engine
+2026-10-03 12:42:21,83,plan_generation,65.03,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,83,text_generation,1.1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,83,anomaly_scan,2.25,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,83,end_to_end,65.08,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,29.63,mistral,Local Offline Engine
+2026-10-03 12:42:21,84,plan_generation,30.18,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,84,text_generation,0.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,84,anomaly_scan,2.15,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,84,end_to_end,30.23,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,69.69,mistral,Local Offline Engine
+2026-10-03 12:42:21,85,plan_generation,70.21,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,85,text_generation,1.6,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,85,anomaly_scan,1.95,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,85,end_to_end,70.26,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,13.19,mistral,Local Offline Engine
+2026-10-03 12:42:21,86,plan_generation,13.65,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,86,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,86,anomaly_scan,0.84,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,86,end_to_end,13.69,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,28.56,mistral,Local Offline Engine
+2026-10-03 12:42:21,87,plan_generation,29.16,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,87,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,87,anomaly_scan,1.05,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,87,end_to_end,29.22,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,14.43,mistral,Local Offline Engine
+2026-10-03 12:42:21,88,plan_generation,14.91,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,88,text_generation,1.4,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,88,anomaly_scan,2.25,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,88,end_to_end,14.97,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,87.99,mistral,Local Offline Engine
+2026-10-03 12:42:21,89,plan_generation,88.43,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,89,text_generation,1.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,89,anomaly_scan,1.74,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,89,end_to_end,88.48,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,77.18,mistral,Local Offline Engine
+2026-10-03 12:42:21,90,plan_generation,77.64,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,90,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,90,anomaly_scan,1.54,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,90,end_to_end,77.68,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,67.91,mistral,Local Offline Engine
+2026-10-03 12:42:21,91,plan_generation,68.38,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,91,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,91,anomaly_scan,1.64,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,91,end_to_end,68.43,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,14.96,mistral,Local Offline Engine
+2026-10-03 12:42:21,92,plan_generation,15.6,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,92,text_generation,0.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,92,anomaly_scan,1.15,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,92,end_to_end,15.66,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,28.34,mistral,Local Offline Engine
+2026-10-03 12:42:21,93,plan_generation,28.79,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,93,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,93,anomaly_scan,1.64,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,93,end_to_end,28.83,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,13.39,mistral,Local Offline Engine
+2026-10-03 12:42:21,94,plan_generation,13.84,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,94,text_generation,0.9,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,94,anomaly_scan,1.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,94,end_to_end,13.88,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,66.54,mistral,Local Offline Engine
+2026-10-03 12:42:21,95,plan_generation,67.04,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,95,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,95,anomaly_scan,1.44,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,95,end_to_end,67.09,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,28.93,mistral,Local Offline Engine
+2026-10-03 12:42:21,96,plan_generation,29.43,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,96,text_generation,0.7,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,96,anomaly_scan,1.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,96,end_to_end,29.47,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,85.37,mistral,Local Offline Engine
+2026-10-03 12:42:21,97,plan_generation,85.85,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,97,text_generation,1.1,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,97,anomaly_scan,1.94,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,97,end_to_end,85.89,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,14.02,mistral,Local Offline Engine
+2026-10-03 12:42:21,98,plan_generation,14.84,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,98,text_generation,1.8,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,98,anomaly_scan,1.87,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,98,end_to_end,14.91,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,live_user,plan_generation,79.45,mistral,Local Offline Engine
+2026-10-03 12:42:21,99,plan_generation,79.88,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,99,text_generation,1.3,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,99,anomaly_scan,1.23,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:21,99,end_to_end,79.91,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:22,live_user,plan_generation,13.75,mistral,Local Offline Engine
+2026-10-03 12:42:22,100,plan_generation,14.16,deterministic_engine,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:22,100,text_generation,1.3,mistral,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:22,100,anomaly_scan,1.24,isolation_forest,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:22,100,end_to_end,14.21,composite_framework,Local Host (Offline CPU / x86_64)
+2026-10-03 12:42:32,live_user,text_generation,1044.36,mistral,Local Offline Engine
+2026-10-03 12:42:32,live_user,plan_generation,1213.8,mistral,Local Offline Engine
+2026-10-05 08:45:34,live_user,text_generation,1042.73,mistral,Local Offline Engine
+2026-10-05 08:45:34,live_user,plan_generation,1265.38,mistral,Local Offline Engine
+2026-10-05 10:22:42,live_user,plan_generation,247.14,mistral,Local Offline Engine
+2026-10-05 10:22:50,live_user,plan_generation,246.11,mistral,Local Offline Engine
+2026-10-05 10:59:55,live_user,plan_generation,163.01,mistral,Local Offline Engine
+2026-10-05 10:59:58,live_user,plan_generation,169.04,mistral,Local Offline Engine
+2026-10-05 11:20:15,live_user,plan_generation,279.64,mistral,Local Offline Engine
+2026-10-05 12:04:15,live_user,plan_generation,269.54,mistral,Local Offline Engine
+2026-10-05 12:04:52,live_user,text_generation,1130.62,mistral,Local Offline Engine
+2026-10-05 12:04:52,live_user,plan_generation,1400.83,mistral,Local Offline Engine
+2026-10-05 12:05:10,live_user,text_generation,1046.49,mistral,Local Offline Engine
+2026-10-05 12:05:10,live_user,plan_generation,1164.4,mistral,Local Offline Engine
+2026-10-05 12:06:57,live_user,plan_generation,113.65,mistral,Local Offline Engine
+2026-10-05 12:07:00,live_user,plan_generation,69.86,mistral,Local Offline Engine
+2026-10-05 12:07:02,live_user,plan_generation,99.91,mistral,Local Offline Engine
+2026-10-05 12:07:14,live_user,plan_generation,79.94,mistral,Local Offline Engine
+2026-10-05 12:13:33,live_user,plan_generation,107.16,mistral,Local Offline Engine
+2026-10-05 12:31:11,live_user,text_generation,1066.72,mistral,Local Offline Engine
+2026-10-05 12:31:11,live_user,plan_generation,1197.24,mistral,Local Offline Engine
+2026-10-05 12:31:36,live_user,plan_generation,85.26,mistral,Local Offline Engine
+2026-10-05 12:39:08,live_user,plan_generation,164.26,mistral,Local Offline Engine
+2026-10-05 12:39:27,live_user,text_generation,1057.95,mistral,Local Offline Engine
+2026-10-05 12:39:27,live_user,plan_generation,1201.86,mistral,Local Offline Engine
+2026-10-05 12:39:29,live_user,plan_generation,182.34,mistral,Local Offline Engine
+2026-10-05 12:39:31,live_user,plan_generation,208.96,mistral,Local Offline Engine
+2026-10-05 12:39:36,live_user,text_generation,1041.71,mistral,Local Offline Engine
+2026-10-05 12:39:36,live_user,plan_generation,1141.95,mistral,Local Offline Engine
+2026-10-05 12:39:37,live_user,plan_generation,98.81,mistral,Local Offline Engine
+2026-10-05 12:39:39,live_user,text_generation,1038.83,mistral,Local Offline Engine
+2026-10-05 12:39:39,live_user,plan_generation,1254.05,mistral,Local Offline Engine
+2026-10-05 12:39:40,live_user,text_generation,1052.29,mistral,Local Offline Engine
+2026-10-05 12:39:40,live_user,plan_generation,1312.31,mistral,Local Offline Engine
+2026-10-05 12:39:41,live_user,plan_generation,230.37,mistral,Local Offline Engine
+2026-10-05 12:39:44,live_user,plan_generation,210.31,mistral,Local Offline Engine
+2026-10-05 12:42:00,live_user,plan_generation,240.56,mistral,Local Offline Engine
+2026-10-05 12:42:01,live_user,plan_generation,234.89,mistral,Local Offline Engine
+2026-10-05 12:42:14,live_user,plan_generation,130.04,mistral,Local Offline Engine
+2026-10-05 12:42:14,live_user,plan_generation,165.14,mistral,Local Offline Engine
+2026-10-05 12:42:41,live_user,plan_generation,112.53,mistral,Local Offline Engine
+2026-10-05 12:42:41,live_user,plan_generation,143.9,mistral,Local Offline Engine

@@ -93,8 +93,8 @@ export default function HiddenGemsGallery({ initialData = null, limit = 16 }) {
                                     <Sparkles className="w-5 h-5 text-gold" />
                                 </div>
                                 <span className="text-xs font-bold text-white line-clamp-1 px-3">{displayName}</span>
-                                <span className="text-[10px] text-purple-400/90 font-medium uppercase tracking-wider mt-1">
-                                    📍 Verified Offbeat Gem
+                                <span className="text-[10px] text-purple-400/90 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
+                                    <Sparkles className="w-3 h-3 text-gold" /> Hidden gem
                                 </span>
 
                                 {/* Image with error handler */}
@@ -105,9 +105,7 @@ export default function HiddenGemsGallery({ initialData = null, limit = 16 }) {
                                         style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                                         className="absolute inset-0 w-full h-[200px] object-cover transition-transform duration-500 group-hover:scale-105 rounded-t-2xl"
                                         loading="lazy"
-                                        onError={(e) => {
-                                            e.currentTarget.style.display = 'none';
-                                        }}
+                                        onError={(e) => handleImageError(e, item.category || 'heritage')}
                                     />
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-black/30 pointer-events-none" />
@@ -121,8 +119,9 @@ export default function HiddenGemsGallery({ initialData = null, limit = 16 }) {
                                 </div>
 
                                 {/* District Badge */}
-                                <div className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[11px] font-semibold text-white pointer-events-none">
-                                    📍 {item.district}
+                                <div className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[11px] font-semibold text-white pointer-events-none flex items-center gap-1">
+                                    <MapPin className="w-3 h-3 text-gold" />
+                                    <span>{item.district}</span>
                                 </div>
                             </div>
 

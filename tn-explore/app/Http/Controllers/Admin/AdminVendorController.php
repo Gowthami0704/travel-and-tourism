@@ -68,6 +68,10 @@ class AdminVendorController extends Controller
             'reason' => 'nullable|string|max:500',
         ]);
 
+        if ($request->status === 'active' && $vendor->kyc_status !== 'verified') {
+            return back()->withErrors(['status' => 'Verify the vendor KYC before approving.']);
+        }
+
         $prevStatus = $vendor->status;
         $vendor->update(['status' => $request->status]);
 
@@ -120,5 +124,132 @@ class AdminVendorController extends Controller
         );
 
         return back()->with('success', "Official warning notice dispatched to {$vendor->business_name}.");
+    }
+
+    public function downloadKycDocument(Request $request, $id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $type = $request->query('type', 'license');
+
+        $docPath = match ($type) {
+            'aadhaar' => $vendor->aadhaar_document_path,
+            'gstin'   => $vendor->gstin_document_path,
+            default   => $vendor->tourism_license_path ?: $vendor->license_url,
+        };
+
+        if (empty($docPath)) {
+            abort(404, "No {$type} document on file for this partner.");
+        }
+
+        $relativePath = ltrim(str_replace('/storage/', '', $docPath), '/');
+
+        // Check private local disk first
+        if (\Illuminate\Support\Facades\Storage::disk('local')->exists($relativePath)) {
+            AuditLog::log(
+                'admin_viewed_kyc_document',
+                'vendor',
+                $vendor->id,
+                "Admin inspected {$type} document ({$relativePath}) for partner: {$vendor->business_name}."
+            );
+            $fullPath = \Illuminate\Support\Facades\Storage::disk('local')->path($relativePath);
+            return response()->file($fullPath);
+        }
+
+        // Fallback for existing legacy uploads in public disk
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($relativePath)) {
+            AuditLog::log(
+                'admin_viewed_kyc_document',
+                'vendor',
+                $vendor->id,
+                "Admin inspected legacy {$type} document ({$relativePath}) for partner: {$vendor->business_name}."
+            );
+            $fullPath = \Illuminate\Support\Facades\Storage::disk('public')->path($relativePath);
+            return response()->file($fullPath);
+        }
+
+        abort(404, 'Requested verification document file not found on server disk.');
+    }
+
+    public function approvePrimaryDistrict(Request $request, $id, $districtId): RedirectResponse
+    {
+        $vendor = Vendor::findOrFail($id);
+        $vd = \App\Models\VendorDistrict::where('vendor_id', $vendor->id)
+            ->where('district_id', $districtId)
+            ->firstOrFail();
+
+        $vd->update([
+            'level' => 'primary',
+            'status' => 'approved',
+            'reviewed_at' => now(),
+            'reviewed_by' => auth()->id(),
+        ]);
+
+        AuditLog::log(
+            'primary_district_approved',
+            'vendor',
+            $vendor->id,
+            "Admin approved primary district (ID: {$districtId}) for {$vendor->business_name}."
+        );
+
+        return back()->with('success', "Primary district approved for {$vendor->business_name}.");
+    }
+
+    public function revokeExtendedDistrict(Request $request, $id, $districtId): RedirectResponse
+    {
+        $request->validate([
+            'reason' => 'nullable|string|max:500',
+        ]);
+
+        $vendor = Vendor::findOrFail($id);
+        $vd = \App\Models\VendorDistrict::where('vendor_id', $vendor->id)
+            ->where('district_id', $districtId)
+            ->first();
+
+        if ($vd) {
+            $vd->delete();
+        }
+
+        AuditLog::log(
+            'extended_district_revoked',
+            'vendor',
+            $vendor->id,
+            "Admin revoked extended district (ID: {$districtId}) for {$vendor->business_name}. Reason: " . ($request->reason ?? 'Quality/Coverage audit')
+        );
+
+        return back()->with('success', "Extended district revoked for {$vendor->business_name}.");
+    }
+
+    public function updateCredentials(Request $request, $id): RedirectResponse
+    {
+        $vendor = Vendor::with('user')->findOrFail($id);
+        $user = $vendor->user;
+        if (!$user) {
+            return back()->withErrors(['user' => 'No linked user account found for this vendor.']);
+        }
+
+        $request->validate([
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'name' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:6',
+        ]);
+
+        $user->email = $request->email;
+        if ($request->filled('name')) {
+            $user->name = $request->name;
+            $vendor->update(['owner_name' => $request->name]);
+        }
+        if ($request->filled('password')) {
+            $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+        }
+        $user->save();
+
+        AuditLog::log(
+            'admin_updated_vendor_credentials',
+            'user',
+            $user->id,
+            "Admin updated credentials (email: {$user->email}) for Vendor #{$vendor->id} ({$vendor->business_name})"
+        );
+
+        return back()->with('success', "Credentials for '{$vendor->business_name}' ({$user->email}) updated successfully.");
     }
 }

@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required|in:tourist,vendor',
+            'role' => 'nullable|in:tourist,vendor',
             'phone' => 'nullable|string|max:20',
             'business_name' => 'required_if:role,vendor|nullable|string|max:255',
             'service_type' => 'required_if:role,vendor|nullable|in:hotel,food,rental_vehicle,tour_package',
@@ -48,11 +48,13 @@ class RegisteredUserController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
+        $role = $request->input('role', 'tourist');
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $role,
             'phone' => $request->phone,
         ]);
 

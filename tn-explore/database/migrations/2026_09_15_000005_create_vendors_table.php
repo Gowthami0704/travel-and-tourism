@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained()->cascadeOnDelete();
             $table->text('description')->nullable();
             $table->text('logo_url')->nullable();
-            $table->enum('status', ['pending', 'active', 'suspended'])->default('pending');
+            $table->string('status')->default('pending_review');
             $table->decimal('trust_score', 4, 3)->default(0.850);
             $table->timestamps();
         });

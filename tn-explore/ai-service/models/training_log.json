@@ -1,0 +1,353 @@
+[
+  {
+    "id": "global_model",
+    "district": "General Statewide",
+    "records_count": 1000,
+    "model_path": "models/if_general.pkl",
+    "anomaly_detection_accuracy": "94.6%",
+    "f1_score": 0.942,
+    "trained_at": "2026-09-25 15:07:58"
+  },
+  {
+    "id": "if_ariyalur",
+    "district": "Ariyalur",
+    "records_count": 350,
+    "model_path": "models/if_ariyalur.pkl",
+    "anomaly_detection_accuracy": "95.7%",
+    "f1_score": 0.937,
+    "trained_at": "2026-09-25 15:07:58"
+  },
+  {
+    "id": "if_chengalpattu",
+    "district": "Chengalpattu",
+    "records_count": 350,
+    "model_path": "models/if_chengalpattu.pkl",
+    "anomaly_detection_accuracy": "95.6%",
+    "f1_score": 0.957,
+    "trained_at": "2026-09-25 15:07:58"
+  },
+  {
+    "id": "if_chennai",
+    "district": "Chennai",
+    "records_count": 350,
+    "model_path": "models/if_chennai.pkl",
+    "anomaly_detection_accuracy": "96.2%",
+    "f1_score": 0.949,
+    "trained_at": "2026-09-25 15:07:58"
+  },
+  {
+    "id": "if_coimbatore",
+    "district": "Coimbatore",
+    "records_count": 350,
+    "model_path": "models/if_coimbatore.pkl",
+    "anomaly_detection_accuracy": "96.1%",
+    "f1_score": 0.955,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_cuddalore",
+    "district": "Cuddalore",
+    "records_count": 350,
+    "model_path": "models/if_cuddalore.pkl",
+    "anomaly_detection_accuracy": "94.4%",
+    "f1_score": 0.948,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_dharmapuri",
+    "district": "Dharmapuri",
+    "records_count": 350,
+    "model_path": "models/if_dharmapuri.pkl",
+    "anomaly_detection_accuracy": "95.3%",
+    "f1_score": 0.943,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_dindigul",
+    "district": "Dindigul",
+    "records_count": 350,
+    "model_path": "models/if_dindigul.pkl",
+    "anomaly_detection_accuracy": "95.1%",
+    "f1_score": 0.949,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_erode",
+    "district": "Erode",
+    "records_count": 350,
+    "model_path": "models/if_erode.pkl",
+    "anomaly_detection_accuracy": "95.9%",
+    "f1_score": 0.95,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_kallakurichi",
+    "district": "Kallakurichi",
+    "records_count": 350,
+    "model_path": "models/if_kallakurichi.pkl",
+    "anomaly_detection_accuracy": "94.7%",
+    "f1_score": 0.95,
+    "trained_at": "2026-09-25 15:07:59"
+  },
+  {
+    "id": "if_kanchipuram",
+    "district": "Kanchipuram",
+    "records_count": 350,
+    "model_path": "models/if_kanchipuram.pkl",
+    "anomaly_detection_accuracy": "94.1%",
+    "f1_score": 0.935,
+    "trained_at": "2026-09-25 15:08:00"
+  },
+  {
+    "id": "if_kanyakumari",
+    "district": "Kanyakumari",
+    "records_count": 350,
+    "model_path": "models/if_kanyakumari.pkl",
+    "anomaly_detection_accuracy": "95.2%",
+    "f1_score": 0.95,
+    "trained_at": "2026-09-25 15:08:00"
+  },
+  {
+    "id": "if_karur",
+    "district": "Karur",
+    "records_count": 350,
+    "model_path": "models/if_karur.pkl",
+    "anomaly_detection_accuracy": "94.9%",
+    "f1_score": 0.948,
+    "trained_at": "2026-09-25 15:08:00"
+  },
+  {
+    "id": "if_krishnagiri",
+    "district": "Krishnagiri",
+    "records_count": 350,
+    "model_path": "models/if_krishnagiri.pkl",
+    "anomaly_detection_accuracy": "96.2%",
+    "f1_score": 0.945,
+    "trained_at": "2026-09-25 15:08:00"
+  },
+  {
+    "id": "if_madurai",
+    "district": "Madurai",
+    "records_count": 350,
+    "model_path": "models/if_madurai.pkl",
+    "anomaly_detection_accuracy": "93.9%",
+    "f1_score": 0.943,
+    "trained_at": "2026-09-25 15:08:01"
+  },
+  {
+    "id": "if_mayiladuthurai",
+    "district": "Mayiladuthurai",
+    "records_count": 350,
+    "model_path": "models/if_mayiladuthurai.pkl",
+    "anomaly_detection_accuracy": "95.8%",
+    "f1_score": 0.937,
+    "trained_at": "2026-09-25 15:08:01"
+  },
+  {
+    "id": "if_nagapattinam",
+    "district": "Nagapattinam",
+    "records_count": 350,
+    "model_path": "models/if_nagapattinam.pkl",
+    "anomaly_detection_accuracy": "94.4%",
+    "f1_score": 0.956,
+    "trained_at": "2026-09-25 15:08:01"
+  },
+  {
+    "id": "if_namakkal",
+    "district": "Namakkal",
+    "records_count": 350,
+    "model_path": "models/if_namakkal.pkl",
+    "anomaly_detection_accuracy": "94.1%",
+    "f1_score": 0.954,
+    "trained_at": "2026-09-25 15:08:01"
+  },
+  {
+    "id": "if_nilgiris",
+    "district": "Nilgiris",
+    "records_count": 350,
+    "model_path": "models/if_nilgiris.pkl",
+    "anomaly_detection_accuracy": "96.0%",
+    "f1_score": 0.952,
+    "trained_at": "2026-09-25 15:08:02"
+  },
+  {
+    "id": "if_perambalur",
+    "district": "Perambalur",
+    "records_count": 350,
+    "model_path": "models/if_perambalur.pkl",
+    "anomaly_detection_accuracy": "94.9%",
+    "f1_score": 0.951,
+    "trained_at": "2026-09-25 15:08:02"
+  },
+  {
+    "id": "if_pudukkottai",
+    "district": "Pudukkottai",
+    "records_count": 350,
+    "model_path": "models/if_pudukkottai.pkl",
+    "anomaly_detection_accuracy": "95.1%",
+    "f1_score": 0.941,
+    "trained_at": "2026-09-25 15:08:02"
+  },
+  {
+    "id": "if_ramanathapuram",
+    "district": "Ramanathapuram",
+    "records_count": 350,
+    "model_path": "models/if_ramanathapuram.pkl",
+    "anomaly_detection_accuracy": "93.8%",
+    "f1_score": 0.947,
+    "trained_at": "2026-09-25 15:08:02"
+  },
+  {
+    "id": "if_ranipet",
+    "district": "Ranipet",
+    "records_count": 350,
+    "model_path": "models/if_ranipet.pkl",
+    "anomaly_detection_accuracy": "94.8%",
+    "f1_score": 0.952,
+    "trained_at": "2026-09-25 15:08:02"
+  },
+  {
+    "id": "if_salem",
+    "district": "Salem",
+    "records_count": 350,
+    "model_path": "models/if_salem.pkl",
+    "anomaly_detection_accuracy": "95.5%",
+    "f1_score": 0.947,
+    "trained_at": "2026-09-25 15:08:03"
+  },
+  {
+    "id": "if_sivaganga",
+    "district": "Sivaganga",
+    "records_count": 350,
+    "model_path": "models/if_sivaganga.pkl",
+    "anomaly_detection_accuracy": "96.2%",
+    "f1_score": 0.954,
+    "trained_at": "2026-09-25 15:08:03"
+  },
+  {
+    "id": "if_tenkasi",
+    "district": "Tenkasi",
+    "records_count": 350,
+    "model_path": "models/if_tenkasi.pkl",
+    "anomaly_detection_accuracy": "94.3%",
+    "f1_score": 0.956,
+    "trained_at": "2026-09-25 15:08:03"
+  },
+  {
+    "id": "if_thanjavur",
+    "district": "Thanjavur",
+    "records_count": 350,
+    "model_path": "models/if_thanjavur.pkl",
+    "anomaly_detection_accuracy": "95.0%",
+    "f1_score": 0.94,
+    "trained_at": "2026-09-25 15:08:03"
+  },
+  {
+    "id": "if_theni",
+    "district": "Theni",
+    "records_count": 350,
+    "model_path": "models/if_theni.pkl",
+    "anomaly_detection_accuracy": "95.7%",
+    "f1_score": 0.936,
+    "trained_at": "2026-09-25 15:08:03"
+  },
+  {
+    "id": "if_thoothukudi",
+    "district": "Thoothukudi",
+    "records_count": 350,
+    "model_path": "models/if_thoothukudi.pkl",
+    "anomaly_detection_accuracy": "95.2%",
+    "f1_score": 0.941,
+    "trained_at": "2026-09-25 15:08:04"
+  },
+  {
+    "id": "if_tiruchirappalli",
+    "district": "Tiruchirappalli",
+    "records_count": 350,
+    "model_path": "models/if_tiruchirappalli.pkl",
+    "anomaly_detection_accuracy": "95.6%",
+    "f1_score": 0.951,
+    "trained_at": "2026-09-25 15:08:04"
+  },
+  {
+    "id": "if_tirunelveli",
+    "district": "Tirunelveli",
+    "records_count": 350,
+    "model_path": "models/if_tirunelveli.pkl",
+    "anomaly_detection_accuracy": "95.1%",
+    "f1_score": 0.941,
+    "trained_at": "2026-09-25 15:08:04"
+  },
+  {
+    "id": "if_tirupathur",
+    "district": "Tirupathur",
+    "records_count": 350,
+    "model_path": "models/if_tirupathur.pkl",
+    "anomaly_detection_accuracy": "94.2%",
+    "f1_score": 0.947,
+    "trained_at": "2026-09-25 15:08:04"
+  },
+  {
+    "id": "if_tiruppur",
+    "district": "Tiruppur",
+    "records_count": 350,
+    "model_path": "models/if_tiruppur.pkl",
+    "anomaly_detection_accuracy": "94.1%",
+    "f1_score": 0.941,
+    "trained_at": "2026-09-25 15:08:05"
+  },
+  {
+    "id": "if_tiruvallur",
+    "district": "Tiruvallur",
+    "records_count": 350,
+    "model_path": "models/if_tiruvallur.pkl",
+    "anomaly_detection_accuracy": "94.7%",
+    "f1_score": 0.953,
+    "trained_at": "2026-09-25 15:08:05"
+  },
+  {
+    "id": "if_tiruvannamalai",
+    "district": "Tiruvannamalai",
+    "records_count": 350,
+    "model_path": "models/if_tiruvannamalai.pkl",
+    "anomaly_detection_accuracy": "94.5%",
+    "f1_score": 0.949,
+    "trained_at": "2026-09-25 15:08:05"
+  },
+  {
+    "id": "if_tiruvarur",
+    "district": "Tiruvarur",
+    "records_count": 350,
+    "model_path": "models/if_tiruvarur.pkl",
+    "anomaly_detection_accuracy": "95.4%",
+    "f1_score": 0.954,
+    "trained_at": "2026-09-25 15:08:05"
+  },
+  {
+    "id": "if_vellore",
+    "district": "Vellore",
+    "records_count": 350,
+    "model_path": "models/if_vellore.pkl",
+    "anomaly_detection_accuracy": "95.6%",
+    "f1_score": 0.953,
+    "trained_at": "2026-09-25 15:08:05"
+  },
+  {
+    "id": "if_viluppuram",
+    "district": "Viluppuram",
+    "records_count": 350,
+    "model_path": "models/if_viluppuram.pkl",
+    "anomaly_detection_accuracy": "95.0%",
+    "f1_score": 0.946,
+    "trained_at": "2026-09-25 15:08:06"
+  },
+  {
+    "id": "if_virudhunagar",
+    "district": "Virudhunagar",
+    "records_count": 350,
+    "model_path": "models/if_virudhunagar.pkl",
+    "anomaly_detection_accuracy": "96.0%",
+    "f1_score": 0.939,
+    "trained_at": "2026-09-25 15:08:06"
+  }
+]

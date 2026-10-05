@@ -24,97 +24,105 @@ export default function TripMateToast({ trip, currentUser, onJoined, onDismiss }
     };
 
     return (
-        <div className="fixed bottom-5 right-5 z-50 max-w-sm sm:max-w-md w-full animate-slideUp">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#0F172A]/95 via-[#131E38]/95 to-[#0B1120]/95 backdrop-blur-xl border-2 border-purple-500/50 shadow-2xl shadow-purple-500/20 text-white relative overflow-hidden">
+        <div className="fixed bottom-24 right-4 sm:right-6 z-40 max-w-sm sm:max-w-md w-full animate-slideUp">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-2xl border border-stone-200 dark:border-stone-700 shadow-2xl shadow-stone-900/15 text-stone-900 dark:text-white relative overflow-hidden">
                 {/* Ambient Glow */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 dark:bg-purple-500/15 rounded-full blur-2xl pointer-events-none" />
 
                 {/* Header Row */}
-                <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="flex items-center gap-2">
-                        <div className="relative w-9 h-9 rounded-xl bg-purple-950 border border-purple-400/40 flex items-center justify-center text-sm font-bold text-purple-300 flex-shrink-0">
+                <div className="flex items-start justify-between gap-3 mb-2.5">
+                    <div className="flex items-center gap-2.5">
+                        <div className="relative w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-sm font-bold text-purple-700 dark:text-purple-300 flex-shrink-0 shadow-sm">
                             {trip.creatorName?.charAt(0) || 'K'}
                             {trip.creatorVerified && (
-                                <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-[#0A0E1A] flex items-center justify-center shadow-md">
+                                <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md">
                                     <ShieldCheck className="w-3 h-3 text-white" />
                                 </span>
                             )}
                         </div>
 
                         <div>
-                            <div className="flex items-center gap-1.5">
-                                <span className="font-bold text-xs text-white truncate max-w-[140px]">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-bold text-sm text-stone-900 dark:text-white truncate max-w-[150px]">
                                     {trip.creatorName}
                                 </span>
-                                <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold border border-emerald-500/30 flex items-center gap-0.5">
-                                    <ShieldCheck className="w-2.5 h-2.5" />
+                                <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[10px] font-bold border border-emerald-200 dark:border-emerald-800 flex items-center gap-0.5">
+                                    <ShieldCheck className="w-3 h-3" />
                                     Verified
                                 </span>
                             </div>
-                            <span className="text-[10px] text-purple-300 font-medium">New Trip Mate Ad</span>
+                            <span className="text-[11px] text-purple-600 dark:text-purple-400 font-semibold flex items-center gap-1 mt-0.5">
+                                <Sparkles className="w-3 h-3 text-purple-500 animate-pulse" />
+                                New Trip Mate Ad
+                            </span>
                         </div>
                     </div>
 
+                    {/* Top Right Close / Dismiss button */}
                     <button
                         type="button"
                         onClick={handleClose}
-                        className="p-1 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                        title="Dismiss notification"
+                        className="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 rounded-xl transition-all cursor-pointer hover:scale-105 active:scale-95"
                     >
                         <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Message Body */}
-                <p className="text-xs text-gray-200 leading-relaxed mb-3">
-                    <strong className="text-white">{trip.creatorName}</strong> is looking for{' '}
-                    <span className="text-gold font-bold">{trip.slotsNeeded - trip.slotsFilled} travel mates</span> for a{' '}
-                    <span className="text-emerald-300 font-bold">{trip.district}</span> trip starting on{' '}
-                    <span className="text-purple-300 font-bold">{new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>!
+                <p className="text-xs sm:text-sm text-stone-700 dark:text-stone-200 leading-relaxed mb-3.5">
+                    <strong className="text-stone-900 dark:text-white">{trip.creatorName}</strong> is looking for{' '}
+                    <span className="text-amber-700 dark:text-amber-400 font-bold">{trip.slotsNeeded - trip.slotsFilled} travel mates</span> for a{' '}
+                    <span className="text-emerald-700 dark:text-emerald-400 font-bold">{trip.district}</span> trip starting on{' '}
+                    <span className="text-purple-700 dark:text-purple-400 font-bold">{new Date(trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>!
                 </p>
 
                 {/* Meta details */}
-                <div className="flex items-center gap-3 text-[11px] text-gray-400 mb-3 bg-white/[0.03] p-2 rounded-lg border border-white/5">
-                    <span className="flex items-center gap-1 text-gray-300">
-                        <MapPin className="w-3 h-3 text-gold" />
+                <div className="flex items-center gap-3 text-[11px] text-stone-600 dark:text-stone-400 mb-4 bg-[#FAF7F0] dark:bg-stone-800/70 p-2.5 rounded-xl border border-stone-200 dark:border-stone-700">
+                    <span className="flex items-center gap-1 text-stone-800 dark:text-stone-200 font-medium">
+                        <MapPin className="w-3.5 h-3.5 text-amber-600" />
                         {trip.district}
                     </span>
                     <span>•</span>
-                    <span className="flex items-center gap-1 text-gray-300">
-                        <Users className="w-3 h-3 text-purple-400" />
+                    <span className="flex items-center gap-1 text-stone-800 dark:text-stone-200 font-medium">
+                        <Users className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                         {trip.slotsFilled}/{trip.slotsNeeded} Slots
                     </span>
                     {trip.estimatedBudget && (
                         <>
                             <span>•</span>
-                            <span className="font-bold text-gold">~₹{trip.estimatedBudget}</span>
+                            <span className="font-bold text-amber-700 dark:text-amber-400 font-mono">~₹{trip.estimatedBudget}</span>
                         </>
                     )}
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                     {joined ? (
-                        <div className="w-full py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-1.5">
+                        <div className="w-full py-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold text-center flex items-center justify-center gap-2 shadow-sm">
                             <Check className="w-4 h-4" />
                             <span>Join Request Sent to {trip.creatorName}!</span>
                         </div>
                     ) : (
                         <>
+                            {/* Join Trip button */}
                             <button
                                 type="button"
                                 onClick={handleJoin}
-                                className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-gold via-amber-300 to-gold text-[#0A0E1A] text-xs font-extrabold shadow-lg shadow-gold/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-stone-950 text-xs font-extrabold shadow-md shadow-amber-500/20 hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                             >
-                                <Sparkles className="w-3.5 h-3.5 fill-current" />
+                                <Sparkles className="w-4 h-4 fill-current" />
                                 <span>Join Trip</span>
                             </button>
 
+                            {/* Ignore Option Button */}
                             <button
                                 type="button"
                                 onClick={handleClose}
-                                className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-gray-300 hover:text-white text-xs font-semibold transition-all cursor-pointer"
+                                className="py-2.5 px-4 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-stone-800 dark:hover:bg-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 text-xs font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 hover:scale-102 active:scale-98"
                             >
-                                Ignore
+                                <X className="w-3.5 h-3.5 text-stone-500" />
+                                <span>Ignore</span>
                             </button>
                         </>
                     )}
